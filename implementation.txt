@@ -1,0 +1,50 @@
+Concept.
+
+Idea:
+
+- The basic idea is to write server-side functions and export them to the client-side.
+
+Server-side implementation.
+
+Points:
+
+- The server just can export classes ("modules") with selected methods.
+- These selected methods are chosen with the `Export` decorator.
+- An exportable class may be decorated with the `Module` decorator.
+- The arguments sent by the client are serialized and decoded by the server to be executed.
+- Each exported method can return any serializable value.
+- Callback functions may comunnicate via Websocks.
+- Server will communicate with JSON via HTTPs.
+- `Infinity`, `-Infinity`, `NaN`, `-NaN` and `null` will be serialized as `null`.
+- Serialized value may be checked at client and server side.
+
+Future:
+
+- Server may comunnicate via Buffer Streaming to make it able to accept any kind of content.
+- Content-type may be `multipart/form-data`.
+
+Values JSON serialization:
+
+- Client side may send an array of serialized values to the server.
+- Server side can send any serializable value, single or an array of serialized values.
+- Primitive data types won't be encoded.
+- Again, `Infinity`, `-Infinity`, `NaN`, `-NaN` and `null` will be serialized as `null`.
+- Date type will be serialized as any serializable class.
+- Serialization and decoding may handle recursive values.
+
+Serializable classes:
+
+- Just public members from serializable classes will be send.
+- Serializable classes will be export his information on the next format:
+
+```ts
+interface SerializedValue {
+  "dataType": "class" | "date" |  string;
+  value: string;
+  reference?: string;
+  instanceId?: number;
+}
+```
+
+Serialization function (pseudo-code):
+

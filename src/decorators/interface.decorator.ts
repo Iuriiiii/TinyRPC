@@ -10,8 +10,9 @@ export function Interface(interfaceName: string) {
       throw new Error("Interface name expected.");
     }
 
+    const constructorName = target.constructor.name;
     Reflect.defineMetadata(
-      `trpc:${String(propertyKey)}:${index}`,
+      `trpc:${constructorName}:${String(propertyKey)}:${index}:interfaceName`,
       interfaceName,
       target,
     );

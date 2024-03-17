@@ -10,26 +10,6 @@ function createPackageFolder(path: string) {
   Deno.mkdirSync(path);
 }
 
-function copyCoreFolder(path: string) {
-  const currentPath = resolve(dirname(fromFileUrl(import.meta.url)));
-  const coreFolderPath = join(currentPath, "..", "..", "core");
-  const destinyFolderPath = join(path, "core");
-
-  copySync(coreFolderPath, destinyFolderPath, {
-    overwrite: true,
-    preserveTimestamps: true,
-  });
-}
-
-function copyModulesFolder(path: string, modulesPath: string) {
-  const destinyFolderPath = join(path, "modules");
-
-  copySync(modulesPath, destinyFolderPath, {
-    overwrite: true,
-    preserveTimestamps: true,
-  });
-}
-
 export async function compilePackage(options: ICompilerOptions) {
   const runner = new Runner("package-compiler");
   const { packagePath, modulesPath } = options;
@@ -37,16 +17,6 @@ export async function compilePackage(options: ICompilerOptions) {
   runner.addStep({
     name: "Package folder creation",
     step: () => createPackageFolder(packagePath),
-  });
-
-  runner.addStep({
-    name: "Copy core folder",
-    step: () => copyCoreFolder(packagePath),
-  });
-
-  runner.addStep({
-    name: "Copy modules folder",
-    step: () => copyModulesFolder(packagePath, modulesPath),
   });
 
   await runner.run(true);

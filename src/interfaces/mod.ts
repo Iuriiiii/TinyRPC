@@ -8,3 +8,4 @@ export * from "./middleware-object.interface.ts";
 export * from "./class-instance.interface.ts";
 export * from "./rpc-request.interface.ts";
 export * from "./serialized-value.interface.ts";
+export * from "./param-decorator-options.interface.ts";

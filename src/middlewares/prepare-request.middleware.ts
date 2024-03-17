@@ -1,27 +1,26 @@
 import { STATUS_CODE } from "deno:http";
 import {
+  deserializeValue,
+  getClassByName,
   HttpError,
+  isPostRequest,
+  isRpcRequest,
   MethodNotAllowedException,
   NextMiddleware,
   NotFoundException,
   RpcRequest,
-  deserializeValue,
-  getClassByName,
-  isPostRequest,
-  isRpcRequest
 } from "../mod.ts";
 
 export async function prepareRequest(
   request: RpcRequest,
   response: Response,
-  next: NextMiddleware
+  next: NextMiddleware,
 ) {
   if (!isPostRequest(request)) {
     throw new MethodNotAllowedException();
   }
 
-  const isJsonContentType =
-    request.headers.has("content-type") &&
+  const isJsonContentType = request.headers.has("content-type") &&
     request.headers.get("content-type") === "application/json";
 
   if (!isJsonContentType) {
@@ -39,8 +38,8 @@ export async function prepareRequest(
   if (!isRpcRequest(body)) {
     throw new HttpError(STATUS_CODE.UnprocessableEntity);
   }
-  const { m: moduleName, fn: methodName, args } = body;
 
+  const { m: moduleName, fn: methodName, args } = body;
   const clazz = getClassByName(moduleName);
 
   if (clazz === null) {
@@ -48,7 +47,7 @@ export async function prepareRequest(
   }
 
   // @ts-ignore: Get class method.
-  const procedure: Function = clazz[methodName];
+  const procedure: (...args: unknown[]) => unknown = clazz[methodName];
   const compiledArguments: unknown[] = [];
 
   for (const argument of args) {

@@ -1,50 +1,41 @@
 import * as Reflect from "deno:reflection";
 import { methods, params } from "../singletons/mod.ts";
+import { isClient, serializeValue } from "../mod.ts";
 
 export function Export(methodName?: string) {
   return function (
+    /**
+     * The class decored.
+     */
     target: Reflect.Target,
-    propertyKey: string,
+    /**
+     * The current method.
+     */
+    propertyKey: string | symbol,
     descriptor: PropertyDescriptor,
   ) {
     // @ts-ignore: Array access.
-    const methodTarget = target[propertyKey]
+    const methodTarget = target[propertyKey];
 
     if (!(methodTarget instanceof Function)) {
-      throw new Error(`The "Export" decotarot is for methods only.`);
-    }
-
-    const types = (Reflect.getMetadata(
-      "design:paramtypes",
-      target,
-      propertyKey,
-    ) as unknown[]) || [];
-
-    if (Object.keys(types).length !== params.length) {
-      throw new Error(
-        `Undeclared params found on "${propertyKey}". Please add @Param() to all method parameters.`,
-      );
-    }
-
-    for (let i = 0; i < params.length; i++) {
-      const type = types[i];
-
-      // FIXME: Fix serialziable datatypes detection.
-      // if (!IsSerializable(type)) {
-      //   throw new Error(
-      //     `No serializable parameter detected: "${propertyKey}".`
-      //   );
-      // }
-
-      params[i].type = type;
+      throw new Error(`The "Export" decorator is for methods only.`);
+    } else if (typeof propertyKey === "symbol") {
+      throw new Error(`The "Export" decorator does not works with symbols.`);
     }
 
     methods.push({
-      method: target,
       name: descriptor.value.name,
-      parameters: [...params],
       methodName,
+      params: [...params],
     });
     params.length = 0;
+
+    if (isClient) {
+      descriptor.value = function (...parameters: unknown[]) {
+        const args = JSON.stringify(serializeValue(parameters));
+        
+        return console.log(args);
+      };
+    }
   };
 }

@@ -1,17 +1,18 @@
 import { STATUS_CODE } from "https://deno.land/std@0.219.0/http/status.ts";
 import {
+  client,
   Export,
   finishRequest,
   getMiddlewareFunction,
   instances,
   Interface,
+  isClient,
   isHttpException,
   Middleware,
   Module,
   modules,
   Param,
   prepareRequest,
-  Serializable,
   ServerSettings,
 } from "./src/mod.ts";
 
@@ -70,14 +71,19 @@ interface TemporalInterface {
   a: number;
 }
 
+client();
+
 @Module()
 class Temp {
+  a: number = 1;
+
   @Export()
-  method(@Param() @Interface("TemporalInterface") param: number) {
+  method(
+    @Param() param: number,
+    @Param() t: string,
+  ) {
   }
 }
-
-console.log("DEBUG ON main.ts:82", modules[0].methods[0].parameters);
 
 // import { parse } from "node:ts-estree";
 

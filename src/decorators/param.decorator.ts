@@ -1,7 +1,15 @@
-import { params } from "../singletons/mod.ts";
 import * as Reflect from "deno:reflection";
+import { ParamDecoratorOptions, ParameterMetadata, params } from "../mod.ts";
 
-export function Param(paramName?: string) {
+function isParamString(item: unknown): item is string {
+  return typeof item === "string";
+}
+
+function isParamOptions(item: unknown): item is ParamDecoratorOptions {
+  return item instanceof Object && ("paramName" in item || "interface" in item);
+}
+
+export function Param(paramNameOrOptions?: string | ParamDecoratorOptions) {
   return function (
     /**
      * The class decored.
@@ -11,50 +19,54 @@ export function Param(paramName?: string) {
      * The current method.
      */
     propertyKey: string | symbol,
-    /**
+    /** q
      * The param index.
      */
     index: number,
   ) {
-    if (paramName !== undefined && paramName.length === 0) {
-      throw new Error("Param name expected.");
+    let paramName: string | undefined;
+    let interfaceName: string | undefined;
+
+    if (paramNameOrOptions !== undefined) {
+      if (isParamString(paramNameOrOptions)) {
+        if (paramNameOrOptions.length === 0) {
+          throw new Error("Param name expected.");
+        }
+
+        paramName = paramNameOrOptions;
+      } else if (isParamOptions(paramNameOrOptions)) {
+        if (
+          paramNameOrOptions.paramName !== undefined
+        ) {
+          if (paramNameOrOptions.paramName.length === 0) {
+            throw new Error("Param name can't be empty.");
+          }
+
+          paramName = paramNameOrOptions.paramName;
+        }
+
+        interfaceName = paramNameOrOptions.interface;
+      } else {
+        throw new Error("Invalid arguments.");
+      }
     }
 
-    const constructorName = target.constructor.name;
     const single = paramName !== undefined && paramName.length > 0;
-    Reflect.defineMetadata(
-      `trpc:${constructorName}:${String(propertyKey)}:${index}:single`,
-      single,
-      target,
-    );
-
-    if (paramName) {
-      Reflect.defineMetadata(
-        `trpc:${constructorName}:${String(propertyKey)}:${index}:name`,
-        paramName,
-        target,
-      );
-    }
-
     const paramtypes = Reflect.getMetadata(
       "design:paramtypes",
       target,
       propertyKey,
     );
-    Reflect.defineMetadata(
-      `trpc:${constructorName}:${String(propertyKey)}:${index}:type`,
-      // @ts-ignore: Array access.
-      paramtypes[index],
-      target,
+
+    params.push(
+      {
+        // @ts-ignore: Array access.
+        type: paramtypes[index],
+        index,
+        single,
+        paramName,
+        interfaceName,
+      } satisfies ParameterMetadata,
     );
-    
-    params.push({
-      name: propertyKey,
-      param: target,
-      index,
-      single,
-      paramName,
-      type: null,
-    });
   };
 }

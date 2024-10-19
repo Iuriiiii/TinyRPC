@@ -1,5 +1,9 @@
 import * as Reflect from "deno:reflection";
 
+/**
+ * Declares a class as an interface to be used within a controller.
+ * @param interfaceName
+ */
 export function Interface(interfaceName: string) {
   return function (
     target: Reflect.Target,

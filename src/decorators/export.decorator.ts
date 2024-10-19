@@ -1,7 +1,10 @@
 import * as Reflect from "deno:reflection";
 import { methods, params } from "../singletons/mod.ts";
-import { isClient, serializeValue } from "../mod.ts";
 
+/**
+ * Makes a method available for remote calls.
+ * @param methodName {string} The name of the method.
+ */
 export function Export(methodName?: string) {
   return function (
     /**
@@ -29,13 +32,5 @@ export function Export(methodName?: string) {
       params: [...params],
     });
     params.length = 0;
-
-    if (isClient) {
-      descriptor.value = function (...parameters: unknown[]) {
-        const args = JSON.stringify(serializeValue(parameters));
-        
-        return console.log(args);
-      };
-    }
   };
 }

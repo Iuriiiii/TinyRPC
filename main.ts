@@ -1,20 +1,17 @@
-import { STATUS_CODE } from "https://deno.land/std@0.219.0/http/status.ts";
+import { STATUS_CODE } from "deno:http";
 import {
-  client,
-  Export,
   finishRequest,
   getMiddlewareFunction,
   instances,
-  Interface,
-  isClient,
   isHttpException,
   Middleware,
-  Module,
   modules,
-  Param,
   prepareRequest,
   ServerSettings,
 } from "./src/mod.ts";
+import { compilePackage } from "./src/tools/mod.ts";
+import { Export, Module, Param } from "./src/decorators/mod.ts";
+const { serve } = Deno;
 
 function prepareClasses() {
   for (const clazz of modules) {
@@ -27,11 +24,11 @@ function prepareClasses() {
 
 export function TinyRPC({
   middlewares = [],
+  sdk,
   options,
-  packagePath = Deno.cwd() + "\\package",
 }: ServerSettings) {
   prepareClasses();
-  return Deno.serve(options, async function (request: Request) {
+  const server = serve(options, async function (request: Request) {
     const allMiddlewares = [
       prepareRequest,
       ...middlewares,
@@ -63,84 +60,47 @@ export function TinyRPC({
 
     return response;
   });
+
+  compilePackage({
+    sdk,
+    host: `${server.addr.hostname}:${server.addr.port}`,
+  });
 }
-
-export * from "./src/mod.ts";
-
-interface TemporalInterface {
-  a: number;
-}
-
-client();
-
-@Module()
-class Temp {
-  a: number = 1;
-
-  @Export()
-  method(
-    @Param() param: number,
-    @Param() t: string,
-  ) {
-  }
-}
-
-// import { parse } from "node:ts-estree";
-
-// const path = Deno.cwd() + "\\tests\\modules\\testing.module.ts";
-// const fileContent = new TextDecoder().decode(Deno.readFileSync(path));
-// const ast = parse(fileContent, { tokens: true });
-
-// console.log(ast);
-
-// class a {}
-
-// @Serializable()
-// class UsersParameter {
-//   message: string = "";
-// }
 
 // @Module()
-// class Users {
+// export class TestingSuper {
+//   // @Export()
+//   // method(
+//   //   @Param() a: string,
+//   //   @Param() b: number,
+//   //   @Param() e: Date,
+//   //   @Param() d: boolean,
+//   //   // @Param() c: symbol,
+//   //   // @Param() f: bigint,
+//   //   // @Param() g: Set<unknown>,
+//   //   // @Param() h: Float16Array,
+//   // ) {
+//   //   console.log({ a, b, d, e });
+//   // }
+
 //   @Export()
-//   message(@Param() arg: UsersParameter, @Param() adios: a): string {
-//     return "hola";
+//   temp(
+//     @Param() a: string,
+//     @Param() b: number,
+//     @Param({ optional: true }) e?: Date,
+//     @Param({ optional: true }) d?: boolean,
+//     // @Param() c: symbol,
+//     // @Param() f: bigint,
+//     // @Param() g: Set<unknown>,
+//     // @Param() h: Float16Array,
+//   ) {
+//     console.log({ a, b, d, e });
 //   }
 // }
 
 // TinyRPC({
-//   options: { port: 4000 },
+//   sdk: {
+//     name: "testing-super",
+//   },
+//   options: { port: 3000, onListen: console.log, hostname: "127.0.0.1" },
 // });
-
-// import { gunzip, gzip } from "deno:zlib";
-// import { Buffer } from "deno:io";
-// import { encodeBase64 } from "deno:base64";
-
-// const argument = {
-//   a: "hola cómo estás",
-//   b: 222,
-//   c: 3.3,
-//   d: { a: "Necesito azucar", b: { a: "Yo necesito café" } },
-// };
-
-// const serializedValue = serializeValue(argument);
-// const jsonSerialized = JSON.stringify(serializedValue);
-// const encoder = new TextEncoder();
-// const buffer = encoder.encode(jsonSerialized);
-// const zip = gzip(buffer, { level: 9 });
-// const zipBase64 = encodeBase64(zip);
-// const unzip = gunzip(zip);
-
-// console.log("DEBUG ON main.ts:104", jsonSerialized.length);
-
-// const information = {
-//   jsonSize: jsonSerialized.length,
-//   bufferSize: buffer.byteLength,
-//   zipSize: zip.byteLength,
-//   zipBase64Size: zipBase64.length,
-//   unzipSize: unzip.length,
-// };
-
-// console.log(information);
-
-// console.log(serializedValue);

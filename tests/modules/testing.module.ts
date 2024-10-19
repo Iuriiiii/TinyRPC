@@ -1,7 +1,16 @@
-import * as hola from "./src/core/mod.ts"
+import { Export, Module, Param } from "../../core.ts";
+import { TinyRPC } from "../../main.ts";
 
+@Module()
 export class Testing {
-  method() {
-    
+  @Export()
+  method(@Param() param1: string) {
+    console.log(param1);
   }
 }
+
+TinyRPC({
+  options: {
+    onListen: console.log,
+  },
+});

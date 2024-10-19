@@ -1,6 +1,5 @@
 import { STATUS_CODE } from "deno:http";
 import {
-  deserializeValue,
   getClassByName,
   HttpError,
   isPostRequest,
@@ -10,6 +9,7 @@ import {
   NotFoundException,
   RpcRequest,
 } from "../mod.ts";
+import { deserializeValue } from "@online/bigserializer";
 
 export async function prepareRequest(
   request: RpcRequest,
@@ -40,12 +40,14 @@ export async function prepareRequest(
   }
 
   const { m: moduleName, fn: methodName, args } = body;
+  // TODO: Improve this
   const clazz = getClassByName(moduleName);
 
   if (clazz === null) {
     throw new NotFoundException();
   }
 
+  // TODO: Add an option to able a class to be created each time the method is called
   // @ts-ignore: Get class method.
   const procedure: (...args: unknown[]) => unknown = clazz[methodName];
   const compiledArguments: unknown[] = [];

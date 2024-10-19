@@ -1,4 +1,6 @@
+import type { SdkOptions } from "../../interfaces/mod.ts";
+
 export interface ICompilerOptions {
-  packagePath: string;
-  modulesPath: string;
+  sdk?: Partial<SdkOptions>;
+  host?: string;
 }

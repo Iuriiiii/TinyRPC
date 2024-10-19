@@ -1,4 +1,5 @@
 export interface ParamDecoratorOptions {
-  paramName?: string;
-  interface?: string;
+  paramName: string;
+  interfaceName: string;
+  optional: boolean;
 }

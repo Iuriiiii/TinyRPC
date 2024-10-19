@@ -1,4 +1,5 @@
 import {
+  isDate,
   isInfinity,
   isNull,
   isNumber,
@@ -6,7 +7,6 @@ import {
   isSerializableObject,
   isString,
   isUndefined,
-  isDate,
 } from "../mod.ts";
 
 export function IsSerializable(value: unknown) {

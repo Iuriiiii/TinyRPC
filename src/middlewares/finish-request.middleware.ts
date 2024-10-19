@@ -1,12 +1,9 @@
-import {
-  NextMiddleware,
-  RpcRequest
-} from "../mod.ts";
+import { NextMiddleware, RpcRequest } from "../mod.ts";
 
 export async function finishRequest(
   request: RpcRequest,
   response: Response,
-  next: NextMiddleware
+  next: NextMiddleware,
 ) {
   const { procedure, arguments: args } = request.rpc;
   const result = await procedure(...args);

@@ -1,0 +1,12 @@
+{
+  "name": "{{PROJECT_NAME}}",
+  "version": "{{PROJECT_VERSION}}",
+  "tasks": {},
+  "imports": {
+    "@online/bigserializer": "jsr:@online/bigserializer@^0.1.0"
+  },
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  }
+}

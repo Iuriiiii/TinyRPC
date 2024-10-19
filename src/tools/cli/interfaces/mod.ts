@@ -1,1 +1,1 @@
-export * from './arguments.interface.ts';
+export * from "./arguments.interface.ts";

@@ -3,4 +3,6 @@ export interface Arguments {
   help: boolean;
   "build-package": boolean;
   "--": unknown[];
+  modules: string;
+  m: string;
 }

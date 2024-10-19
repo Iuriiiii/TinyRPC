@@ -1,4 +1,3 @@
-export * from "./is-binary-value.validator.ts";
 export * from "./is-rpc-request.validator.ts";
 export * from "./is-http-exception.validator.ts";
 export * from "./is-post-request.validator.ts";

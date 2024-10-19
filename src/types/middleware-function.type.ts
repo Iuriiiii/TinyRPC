@@ -3,5 +3,5 @@ import { NextMiddleware } from "./mod.ts";
 export type MiddlewareFunction = (
   request: Request,
   response: Response,
-  next: NextMiddleware
+  next: NextMiddleware,
 ) => Response | void | Promise<Response | void>;

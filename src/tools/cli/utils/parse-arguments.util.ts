@@ -5,12 +5,13 @@ export function parseArguments(args: string[] = Deno.args): Arguments {
   const booleanArgs = ["help", "build-package"];
 
   // All string arguments
-  const stringArgs = ["generate", "name"];
+  const stringArgs = ["generate", "name", "start", "modules"];
 
   // And a list of aliases
   const alias = {
     generate: "g",
     name: "n",
+    modules: "m",
   };
 
   const commandArgs = parseArgs(args, {

@@ -8,33 +8,33 @@ export class Runner {
     this.#steps.push(step);
   }
 
-  public async run(stopOnError: boolean = false) {
-    console.log(`Started runner "${this.name}".`);
+  public run(stopOnError: boolean = false) {
+    console.log(`Started runner "${this.name}"`);
 
     for (const { name, step, description } of this.#steps) {
-      console.log(`Making step "${name}".`);
+      console.log(`Making step "${name}"`);
 
       if (description) {
-        console.log(`Step description: ${description}.`);
+        console.log(`Step description: ${description}`);
       }
 
       try {
-        await step();
+        step();
       } catch (error) {
-        console.warn(`Error at step "${name}".`);
+        console.warn(`Error at step "${name}"`);
 
         if (stopOnError) {
           const message = error instanceof Error
             ? error.message
-            : "No report error.";
+            : "No report error";
 
           throw new Error(
-            `Runner "${this.name}" stopped, error at step "${name}": ${message}.`,
+            `Runner "${this.name}" stopped, error at step "${name}": ${message}`,
           );
         }
       }
-
-      console.log(`Runner "${this.name}" done succefully!`);
     }
+
+    console.log(`Runner "${this.name}" done succefully!`);
   }
 }

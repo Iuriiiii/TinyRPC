@@ -34,7 +34,7 @@ export class TinyRPC {
       finishRequest,
     ] as Middleware[];
 
-    const server = serve(server, async function (request: Request) {
+    const _server = serve(server, async function (request: Request) {
       let response = new Response();
 
       for (const _middleware of _middlewares) {
@@ -72,7 +72,7 @@ export class TinyRPC {
     if (!sdk?.doNotGenerate) {
       compilePackage({
         sdk,
-        host: `${server.addr.hostname}:${server.addr.port}`,
+        host: `${_server.addr.hostname}:${_server.addr.port}`,
       });
     }
   }

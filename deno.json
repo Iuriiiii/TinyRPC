@@ -1,7 +1,9 @@
 {
   "name": "@online/tinyrpc",
   "version": "0.1.0",
-  "tasks": {},
+  "tasks": {
+    "test": "deno test -A ./tests/1-compiler.test.ts && deno test -A ./tests/2-api.test.ts"
+  },
   "exports": "./mod.ts",
   "imports": {
     "@online/bigserializer": "jsr:@online/bigserializer@^0.1.0",

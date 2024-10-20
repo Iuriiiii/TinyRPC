@@ -1,9 +1,6 @@
 import * as Reflect from "deno:reflection";
-import type {
-  ParamDecoratorOptions,
-  ParameterMetadata,
-  params,
-} from "../mod.ts";
+import type { ParamDecoratorOptions, ParameterMetadata } from "../mod.ts";
+import { params } from "../singletons/mod.ts";
 
 function isParamOptions(
   item?: string | Partial<ParamDecoratorOptions>,

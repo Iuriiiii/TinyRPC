@@ -1,4 +1,4 @@
-import * as Reflect from "deno:reflection";
+import { Reflect } from "deno:reflection";
 import type { ParamDecoratorOptions, ParameterMetadata } from "../mod.ts";
 import { params } from "../singletons/mod.ts";
 
@@ -21,7 +21,7 @@ export function Param(
     /**
      * The class decored.
      */
-    target: Reflect.Target,
+    target: unknown,
     /**
      * The current method.
      */

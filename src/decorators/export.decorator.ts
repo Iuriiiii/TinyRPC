@@ -1,4 +1,4 @@
-import * as Reflect from "deno:reflection";
+import { Reflect } from "deno:reflection";
 import { methods, params } from "../singletons/mod.ts";
 import type { Constructor } from "../types/mod.ts";
 import type { ExportDecoratorOptions } from "../interfaces/mod.ts";
@@ -20,7 +20,8 @@ export function Export(
     /**
      * The class decored.
      */
-    target: Reflect.Target,
+    // deno-lint-ignore no-explicit-any
+    target: any,
     /**
      * The current method.
      */

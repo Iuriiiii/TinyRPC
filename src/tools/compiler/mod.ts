@@ -1,6 +1,6 @@
 import { modules } from "../../singletons/mod.ts";
 import { randomString } from "../../utils/mod.ts";
-import { ICompilerOptions } from "../interfaces/mod.ts";
+import type { ICompilerOptions } from "../interfaces/mod.ts";
 import { Runner } from "../runner/mod.ts";
 import { buildModule } from "./build-module.compile.ts";
 import { buildUtils } from "./build-utils.compile.ts";

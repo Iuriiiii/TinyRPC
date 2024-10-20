@@ -1,5 +1,5 @@
 import { parseArgs } from "deno:cli";
-import { Arguments } from "../interfaces/mod.ts";
+import type { Arguments } from "../interfaces/mod.ts";
 
 export function parseArguments(args: string[] = Deno.args): Arguments {
   const booleanArgs = ["help", "build-package"];

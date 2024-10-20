@@ -1,6 +1,7 @@
 import type { ParameterMetadata } from "../../interfaces/mod.ts";
 import { getTypescriptType } from "../../utils/mod.ts";
 
+// deno-lint-ignore no-unused-vars
 const TypesToTSTypes = {
   // @ts-ignore: Allow custom key
   [String]: "string",

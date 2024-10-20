@@ -1,6 +1,4 @@
 import type { Constructor } from "../types/mod.ts";
-import { getClassByName } from "./get-class-by-name.util.ts";
-import { getClassName } from "./get-class-name.util.ts";
 
 const TypesToTSTypes = {
   // @ts-ignore: Allow custom key

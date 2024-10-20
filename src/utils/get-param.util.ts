@@ -1,1 +1,1 @@
-export function getParam(request: Request) {}
+export function getParam(_request: Request) {}

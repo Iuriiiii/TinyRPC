@@ -1,20 +1,19 @@
 import { STATUS_CODE } from "deno:http";
 import {
-  getClassByName,
   HttpError,
   isPostRequest,
   isRpcRequest,
   MethodNotAllowedException,
-  NextMiddleware,
   NotFoundException,
-  RpcRequest,
 } from "../mod.ts";
 import { deserializeValue } from "@online/bigserializer";
-import { undefinedDecoder } from "../utils/mod.ts";
+import { getClassByName, undefinedDecoder } from "../utils/mod.ts";
+import type { RpcRequest } from "../interfaces/mod.ts";
+import type { NextMiddleware } from "../types/mod.ts";
 
 export async function prepareRequest(
   request: RpcRequest,
-  response: Response,
+  _response: Response,
   next: NextMiddleware,
 ) {
   if (!isPostRequest(request)) {

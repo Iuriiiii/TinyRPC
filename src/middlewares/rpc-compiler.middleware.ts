@@ -1,8 +1,8 @@
-import { NextMiddleware } from "../mod.ts";
+import type { NextMiddleware } from "../mod.ts";
 
 export function rpcCompiler(
-  request: Request,
-  response: Response,
+  _request: Request,
+  _response: Response,
   next: NextMiddleware,
 ) {
   return next();

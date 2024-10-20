@@ -1,1 +1,1 @@
-export function getQuery(request: Request) {}
+export function getQuery(_request: Request) {}

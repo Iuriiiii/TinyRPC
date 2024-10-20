@@ -1,4 +1,4 @@
-import { RpcRequestBody } from "../mod.ts";
+import type { RpcRequestBody } from "../interfaces/mod.ts";
 
 export function isRpcRequest(content: unknown): content is RpcRequestBody {
   return (

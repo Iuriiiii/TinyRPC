@@ -1,4 +1,4 @@
-import { ClassInstance } from "../interfaces/class-instance.interface.ts";
+import type { ClassInstance } from "../interfaces/mod.ts";
 
 /**
  * All class intances.

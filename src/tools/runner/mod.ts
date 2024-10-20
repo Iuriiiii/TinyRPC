@@ -1,4 +1,4 @@
-import { RunnerStep } from "../interfaces/mod.ts";
+import type { RunnerStep } from "../interfaces/mod.ts";
 
 export class Runner {
   #steps: RunnerStep[] = [];

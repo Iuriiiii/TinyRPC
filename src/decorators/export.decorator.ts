@@ -9,19 +9,13 @@ function isExportDecoratorOptions(
   return typeof param === "object";
 }
 
-function getMethodName(param?: string | Partial<ExportDecoratorOptions>) {
-  if (isExportDecoratorOptions(param)) {
-    return param.name;
-  }
-
-  return param;
-}
-
 /**
  * Makes a method available for remote calls.
  * @param param {string} The name of the method.
  */
-export function Export(param?: string | Partial<ExportDecoratorOptions>) {
+export function Export(
+  param?: string | Partial<ExportDecoratorOptions>,
+): unknown {
   return function (
     /**
      * The class decored.

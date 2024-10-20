@@ -6,7 +6,7 @@ export async function runServer() {
   const command = new Deno.Command("deno", {
     args: ["run", "-A", "./tests/server.ts"],
   });
-  const child = command.spawn();
+  const _child = command.spawn();
 
   await sleep(2000);
 }

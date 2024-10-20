@@ -1,5 +1,9 @@
 import * as Reflect from "deno:reflection";
-import { ParamDecoratorOptions, ParameterMetadata, params } from "../mod.ts";
+import type {
+  ParamDecoratorOptions,
+  ParameterMetadata,
+  params,
+} from "../mod.ts";
 
 function isParamOptions(
   item?: string | Partial<ParamDecoratorOptions>,
@@ -15,7 +19,7 @@ function isParamOptions(
  */
 export function Param(
   paramNameOrOptions?: string | Partial<ParamDecoratorOptions>,
-) {
+): unknown {
   return function (
     /**
      * The class decored.

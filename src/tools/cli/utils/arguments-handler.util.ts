@@ -1,5 +1,5 @@
 import { MissingArgumentException } from "../../../exceptions/mod.ts";
-import { Arguments } from "../interfaces/mod.ts";
+import type { Arguments } from "../interfaces/mod.ts";
 import { help } from "../parameters/mod.ts";
 
 export function argumentsHandler(args: Arguments) {
@@ -14,6 +14,4 @@ export function argumentsHandler(args: Arguments) {
       `Argument "--m" or "--modules" expected.`,
     );
   }
-
-  const modulesPath = args.modules;
 }

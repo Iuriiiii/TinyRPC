@@ -78,4 +78,5 @@ export class TinyRPC {
   }
 }
 
-export * from "./src/mod.ts";
+export type { Middleware, MiddlewareObject } from "./src/mod.ts";
+export { Export, Module, Param } from "./src/mod.ts";

@@ -1,7 +1,7 @@
-import { ParameterMetadata } from "./parameter-metadata.interface.ts";
+import type { ExportDecoratorOptions } from "./export-decorator-options.interface.ts";
+import type { ParameterMetadata } from "./parameter-metadata.interface.ts";
 
-export interface MethodMetadata {
+export interface MethodMetadata extends Partial<ExportDecoratorOptions> {
   name: string;
-  methodName?: string;
   params: ParameterMetadata[];
 }

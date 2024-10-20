@@ -1,5 +1,5 @@
 import type { ParameterMetadata } from "../../interfaces/mod.ts";
-import { Serializable } from "@online/bigserializer";
+import { getTypescriptType } from "../../utils/mod.ts";
 
 const TypesToTSTypes = {
   // @ts-ignore: Allow custom key
@@ -28,25 +28,24 @@ const TypesToTSTypes = {
 
 export function getParamName(param: ParameterMetadata) {
   const { index } = param;
-  const { paramName = `param${index}` } = param;
+  const { name = `param${index}` } = param;
 
-  return paramName;
+  return name;
 }
 
 export function buildParam(param: ParameterMetadata) {
   const paramName = getParamName(param);
-  const { type } = param;
-  // @ts-ignore: Just translate type constructor to ts type
-  const buildType: string | undefined = TypesToTSTypes[type];
+  const { dataType } = param;
+  const buildType: string = getTypescriptType(dataType);
   const sign = param.optional ? "?" : "";
 
-  if (!buildType) {
-    if (!(type instanceof Serializable)) {
-      throw new Error(`Unknown type: ${type}`);
-    }
+  // if (!buildType) {
+  //   if (!(type instanceof Serializable)) {
+  //     throw new Error(`Unknown type: ${type}`);
+  //   }
 
-    // TODO: Do something with serializable parameter
-  }
+  //   // TODO: Do something with serializable parameter
+  // }
 
   const output = `${paramName}${sign}: ${buildType}`.trim();
 

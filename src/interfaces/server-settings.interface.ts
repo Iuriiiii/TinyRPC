@@ -3,6 +3,6 @@ import type { SdkOptions } from "./sdk-options.interface.ts";
 
 export interface ServerSettings {
   options: Deno.ServeTcpOptions;
-  sdk?: Partial<SdkOptions>;
-  middlewares?: Middleware[];
+  sdk: Partial<SdkOptions>;
+  middlewares: Middleware[];
 }

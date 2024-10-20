@@ -1,5 +1,5 @@
 import { deserializeValue, serializeValue } from "@online/bigserializer";
-const HOST = "127.0.0.1";
+const HOST = "127.0.0.1:8000";
 const UE = (_: unknown, v: unknown) => v === undefined ? "[UNDFN]" : v;
 
 export async function rpc<T>(m: string, fn: string, args: unknown[]) {

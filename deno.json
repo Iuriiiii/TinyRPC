@@ -2,6 +2,7 @@
   "name": "@online/tinyrpc",
   "version": "0.1.0",
   "tasks": {},
+  "exports": "./mod.ts",
   "imports": {
     "@online/bigserializer": "jsr:@online/bigserializer@^0.1.0",
     "deno:assert": "https://deno.land/std@0.219.0/assert/mod.ts",

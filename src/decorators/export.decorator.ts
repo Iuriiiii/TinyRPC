@@ -1,11 +1,27 @@
 import * as Reflect from "deno:reflection";
 import { methods, params } from "../singletons/mod.ts";
+import type { Constructor } from "../types/mod.ts";
+import type { ExportDecoratorOptions } from "../interfaces/mod.ts";
+
+function isExportDecoratorOptions(
+  param?: string | Partial<ExportDecoratorOptions>,
+): param is Partial<ExportDecoratorOptions> {
+  return typeof param === "object";
+}
+
+function getMethodName(param?: string | Partial<ExportDecoratorOptions>) {
+  if (isExportDecoratorOptions(param)) {
+    return param.name;
+  }
+
+  return param;
+}
 
 /**
  * Makes a method available for remote calls.
- * @param methodName {string} The name of the method.
+ * @param param {string} The name of the method.
  */
-export function Export(methodName?: string) {
+export function Export(param?: string | Partial<ExportDecoratorOptions>) {
   return function (
     /**
      * The class decored.
@@ -17,6 +33,8 @@ export function Export(methodName?: string) {
     propertyKey: string | symbol,
     descriptor: PropertyDescriptor,
   ) {
+    const isOptions = isExportDecoratorOptions(param);
+    const methodName = isOptions ? param.name : param;
     // @ts-ignore: Array access.
     const methodTarget = target[propertyKey];
 
@@ -26,10 +44,32 @@ export function Export(methodName?: string) {
       throw new Error(`The "Export" decorator does not works with symbols.`);
     }
 
+    const returnType = (() => {
+      if (isOptions && param.returnType) {
+        return param.returnType;
+      }
+
+      return Reflect.getMetadata(
+        "design:returntype",
+        target,
+        propertyKey,
+      ) as Constructor | undefined;
+    })();
+
+    if (returnType === undefined) {
+      throw new Error(
+        `
+The "Export" decorator requires an explicit return type: ${target.constructor.name}.${methodTarget.name}.
+Only native datatypes and serializable classes are supported.
+        `.trim(),
+      );
+    }
+
     methods.push({
-      name: descriptor.value.name,
-      methodName,
+      name: methodName ?? descriptor.value.name,
       params: [...params],
+      returnType,
+      generics: isOptions ? param.generics : void 0,
     });
     params.length = 0;
   };

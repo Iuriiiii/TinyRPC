@@ -27,17 +27,17 @@ function writeFile(path: string, content: string) {
 export function compilePackage(options: ICompilerOptions) {
   const runner = new Runner("package-compiler");
   const {
-    packagePath = `${Deno.cwd()}/sdk`,
+    path = `${Deno.cwd()}/sdk`,
     name: packageName = `tinyrpc-sdk-${randomString()}`,
     version: packageVersion = "0.1.0",
   } = options.sdk ?? {};
-  const utilsPath = `${packagePath}/utils`;
-  const interfacesPath = `${packagePath}/interfaces`;
-  const apiPath = `${packagePath}/api`;
+  const utilsPath = `${path}/utils`;
+  const interfacesPath = `${path}/interfaces`;
+  const apiPath = `${path}/api`;
 
   runner.addStep({
     name: "Creating package folder...",
-    step: () => createPackageFolder(packagePath),
+    step: () => createPackageFolder(path),
   });
 
   runner.addStep({
@@ -96,20 +96,20 @@ export function compilePackage(options: ICompilerOptions) {
       const modApi = modules.length ? 'export * from "./api/mod.ts";' : "";
 
       writeFile(
-        `${packagePath}/mod.ts`,
+        `${path}/mod.ts`,
         [modApi].join("\n"),
       );
     },
   });
 
   runner.addStep({
-    name: `Compiling deno.json...`,
+    name: "Compiling deno.json...",
     step: () => {
       sdkDenoJson.name = packageName;
       sdkDenoJson.version = packageVersion;
 
       writeFile(
-        `${packagePath}/deno.json`,
+        `${path}/deno.json`,
         JSON.stringify(sdkDenoJson, null, 4),
       );
     },

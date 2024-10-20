@@ -1,13 +1,10 @@
 import * as Reflect from "deno:reflection";
 import { ParamDecoratorOptions, ParameterMetadata, params } from "../mod.ts";
 
-function isParamString(item: unknown): item is string {
-  return typeof item === "string";
-}
-
-function isParamOptions(item: unknown): item is ParamDecoratorOptions {
-  return item instanceof Object &&
-    ("paramName" in item || "interface" in item || "optional" in item);
+function isParamOptions(
+  item?: string | Partial<ParamDecoratorOptions>,
+): item is Partial<ParamDecoratorOptions> {
+  return typeof item === "object";
 }
 
 /**
@@ -33,36 +30,16 @@ export function Param(
      */
     index: number,
   ) {
-    let paramName: string | undefined;
-    let interfaceName: string | undefined;
-    let optional: boolean | undefined;
+    const isOptions = isParamOptions(paramNameOrOptions);
+    const paramName = isOptions ? paramNameOrOptions.name : paramNameOrOptions;
+    const optional = isOptions ? paramNameOrOptions.optional : void 0;
+    const type = isOptions ? paramNameOrOptions.dataType : void 0;
+    const single = paramName !== undefined && paramName.length > 0;
 
-    if (paramNameOrOptions !== undefined) {
-      if (isParamString(paramNameOrOptions)) {
-        if (paramNameOrOptions.length === 0) {
-          throw new Error("Param name expected.");
-        }
-
-        paramName = paramNameOrOptions;
-      } else if (isParamOptions(paramNameOrOptions)) {
-        if (
-          paramNameOrOptions.paramName !== undefined
-        ) {
-          if (paramNameOrOptions.paramName.length === 0) {
-            throw new Error("Param name can't be empty.");
-          }
-
-          paramName = paramNameOrOptions.paramName;
-        }
-
-        interfaceName = paramNameOrOptions.interfaceName;
-        optional = paramNameOrOptions.optional;
-      } else {
-        throw new Error("Invalid arguments.");
-      }
+    if (typeof paramName === "string" && paramName.length === 0) {
+      throw new Error("Param name expected.");
     }
 
-    const single = paramName !== undefined && paramName.length > 0;
     const paramtypes = Reflect.getMetadata(
       "design:paramtypes",
       target,
@@ -71,7 +48,7 @@ export function Param(
 
     if (single) {
       const nameAlreadyExists = params.find((param) =>
-        param.paramName === paramName
+        param.name === paramName
       );
 
       if (nameAlreadyExists) {
@@ -82,11 +59,10 @@ export function Param(
     params.push(
       {
         // @ts-ignore: Array access.
-        type: paramtypes[index],
+        dataType: type ?? paramtypes[index],
         index,
         single,
-        paramName,
-        interfaceName,
+        name: paramName,
         optional,
       } satisfies ParameterMetadata,
     );

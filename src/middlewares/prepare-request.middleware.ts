@@ -10,6 +10,7 @@ import {
   RpcRequest,
 } from "../mod.ts";
 import { deserializeValue } from "@online/bigserializer";
+import { undefinedDecoder } from "../utils/mod.ts";
 
 export async function prepareRequest(
   request: RpcRequest,
@@ -20,17 +21,18 @@ export async function prepareRequest(
     throw new MethodNotAllowedException();
   }
 
-  const isJsonContentType = request.headers.has("content-type") &&
+  const isJSON = request.headers.has("content-type") &&
     request.headers.get("content-type") === "application/json";
 
-  if (!isJsonContentType) {
+  if (!isJSON) {
     throw new HttpError(STATUS_CODE.UnsupportedMediaType);
   }
 
   let body: unknown = null;
 
   try {
-    body = await request.json();
+    body = await request.text();
+    body = JSON.parse(body as string, undefinedDecoder);
   } catch {
     throw new HttpError(STATUS_CODE.UnprocessableEntity);
   }

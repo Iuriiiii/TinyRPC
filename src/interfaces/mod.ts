@@ -8,3 +8,4 @@ export * from "./rpc-request.interface.ts";
 export * from "./param-decorator-options.interface.ts";
 export * from "./method-metadata.interface.ts";
 export * from "./sdk-options.interface.ts";
+export * from "./export-decorator-options.interface.ts";

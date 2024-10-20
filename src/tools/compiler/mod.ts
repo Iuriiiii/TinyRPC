@@ -4,7 +4,7 @@ import type { ICompilerOptions } from "../interfaces/mod.ts";
 import { Runner } from "../runner/mod.ts";
 import { buildModule } from "./build-module.compile.ts";
 import { buildUtils } from "./build-utils.compile.ts";
-import { paramCase } from "deno:case";
+import { kebabCase } from "deno:case";
 import sdkDenoJson from "./assets/deno.json" with { type: "json" };
 
 function createPackageFolder(path: string) {
@@ -73,7 +73,7 @@ export function compilePackage(options: ICompilerOptions) {
       name: `Compiling API: ${moduleName}...`,
       step: () =>
         writeFile(
-          `${apiPath}/${paramCase(moduleName).toLowerCase()}.api.ts`,
+          `${apiPath}/${kebabCase(moduleName).toLowerCase()}.api.ts`,
           buildModule(module),
         ),
     });
@@ -85,7 +85,7 @@ export function compilePackage(options: ICompilerOptions) {
       writeFile(
         `${apiPath}/mod.ts`,
         modules.map((module) =>
-          `export * from "./${paramCase(module.name)}.api.ts";`
+          `export * from "./${kebabCase(module.name)}.api.ts";`
         ).join("\n"),
       ),
   });

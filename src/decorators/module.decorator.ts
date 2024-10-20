@@ -8,7 +8,8 @@ import type { Constructor } from "../types/mod.ts";
  *
  * @param moduleName {string} The name of the module, this name will be used to identify the module on the client.
  */
-export function Module(moduleName?: string): unknown {
+// deno-lint-ignore no-explicit-any
+export function Module(moduleName?: string): any {
   return function (target: Constructor) {
     modules.push({
       constructor: target,

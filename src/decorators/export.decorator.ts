@@ -15,7 +15,8 @@ function isExportDecoratorOptions(
  */
 export function Export(
   param?: string | Partial<ExportDecoratorOptions>,
-): unknown {
+// deno-lint-ignore no-explicit-any
+): any {
   return function (
     /**
      * The class decored.

@@ -16,7 +16,8 @@ function isParamOptions(
  */
 export function Param(
   paramNameOrOptions?: string | Partial<ParamDecoratorOptions>,
-): unknown {
+  // deno-lint-ignore no-explicit-any
+): any {
   return function (
     /**
      * The class decored.

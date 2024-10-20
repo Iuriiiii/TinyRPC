@@ -24,7 +24,7 @@ export class TinyRPC {
   static start({
     sdk,
     middlewares = [],
-    options = {},
+    server = {},
   }: Partial<ServerSettings> = {}) {
     prepareClasses();
 
@@ -34,7 +34,7 @@ export class TinyRPC {
       finishRequest,
     ] as Middleware[];
 
-    const server = serve(options, async function (request: Request) {
+    const server = serve(server, async function (request: Request) {
       let response = new Response();
 
       for (const _middleware of _middlewares) {

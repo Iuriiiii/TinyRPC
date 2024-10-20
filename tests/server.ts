@@ -6,7 +6,7 @@ TinyRPC.start({
     path: "./tests/sdk",
     // doNotGenerate: true
   },
-  options: {
+  server: {
     hostname: "127.0.0.1",
     onListen: (attr) => console.log(`Listening on port ${attr.port}`),
   },

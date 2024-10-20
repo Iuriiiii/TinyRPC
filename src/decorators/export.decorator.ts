@@ -1,4 +1,4 @@
-import { Reflect } from "deno:reflection";
+import { Reflect } from "jsr:reflection";
 import { methods, params } from "../singletons/mod.ts";
 import type { Constructor } from "../types/mod.ts";
 import type { ExportDecoratorOptions } from "../interfaces/mod.ts";

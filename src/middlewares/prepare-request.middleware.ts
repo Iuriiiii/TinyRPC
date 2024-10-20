@@ -1,4 +1,4 @@
-import { STATUS_CODE } from "deno:http";
+import { STATUS_CODE } from "jsr:http";
 import {
   HttpError,
   isPostRequest,

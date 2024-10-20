@@ -1,4 +1,4 @@
-import { resolve } from "deno:path";
+import { resolve } from "jsr:path";
 
 export function buildUtils(host?: string) {
   const currentPath = import.meta.dirname!;

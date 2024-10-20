@@ -494,7 +494,6 @@
       "jsr:@online/bigserializer@0.1",
       "jsr:@std/assert@*",
       "jsr:@std/http@*",
-      "jsr:@std/io@*",
       "jsr:@std/path@*"
     ]
   }

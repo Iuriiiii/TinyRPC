@@ -4,7 +4,7 @@ import type { ICompilerOptions } from "../interfaces/mod.ts";
 import { Runner } from "../runner/mod.ts";
 import { buildModule } from "./build-module.compile.ts";
 import { buildUtils } from "./build-utils.compile.ts";
-import { kebabCase } from "deno:case";
+import { kebabCase } from "jsr:case";
 import sdkDenoJson from "./assets/deno.json" with { type: "json" };
 
 function createPackageFolder(path: string) {

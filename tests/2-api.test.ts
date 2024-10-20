@@ -1,4 +1,4 @@
-import { assert, assertInstanceOf, assertObjectMatch } from "deno:assert";
+import { assert, assertInstanceOf, assertObjectMatch } from "jsr:assert";
 import { runServer } from "./utils.ts";
 import { Testing } from "./sdk/mod.ts";
 

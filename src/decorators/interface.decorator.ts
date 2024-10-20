@@ -1,4 +1,4 @@
-import { Reflect } from "deno:reflection";
+import { Reflect } from "jsr:reflection";
 
 /**
  * Declares a class as an interface to be used within a controller.

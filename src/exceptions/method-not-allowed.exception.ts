@@ -1,5 +1,5 @@
 import { HttpError } from "./http-error.exception.ts";
-import { STATUS_CODE } from "deno:http";
+import { STATUS_CODE } from "jsr:http";
 
 export class MethodNotAllowedException extends HttpError {
   constructor(message?: string | object) {

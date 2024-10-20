@@ -1,4 +1,4 @@
-import { assert } from "deno:assert";
+import { assert } from "jsr:assert";
 import { runServer } from "./utils.ts";
 
 const exists = async (filename: string): Promise<boolean> => {

@@ -1,4 +1,4 @@
-import { Reflect } from "deno:reflection";
+import { Reflect } from "jsr:reflection";
 import type { ParamDecoratorOptions, ParameterMetadata } from "../mod.ts";
 import { params } from "../singletons/mod.ts";
 

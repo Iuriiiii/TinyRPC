@@ -7,12 +7,11 @@
   "exports": "./mod.ts",
   "imports": {
     "@online/bigserializer": "jsr:@online/bigserializer@^0.1.0",
-    "deno:assert": "jsr:@std/assert",
-    "deno:http": "jsr:@std/http",
-    "deno:io": "jsr:@std/io",
-    "deno:path": "jsr:@std/path",
-    "deno:reflection": "jsr:@dx/reflect",
-    "deno:case": "jsr:@emilien/kebab-case"
+    "jsr:assert": "jsr:@std/assert",
+    "jsr:http": "jsr:@std/http",
+    "jsr:path": "jsr:@std/path",
+    "jsr:reflection": "jsr:@dx/reflect",
+    "jsr:case": "jsr:@emilien/kebab-case"
   },
   "compilerOptions": {
     "experimentalDecorators": true,

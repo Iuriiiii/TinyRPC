@@ -1,4 +1,4 @@
-import * as Reflect from "deno:reflection";
+import { Reflect } from "deno:reflection";
 
 /**
  * Declares a class as an interface to be used within a controller.
@@ -6,7 +6,8 @@ import * as Reflect from "deno:reflection";
  */
 export function Interface(interfaceName: string) {
   return function (
-    target: Reflect.Target,
+    // deno-lint-ignore no-explicit-any
+    target: any,
     propertyKey: string | symbol,
     index: number,
   ) {

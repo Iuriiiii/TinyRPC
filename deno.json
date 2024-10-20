@@ -7,11 +7,11 @@
   "exports": "./mod.ts",
   "imports": {
     "@online/bigserializer": "jsr:@online/bigserializer@^0.1.0",
-    "jsr:assert": "jsr:@std/assert",
-    "jsr:http": "jsr:@std/http",
-    "jsr:path": "jsr:@std/path",
-    "jsr:reflection": "jsr:@dx/reflect",
-    "jsr:case": "jsr:@emilien/kebab-case"
+    "jsr:assert": "jsr:@std/assert@^1.0.6",
+    "jsr:http": "jsr:@std/http@^1.0.8",
+    "jsr:path": "jsr:@std/path@^1.0.6",
+    "jsr:reflection": "jsr:@dx/reflect@^0.2.14",
+    "jsr:case": "jsr:@emilien/kebab-case@^0.1.4"
   },
   "compilerOptions": {
     "experimentalDecorators": true,

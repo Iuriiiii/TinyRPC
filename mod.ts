@@ -60,7 +60,8 @@ export class TinyRPC {
             return new Response(error.message, { status: error.errorCode });
           }
 
-          return new Response(null, {
+          // @ts-ignore: Return message
+          return new Response(error.description || error.message, {
             status: STATUS_CODE.InternalServerError,
           });
         }

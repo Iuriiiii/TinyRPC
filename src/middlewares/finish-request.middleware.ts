@@ -6,8 +6,8 @@ export async function finishRequest(
   _response: Response,
   next: NextMiddleware,
 ) {
-  const { procedure, arguments: args } = request.rpc;
-  const result = (await procedure(...args)) ?? {};
+  const { procedure, arguments: args, clazz } = request.rpc;
+  const result = (await procedure.apply(clazz, args)) ?? {};
   next();
 
   return Response.json(serializeValue(result), { status: 200 });

@@ -9,7 +9,7 @@ import {
 import { deserializeValue } from "@online/bigserializer";
 import { getClassByName, undefinedDecoder } from "../utils/mod.ts";
 import type { RpcRequest } from "../interfaces/mod.ts";
-import type { NextMiddleware } from "../types/mod.ts";
+import type { Constructor, NextMiddleware } from "../types/mod.ts";
 
 export async function prepareRequest(
   request: RpcRequest,
@@ -61,10 +61,11 @@ export async function prepareRequest(
 
   Object.defineProperty(request, "rpc", {
     value: {
+      clazz: clazz as Constructor,
       procedure,
       arguments: compiledArguments,
       body,
-    },
+    } satisfies RpcRequest["rpc"],
     writable: false,
   });
 

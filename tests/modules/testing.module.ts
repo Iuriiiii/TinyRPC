@@ -2,6 +2,8 @@ import { Export, Module, Param } from "../../mod.ts";
 
 @Module()
 export class Testing {
+  values: string[] = [];
+
   @Export()
   howAreYou(@Param() _param1: string): string {
     return "OK";
@@ -53,5 +55,15 @@ export class Testing {
   @Export()
   formatDate(@Param() date: Date): Date {
     return date;
+  }
+
+  @Export({ returnType: "string[]" })
+  getValues(): string[] {
+    return this.values;
+  }
+
+  @Export({ returnType: "void" })
+  addValue(@Param() value: string) {
+    this.values.push(value);
   }
 }

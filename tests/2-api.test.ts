@@ -111,4 +111,38 @@ Deno.test("Testing API", async (t) => {
       assert(res.toISOString() === "2024-01-01T00:00:00.000Z");
     },
   );
+
+  await t.step(
+    "Method getValues must return an empty array of strings",
+    async () => {
+      // @ts-ignore: just ignore me
+      const res = await testing.getValues();
+      assertInstanceOf(res, Array);
+      // @ts-ignore: just ignore me
+      assert(res.length === 0);
+    },
+  );
+
+  await t.step(
+    "Method addValue must push the value to the array of strings",
+    async () => {
+      // @ts-ignore: just ignore me
+      const res = await testing.addValue("Hola Mundo");
+      // @ts-ignore: just ignore me
+      // FIXME: this is a bad result, res must be void or undefined
+      assertObjectMatch(res, {});
+    },
+  );
+
+  await t.step(
+    "Method getValues must return an array of strings with the previous value pushed",
+    async () => {
+      // @ts-ignore: just ignore me
+      const res = await testing.getValues();
+      assertInstanceOf(res, Array);
+      // @ts-ignore: just ignore me
+      assert(res.length === 1);
+      assert(res[0]! === "Hola Mundo");
+    },
+  );
 });

@@ -13,13 +13,19 @@ export function buildMethod(module: ModuleMetadata, method: MethodMetadata) {
   const { name: methodName } = method;
   const returnType = getTypescriptType(method.returnType);
   const generics = method.generics ? `<${method.generics.join(", ")}>` : "";
+  const makeVoid = returnType === "void" ? "void " : "";
+  const makeAsync = makeVoid ? "async  " : "";
+  const disbleRequrieAwaitLint = makeAsync
+    ? "// deno-lint-ignore require-await"
+    : "";
   const buildedParams = method.params
     .sort(sortMethodParams)
     .map(buildParam)
     .join(", ");
   const args = method.params.map(getParamName).join(", ");
   const output = `
-  ${methodName}${generics}(${buildedParams}): Promise<${returnType}> { return rpc<${returnType}>("${moduleName}", "${methodName}", [${args}]); }
+${disbleRequrieAwaitLint}
+${makeAsync}${methodName}${generics}(${buildedParams}): Promise<${returnType}> { return ${makeVoid}rpc<${returnType}>("${moduleName}", "${methodName}", [${args}]); }
   `.trim();
 
   return output;

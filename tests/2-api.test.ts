@@ -113,6 +113,17 @@ Deno.test("Testing API", async (t) => {
   );
 
   await t.step(
+    "Method checkVoid must return undefined",
+    async () => {
+      // @ts-ignore: just ignore me
+      const res = await testing.checkVoid();
+      // @ts-ignore: just ignore me
+      // FIXME: this is a bad result, res must be void or undefined
+      assert(res === undefined);
+    },
+  );
+
+  await t.step(
     "Method getValues must return an empty array of strings",
     async () => {
       // @ts-ignore: just ignore me
@@ -130,7 +141,7 @@ Deno.test("Testing API", async (t) => {
       const res = await testing.addValue("Hola Mundo");
       // @ts-ignore: just ignore me
       // FIXME: this is a bad result, res must be void or undefined
-      assertObjectMatch(res, {});
+      assert(res === undefined);
     },
   );
 

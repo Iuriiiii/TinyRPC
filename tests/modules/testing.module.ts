@@ -52,6 +52,11 @@ export class Testing {
     return arr.length;
   }
 
+  @Export({ returnType: "void" })
+  checkVoid(): void {
+    return 1 as unknown as void;
+  }
+
   @Export()
   formatDate(@Param() date: Date): Date {
     return date;

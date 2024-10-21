@@ -1,3 +1,7 @@
+/**
+ * The good path is to read this code directly fron ./assets, but JSR does
+ * not supports this yet.
+ */
 const source = `
 import { deserializeValue, serializeValue } from "@online/bigserializer";
 

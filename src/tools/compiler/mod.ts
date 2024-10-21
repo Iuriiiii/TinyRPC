@@ -17,11 +17,18 @@ function createPackageFolder(path: string) {
 }
 
 function writeFile(path: string, content: string) {
-  Deno.writeTextFileSync(path, content, {
-    append: false,
-    create: true,
-    createNew: true,
-  });
+  try {
+    Deno.writeTextFileSync(path, content, {
+      append: false,
+      create: true,
+      createNew: true,
+    });
+  } catch (error) {
+    console.warn(
+      `Error writting file "${path}", content length: ${content.length}`,
+    );
+    throw error;
+  }
 }
 
 export function compilePackage(options: ICompilerOptions) {
@@ -46,13 +53,13 @@ export function compilePackage(options: ICompilerOptions) {
   });
 
   runner.addStep({
-    name: "Creating utils...",
+    name: "Creating util files...",
     step: () =>
       writeFile(`${utilsPath}/rpc.util.ts`, buildUtils(options?.host)),
   });
 
   runner.addStep({
-    name: "Creating utils...",
+    name: `Creating utils mod.ts...`,
     step: () =>
       writeFile(`${utilsPath}/mod.ts`, 'export * from "./rpc.util.ts";'),
   });

@@ -1,4 +1,6 @@
 import type { Constructor } from "../types/mod.ts";
+import { getConstructorName } from "./get-constructor-name.util.ts";
+import { getStructure } from "./get-structure.util.ts";
 
 const TypesToTSTypes = {
   // @ts-ignore: Allow custom key
@@ -10,9 +12,9 @@ const TypesToTSTypes = {
   // @ts-ignore: Allow custom key
   [Date]: "Date",
   // @ts-ignore: Allow custom key
-  [Array]: "Array<any>",
+  [Array]: "Array<unknown>",
   // @ts-ignore: Allow custom key
-  [Object]: "any",
+  [Object]: "object",
   // @ts-ignore: Allow custom key
   [undefined]: "undefined",
   // @ts-ignore: Allow custom key
@@ -45,17 +47,38 @@ const TypesToTSTypes = {
   "Set": "Set<unknown>",
 };
 
-export function getTypescriptType(value?: Constructor | string | null) {
+interface GetTypescriptTypeResult {
+  typescriptType: string;
+  requireImport?: boolean;
+}
+
+export function getTypescriptType(
+  value?: Constructor | string | null,
+): GetTypescriptTypeResult {
   // @ts-ignore: Just translate type constructor to ts type
   const tsType: string | undefined = TypesToTSTypes[value];
 
   if (!tsType) {
-    if (typeof value === "string") {
-      return value;
+    if (value instanceof Function) {
+      value = getConstructorName(value);
     }
 
-    return "void";
+    const datatype = getStructure(value!);
+
+    if (datatype) {
+      return {
+        typescriptType: datatype.constructor.name,
+        requireImport: true,
+      };
+    } else if (typeof value === "string") {
+      return {
+        typescriptType: value,
+        requireImport: false,
+      };
+    }
+
+    return { typescriptType: "void" };
   }
 
-  return tsType;
+  return { typescriptType: tsType };
 }

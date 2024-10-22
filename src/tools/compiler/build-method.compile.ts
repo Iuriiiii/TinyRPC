@@ -8,10 +8,16 @@ function sortMethodParams(a: ParameterMetadata, b: ParameterMetadata) {
   return a.index - b.index;
 }
 
-export function buildMethod(module: ModuleMetadata, method: MethodMetadata) {
+export function buildMethod(
+  module: ModuleMetadata,
+  method: MethodMetadata,
+  buildImports: string[],
+) {
   const moduleName = module.moduleName ?? module.name;
   const { name: methodName } = method;
-  const returnType = getTypescriptType(method.returnType);
+  const { typescriptType: returnType, requireImport } = getTypescriptType(
+    method.returnType,
+  );
   const generics = method.generics ? `<${method.generics.join(", ")}>` : "";
   const makeVoid = returnType === "void" ? "void " : "";
   const makeAsync = makeVoid ? "async  " : "";
@@ -20,13 +26,17 @@ export function buildMethod(module: ModuleMetadata, method: MethodMetadata) {
     : "";
   const buildedParams = method.params
     .sort(sortMethodParams)
-    .map(buildParam)
+    .map((p) => buildParam(p, buildImports))
     .join(", ");
   const args = method.params.map(getParamName).join(", ");
   const output = `
 ${disbleRequrieAwaitLint}
 ${makeAsync}${methodName}${generics}(${buildedParams}): Promise<${returnType}> { return ${makeVoid}rpc<${returnType}>("${moduleName}", "${methodName}", [${args}]); }
   `.trim();
+
+  if (requireImport) {
+    buildImports.push(returnType);
+  }
 
   return output;
 }

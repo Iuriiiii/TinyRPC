@@ -2,6 +2,7 @@ import { Reflect } from "jsr:reflection";
 import { methods, params } from "../singletons/mod.ts";
 import type { Constructor } from "../types/mod.ts";
 import type { ExportDecoratorOptions } from "../interfaces/mod.ts";
+import { assert } from "jsr:assert";
 
 function isExportDecoratorOptions(
   param?: string | Partial<ExportDecoratorOptions>,
@@ -15,7 +16,7 @@ function isExportDecoratorOptions(
  */
 export function Export(
   param?: string | Partial<ExportDecoratorOptions>,
-// deno-lint-ignore no-explicit-any
+  // deno-lint-ignore no-explicit-any
 ): any {
   return function (
     /**
@@ -34,11 +35,14 @@ export function Export(
     // @ts-ignore: Array access.
     const methodTarget = target[propertyKey];
 
-    if (!(methodTarget instanceof Function)) {
-      throw new Error(`The "Export" decorator is for methods only.`);
-    } else if (typeof propertyKey === "symbol") {
-      throw new Error(`The "Export" decorator does not works with symbols.`);
-    }
+    assert(
+      methodTarget instanceof Function,
+      `The "Export" decorator is for methods only.`,
+    );
+    assert(
+      typeof propertyKey !== "symbol",
+      `The "Export" decorator does not works with symbols.`,
+    );
 
     const returnType = (() => {
       if (isOptions && param.returnType) {
@@ -52,14 +56,13 @@ export function Export(
       ) as Constructor | undefined;
     })();
 
-    if (returnType === undefined) {
-      throw new Error(
-        `
+    assert(
+      returnType !== undefined,
+      `
 The "Export" decorator requires an explicit return type: ${target.constructor.name}.${methodTarget.name}.
 Only native datatypes and serializable classes are supported.
-        `.trim(),
-      );
-    }
+      `.trim(),
+    );
 
     methods.push({
       name: methodName ?? descriptor.value.name,

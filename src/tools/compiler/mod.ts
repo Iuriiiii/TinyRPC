@@ -1,11 +1,11 @@
-import { modules } from "../../singletons/mod.ts";
-import { randomString } from "../../utils/mod.ts";
+import { modules, structures } from "../../singletons/mod.ts";
+import { randomString, toFilename } from "../../utils/mod.ts";
 import type { ICompilerOptions } from "../interfaces/mod.ts";
 import { Runner } from "../runner/mod.ts";
 import { buildModule } from "./build-module.compile.ts";
 import { buildUtils } from "./build-utils.compile.ts";
-import { kebabCase } from "jsr:case";
 import sdkDenoJson from "./assets/deno.json" with { type: "json" };
+import { buildStructure } from "./build-structure.compile.ts";
 
 function createPackageFolder(path: string) {
   try {
@@ -39,8 +39,8 @@ export function compilePackage(options: ICompilerOptions) {
     version: packageVersion = "0.1.0",
   } = options.sdk ?? {};
   const utilsPath = `${path}/utils`;
-  const interfacesPath = `${path}/interfaces`;
   const apiPath = `${path}/api`;
+  const structurePath = `${path}/structures`;
 
   runner.addStep({
     name: "Creating package folder...",
@@ -59,46 +59,69 @@ export function compilePackage(options: ICompilerOptions) {
   });
 
   runner.addStep({
-    name: `Creating utils mod.ts...`,
+    name: `Bulding utils mod.ts...`,
     step: () =>
       writeFile(`${utilsPath}/mod.ts`, 'export * from "./rpc.util.ts";'),
   });
 
   runner.addStep({
-    name: "Creating interfaces...",
-    step: () => createPackageFolder(interfacesPath),
+    name: "Creating structure folder...",
+    step: () => createPackageFolder(structurePath),
+  });
+
+  for (const structure of structures) {
+    const { name: structureName } = structure;
+    runner.addStep({
+      name: `Building structure: ${structureName}...`,
+      step: () =>
+        writeFile(
+          `${structurePath}/${toFilename(structureName, "structure")}`,
+          buildStructure(structure),
+        ),
+    });
+  }
+
+  runner.addStep({
+    name: `Bulding structures mod.ts...`,
+    step: () =>
+      writeFile(
+        `${structurePath}/mod.ts`,
+        structures.map((structure) =>
+          `export * from "./${toFilename(structure.name, "structure")}";`
+        ).join("\n"),
+      ),
   });
 
   runner.addStep({
-    name: "Creating APIs...",
+    name: "Creating APIs folder...",
     step: () => createPackageFolder(apiPath),
   });
 
   for (const module of modules) {
     const moduleName = module.moduleName ?? module.name;
     runner.addStep({
-      name: `Compiling API: ${moduleName}...`,
+      name: `Bulding API: ${moduleName}...`,
       step: () =>
         writeFile(
-          `${apiPath}/${kebabCase(moduleName).toLowerCase()}.api.ts`,
+          `${apiPath}/${toFilename(moduleName, "api")}`,
           buildModule(module),
         ),
     });
   }
 
   runner.addStep({
-    name: `Compiling modules mod.ts...`,
+    name: `Bulding modules mod.ts...`,
     step: () =>
       writeFile(
         `${apiPath}/mod.ts`,
         modules.map((module) =>
-          `export * from "./${kebabCase(module.name)}.api.ts";`
+          `export * from "./${toFilename(module.name, "api")}";`
         ).join("\n"),
       ),
   });
 
   runner.addStep({
-    name: `Compiling sdk mod.ts...`,
+    name: `Bulding sdk mod.ts...`,
     step: () => {
       const modApi = modules.length ? 'export * from "./api/mod.ts";' : "";
 
@@ -110,7 +133,7 @@ export function compilePackage(options: ICompilerOptions) {
   });
 
   runner.addStep({
-    name: "Compiling deno.json...",
+    name: "Bulding deno.json...",
     step: () => {
       sdkDenoJson.name = packageName;
       sdkDenoJson.version = packageVersion;

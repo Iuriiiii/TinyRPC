@@ -1,6 +1,8 @@
 import { Reflect } from "jsr:reflection";
-import type { ParamDecoratorOptions, ParameterMetadata } from "../mod.ts";
+import type { ParamDecoratorOptions } from "../mod.ts";
 import { params } from "../singletons/mod.ts";
+import { assert } from "jsr:assert";
+import type { ParameterMetadata } from "../interfaces/mod.ts";
 
 function isParamOptions(
   item?: string | Partial<ParamDecoratorOptions>,
@@ -38,8 +40,8 @@ export function Param(
     const type = isOptions ? paramNameOrOptions.dataType : void 0;
     const single = paramName !== undefined && paramName.length > 0;
 
-    if (typeof paramName === "string" && paramName.length === 0) {
-      throw new Error("Param name expected.");
+    if (typeof paramName === "string") {
+      assert(paramName.length > 0, "Param name expected.");
     }
 
     const paramtypes = Reflect.getMetadata(
@@ -53,9 +55,7 @@ export function Param(
         param.name === paramName
       );
 
-      if (nameAlreadyExists) {
-        throw new Error(`Param "${paramName}" already exists.`);
-      }
+      assert(!nameAlreadyExists, `Param "${paramName}" already exists.`);
     }
 
     params.push(

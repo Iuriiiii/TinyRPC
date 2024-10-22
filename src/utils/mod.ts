@@ -6,3 +6,6 @@ export * from "./random-string.util.ts";
 export * from "./get-class-name.util.ts";
 export * from "./get-typescript-type.util.ts";
 export * from "./undefined-decoder.util.ts";
+export * from "./get-structure.util.ts";
+export * from "./get-constructor-name.util.ts";
+export * from "./to-filename.util.ts";

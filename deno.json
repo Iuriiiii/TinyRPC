@@ -1,12 +1,12 @@
 {
   "name": "@online/tinyrpc",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "tasks": {
     "test": "deno test -A ./tests/1-compiler.test.ts && deno test -A ./tests/2-api.test.ts"
   },
   "exports": "./mod.ts",
   "imports": {
-    "@online/bigserializer": "jsr:@online/bigserializer@^0.1.0",
+    "@online/bigserializer": "jsr:@online/bigserializer@^0.1.1",
     "jsr:assert": "jsr:@std/assert@^1.0.6",
     "jsr:http": "jsr:@std/http@^1.0.8",
     "jsr:reflection": "jsr:@dx/reflect@^0.2.14",

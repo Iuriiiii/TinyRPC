@@ -20,8 +20,7 @@ export async function prepareRequest(
     throw new MethodNotAllowedException();
   }
 
-  const isJSON = request.headers.has("content-type") &&
-    request.headers.get("content-type") === "application/json";
+  const isJSON = request.headers.get("content-type") === "application/json";
 
   if (!isJSON) {
     throw new HttpError(STATUS_CODE.UnsupportedMediaType);
@@ -41,15 +40,14 @@ export async function prepareRequest(
   }
 
   const { m: moduleName, fn: methodName, args } = body;
-  // TODO: Improve this
-  const clazz = getClassByName(moduleName);
+  const clazz = getClassByName(moduleName) as object | null;
 
   if (clazz === null) {
     throw new NotFoundException();
   }
 
   // TODO: Add an option to able a class to be created each time the method is called
-  // @ts-ignore: Get class method.
+  // @ts-ignore: Get class method with index name.
   const procedure: (...args: unknown[]) => unknown = clazz[methodName];
   const compiledArguments: unknown[] = [];
 

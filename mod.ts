@@ -11,12 +11,15 @@ import type { Middleware, ServerSettings } from "./src/mod.ts";
 import { compilePackage } from "./src/tools/mod.ts";
 const { serve } = Deno;
 
+/**
+ * Create instances of all classes to be used
+ * on requests.
+ */
 function prepareClasses() {
-  for (const clazz of modules) {
-    instances.push({
-      instance: new clazz.constructor(),
-      name: clazz.moduleName ?? clazz.name,
-    });
+  for (const module of modules) {
+    const instance = new module.constructor();
+    instances.set(instance, module.name);
+    instances.set(module.name, instance);
   }
 }
 

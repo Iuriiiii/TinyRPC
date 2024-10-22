@@ -1,32 +1,6 @@
 import type { ParameterMetadata } from "../../interfaces/mod.ts";
 import { getTypescriptType } from "../../utils/mod.ts";
 
-// deno-lint-ignore no-unused-vars
-const TypesToTSTypes = {
-  // @ts-ignore: Allow custom key
-  [String]: "string",
-  // @ts-ignore: Allow custom key
-  [Number]: "number",
-  // @ts-ignore: Allow custom key
-  [Boolean]: "boolean",
-  // @ts-ignore: Allow custom key
-  [Date]: "Date",
-  // @ts-ignore: Allow custom key
-  [Array]: "Array<any>",
-  // @ts-ignore: Allow custom key
-  [Object]: "any",
-  // @ts-ignore: Allow custom key
-  [undefined]: "undefined",
-  // @ts-ignore: Allow custom key
-  [null]: "null",
-  // @ts-ignore: Allow custom key
-  [Symbol]: "symbol",
-  // @ts-ignore: Allow custom key
-  [BigInt]: "bigint",
-  // @ts-ignore: Allow custom key
-  [Set]: "Set<unknown>",
-};
-
 export function getParamName(param: ParameterMetadata) {
   const { index } = param;
   const { name = `param${index}` } = param;
@@ -34,11 +8,17 @@ export function getParamName(param: ParameterMetadata) {
   return name;
 }
 
-export function buildParam(param: ParameterMetadata) {
+export function buildParam(param: ParameterMetadata, buildImports: string[]) {
   const paramName = getParamName(param);
   const { dataType } = param;
-  const buildType: string = getTypescriptType(dataType);
+  const { typescriptType: buildType, requireImport } = getTypescriptType(
+    dataType,
+  );
   const sign = param.optional ? "?" : "";
+
+  if (requireImport) {
+    buildImports.push(buildType);
+  }
 
   // if (!buildType) {
   //   if (!(type instanceof Serializable)) {

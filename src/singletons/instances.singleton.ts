@@ -1,6 +1,4 @@
-import type { ClassInstance } from "../interfaces/mod.ts";
-
 /**
  * All class intances.
  */
-export const instances: ClassInstance[] = [];
+export const instances = new Map<object | string, object | string>();

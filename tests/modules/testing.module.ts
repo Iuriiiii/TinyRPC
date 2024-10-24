@@ -1,8 +1,31 @@
-import { Export, Module, Param } from "../../mod.ts";
+import { Export, Member, Module, Param, Structure } from "../../mod.ts";
+
+@Structure()
+class Location {
+  @Member({ optional: true })
+  country!: string;
+}
+
+@Structure()
+class User {
+  @Member({ optional: true })
+  id!: number;
+
+  @Member()
+  name!: string;
+
+  @Member()
+  age!: number;
+
+  @Member()
+  location!: Location;
+}
 
 @Module()
 export class Testing {
   values: string[] = [];
+  userId: number = 0;
+  users: User[] = [];
 
   @Export()
   howAreYou(@Param() _param1: string): string {
@@ -70,5 +93,23 @@ export class Testing {
   @Export({ returnType: "void" })
   addValue(@Param() value: string) {
     this.values.push(value);
+  }
+
+  @Export()
+  addUser(@Param() user: User): User {
+    user.id = this.userId++;
+    this.users.push(user);
+
+    return user;
+  }
+
+  @Export()
+  checkRequest(request: Request): boolean {
+    return request instanceof Request;
+  }
+
+  @Export()
+  checkRequest2(@Param() argument: boolean, request: Request): boolean {
+    return argument && request instanceof Request;
   }
 }

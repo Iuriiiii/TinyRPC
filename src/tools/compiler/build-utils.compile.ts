@@ -1,9 +1,11 @@
 /**
  * The good path is to read this code directly fron ./assets, but JSR does
- * not supports this yet.
+ * not supports that yet, specifically i can't get the path to the assets folder
+ * because import.meta.{I_DUNNO_RMMBR} is not available on imported modules.
  */
 const source = `
 import { deserializeValue, serializeValue } from "@online/bigserializer";
+import type { RequestBody } from "../types/mod.ts";
 
 function getHost(value: string, https = false) {
   if (value.startsWith("http://") || value.startsWith("https://")) {
@@ -18,14 +20,22 @@ const UE = (_: unknown, v: unknown) => v === undefined ? "[UNDFN]" : v;
 const headers = { "content-type": "application/json" } as const;
 const method = "POST" as const;
 
-function getBody(value: object) {
+function getBody(
+  value: object,
+  request: RequestBody,
+) {
   const body = JSON.stringify(value, UE);
-  return { method, headers, body };
+  return { method, headers, body, ...request } satisfies RequestInit;
 }
 
-export async function rpc<T>(m: string, fn: string, args: unknown[]) {
+export async function rpc<T>(
+  m: string,
+  fn: string,
+  args: unknown[],
+  req: RequestBody = {},
+) {
   const _args = args.map((value) => serializeValue(value));
-  const request = await fetch(HOST, getBody({ m, fn, args: _args }));
+  const request = await fetch(HOST, getBody({ m, fn, args: _args }, req));
 
   if (!request.ok) {
     throw new Error(request.statusText);

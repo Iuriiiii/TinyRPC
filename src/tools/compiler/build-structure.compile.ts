@@ -11,12 +11,15 @@ export function buildStructure(structure: StructureMetadata) {
   const compiledImports = imports
     .map((i) => {
       const compiledImportPath = `./${toFilename(i, "structure")}`;
-      return `import { ${i} } "${compiledImportPath}";`;
+      return `import { ${i} } from "${compiledImportPath}";`;
     })
     .join("\n");
 
   const output = `
-    ${compiledImports}
+import { Serializable } from "@online/bigserializer";
+${compiledImports}
+
+@Serializable()
 export class ${name} {\n${compiledMembers}\n}
 `.trim();
 

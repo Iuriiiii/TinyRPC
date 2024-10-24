@@ -1,5 +1,5 @@
-import { kebabCase } from "jsr:case";
+import { pascalToKebab } from "./pascal-to-kebab.util.ts";
 
 export function toFilename(name: string, postfix: string) {
-  return `${kebabCase(name).toLowerCase()}.${postfix}.ts`;
+  return `${pascalToKebab(name).toLowerCase()}.${postfix}.ts`;
 }

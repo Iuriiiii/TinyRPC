@@ -8,7 +8,10 @@ export function getParamName(param: ParameterMetadata) {
   return name;
 }
 
-export function buildParam(param: ParameterMetadata, buildImports: string[]) {
+export function buildParam(
+  param: ParameterMetadata,
+  buildImports: string[],
+) {
   const paramName = getParamName(param);
   const { dataType } = param;
   const { typescriptType: buildType, requireImport } = getTypescriptType(
@@ -16,7 +19,7 @@ export function buildParam(param: ParameterMetadata, buildImports: string[]) {
   );
   const sign = param.optional ? "?" : "";
 
-  if (requireImport) {
+  if (requireImport && !buildImports.includes(buildType)) {
     buildImports.push(buildType);
   }
 

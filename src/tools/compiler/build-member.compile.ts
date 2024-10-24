@@ -23,7 +23,7 @@ export function buildMember(member: MemberMetadata, buildImports: string[]) {
   const makeLateInit = defaultValue === undefined && !optional ? "!" : "";
   const makeReadonly = readonly ? "readonly " : "";
 
-  if (requireImport) {
+  if (requireImport && !buildImports.includes(buildType)) {
     buildImports.push(buildType);
   }
 

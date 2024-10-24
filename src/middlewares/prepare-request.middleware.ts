@@ -1,29 +1,29 @@
 import { STATUS_CODE } from "jsr:http";
-import {
-  HttpError,
-  isPostRequest,
-  isRpcRequest,
-  MethodNotAllowedException,
-  NotFoundException,
-} from "../mod.ts";
+import { HttpError, isPostRequest, isRpcRequest } from "../mod.ts";
 import { deserializeValue } from "@online/bigserializer";
 import { getClassByName, undefinedDecoder } from "../utils/mod.ts";
 import type { RpcRequest } from "../interfaces/mod.ts";
 import type { Constructor, NextMiddleware } from "../types/mod.ts";
 
+/**
+ * Prepare request middleware, check JSON and creates "rpc" object.
+ */
 export async function prepareRequest(
   request: RpcRequest,
   _response: Response,
   next: NextMiddleware,
 ) {
   if (!isPostRequest(request)) {
-    throw new MethodNotAllowedException();
+    throw new HttpError(STATUS_CODE.MethodNotAllowed, "Method not allowed");
   }
 
   const isJSON = request.headers.get("content-type") === "application/json";
 
   if (!isJSON) {
-    throw new HttpError(STATUS_CODE.UnsupportedMediaType);
+    throw new HttpError(
+      STATUS_CODE.UnsupportedMediaType,
+      "Unsupported media type",
+    );
   }
 
   let body: unknown = null;
@@ -32,18 +32,24 @@ export async function prepareRequest(
     body = await request.text();
     body = JSON.parse(body as string, undefinedDecoder);
   } catch {
-    throw new HttpError(STATUS_CODE.UnprocessableEntity);
+    throw new HttpError(
+      STATUS_CODE.UnprocessableEntity,
+      "Invalid request body",
+    );
   }
 
   if (!isRpcRequest(body)) {
-    throw new HttpError(STATUS_CODE.UnprocessableEntity);
+    throw new HttpError(
+      STATUS_CODE.UnprocessableEntity,
+      "Invalid request body",
+    );
   }
 
   const { m: moduleName, fn: methodName, args } = body;
   const clazz = getClassByName(moduleName) as object | null;
 
   if (clazz === null) {
-    throw new NotFoundException();
+    throw new HttpError(STATUS_CODE.BadRequest, "Module not found");
   }
 
   // TODO: Add an option to able a class to be created each time the method is called
@@ -52,9 +58,7 @@ export async function prepareRequest(
   const compiledArguments: unknown[] = [];
 
   for (const argument of args) {
-    const value: unknown = deserializeValue(argument);
-
-    compiledArguments.push(value);
+    compiledArguments.push(deserializeValue(argument));
   }
 
   Object.defineProperty(request, "rpc", {

@@ -1,5 +1,5 @@
 import { modules, structures } from "../../singletons/mod.ts";
-import { randomString, toFilename } from "../../utils/mod.ts";
+import { formatFolder, randomString, toFilename } from "../../utils/mod.ts";
 import type { ICompilerOptions } from "../interfaces/mod.ts";
 import { Runner } from "../runner/mod.ts";
 import { buildModule } from "./build-module.compile.ts";
@@ -41,6 +41,7 @@ export function compilePackage(options: ICompilerOptions) {
   const utilsPath = `${path}/utils`;
   const apiPath = `${path}/api`;
   const structurePath = `${path}/structures`;
+  const typesPath = `${path}/types`;
 
   runner.addStep({
     name: "Creating package folder...",
@@ -65,7 +66,30 @@ export function compilePackage(options: ICompilerOptions) {
   });
 
   runner.addStep({
-    name: "Creating structure folder...",
+    name: "Creating types folder...",
+    step: () => createPackageFolder(typesPath),
+  });
+
+  runner.addStep({
+    name: `Building type: RequestBody...`,
+    step: () =>
+      writeFile(
+        `${typesPath}/${toFilename("RequestBody", "type")}`,
+        `export type RequestBody = Omit<RequestInit, "method" | "headers" | "body">;`,
+      ),
+  });
+
+  runner.addStep({
+    name: `Building types mod.ts...`,
+    step: () =>
+      writeFile(
+        `${typesPath}/mod.ts`,
+        `export * from "./${toFilename("RequestBody", "type")}";`,
+      ),
+  });
+
+  runner.addStep({
+    name: "Creating structures folder...",
     step: () => createPackageFolder(structurePath),
   });
 
@@ -124,10 +148,13 @@ export function compilePackage(options: ICompilerOptions) {
     name: `Bulding sdk mod.ts...`,
     step: () => {
       const modApi = modules.length ? 'export * from "./api/mod.ts";' : "";
+      const modStructures = structures.length
+        ? 'export * from "./structures/mod.ts";'
+        : "";
 
       writeFile(
         `${path}/mod.ts`,
-        [modApi].join("\n"),
+        [modApi, modStructures].join("\n"),
       );
     },
   });
@@ -143,6 +170,11 @@ export function compilePackage(options: ICompilerOptions) {
         JSON.stringify(sdkDenoJson, null, 4),
       );
     },
+  });
+
+  runner.addStep({
+    name: "Format code",
+    step: () => formatFolder(path),
   });
 
   return runner.run(true);

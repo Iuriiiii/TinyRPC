@@ -58,13 +58,12 @@ export class TinyRPC {
             break;
           }
         } catch (error) {
-          // TODO: Improve this!
           if (isHttpException(error)) {
             return new Response(error.message, { status: error.errorCode });
           }
 
           // @ts-ignore: Return message
-          return new Response(error.description || error.message, {
+          return new Response(error.message ?? error.description ?? null, {
             status: STATUS_CODE.InternalServerError,
           });
         }
@@ -79,8 +78,10 @@ export class TinyRPC {
         host: `${_server.addr.hostname}:${_server.addr.port}`,
       });
     }
+
+    return _server;
   }
 }
 
 export type { Middleware, MiddlewareObject } from "./src/mod.ts";
-export { Export, Module, Param } from "./src/mod.ts";
+export { Export, Member, Module, Param, Structure } from "./src/mod.ts";

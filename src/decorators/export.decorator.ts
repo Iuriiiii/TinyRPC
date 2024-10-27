@@ -1,36 +1,37 @@
 import { Reflect } from "jsr:reflection";
 import { methods, params } from "../singletons/mod.ts";
-import type { Constructor } from "../types/mod.ts";
+import type { Constructor, PickMembers } from "../types/mod.ts";
 import type { ExportDecoratorOptions } from "../interfaces/mod.ts";
 import { assert } from "jsr:assert";
 
-function isExportDecoratorOptions(
-  param?: string | Partial<ExportDecoratorOptions>,
-): param is Partial<ExportDecoratorOptions> {
+function isExportDecoratorOptions<T extends object>(
+  param?: string | Partial<ExportDecoratorOptions<T>>,
+): param is Partial<ExportDecoratorOptions<T>> {
   return typeof param === "object";
 }
 
 /**
  * Makes a method available for remote calls.
- * @param param {string} The name of the method.
+ * @param {string | Partial<ExportDecoratorOptions>} param Name or options of the method.
  */
-export function Export(
-  param?: string | Partial<ExportDecoratorOptions>,
+export function Export<T extends object, K extends object = PickMembers<T>>(
+  param?: string | Partial<ExportDecoratorOptions<K>>,
   // deno-lint-ignore no-explicit-any
 ): any {
+  console.log('src/decorators/export.decorator.ts:21->Export');
   return function (
     /**
      * The class decored.
      */
-    // deno-lint-ignore no-explicit-any
-    target: any,
+    target: Constructor,
     /**
      * The current method.
      */
     propertyKey: string | symbol,
     descriptor: PropertyDescriptor,
   ) {
-    const isOptions = isExportDecoratorOptions(param);
+  console.log('src/decorators/export.decorator.ts:21->$Export');
+    const isOptions = isExportDecoratorOptions<K>(param);
     const methodName = isOptions ? param.name : param;
     // @ts-ignore: Array access.
     const methodTarget = target[propertyKey];

@@ -18,7 +18,7 @@ export function buildMember(member: MemberMetadata, buildImports: string[]) {
   const makeDefaultValue = defaultValue !== undefined
     ? ` = ${defaultValue}`
     : "";
-  const makePrivate = isPrivate ? "private #" : "public ";
+  const makePrivate = isPrivate ? "#" : "public ";
   const makeNullable = nullable ? " | null" : "";
   const makeLateInit = defaultValue === undefined && !optional ? "!" : "";
   const makeReadonly = readonly ? "readonly " : "";

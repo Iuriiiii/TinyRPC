@@ -45,7 +45,7 @@ export async function prepareRequest(
     );
   }
 
-  const { m: moduleName, fn: methodName, args } = body;
+  const { m: moduleName, fn: methodName, args, mbr } = body;
   const clazz = getClassByName(moduleName) as object | null;
 
   if (clazz === null) {
@@ -55,18 +55,19 @@ export async function prepareRequest(
   // TODO: Add an option to able a class to be created each time the method is called
   // @ts-ignore: Get class method with index name.
   const procedure: (...args: unknown[]) => unknown = clazz[methodName];
-  const compiledArguments: unknown[] = [];
+  const _arguments: unknown[] = [];
 
   for (const argument of args) {
-    compiledArguments.push(deserializeValue(argument));
+    _arguments.push(deserializeValue(argument));
   }
 
   Object.defineProperty(request, "rpc", {
     value: {
       clazz: clazz as Constructor,
       procedure,
-      arguments: compiledArguments,
+      arguments: _arguments,
       body,
+      client: mbr,
     } satisfies RpcRequest["rpc"],
     writable: false,
   });

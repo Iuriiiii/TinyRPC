@@ -12,3 +12,4 @@ export * from "./export-decorator-options.interface.ts";
 export * from "./structure-metadata.interface.ts";
 export * from "./member-metadata.interface.ts";
 export * from "./member-decorator-options.interface.ts";
+export * from "./method-extra-options.interface.ts";

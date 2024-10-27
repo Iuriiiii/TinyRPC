@@ -6,6 +6,7 @@ export function isRpcRequest(content: unknown): content is RpcRequestBody {
     isObject(content) &&
     "m" in content &&
     "fn" in content &&
-    "args" in content
+    "args" in content &&
+    "mbr" in content
   );
 }

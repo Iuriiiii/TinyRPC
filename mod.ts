@@ -23,7 +23,14 @@ function prepareClasses() {
   }
 }
 
+/**
+ * TinyRPC main class.
+ */
 export class TinyRPC {
+  /**
+   * Starts an HTTP(s) server to start processing RPC requests.
+   * @returns {Deno.HttpServer<Deno.NetAddr>} An HTTPServer deno object.
+   */
   static start({
     sdk,
     middlewares = [],
@@ -83,5 +90,17 @@ export class TinyRPC {
   }
 }
 
-export type { Middleware, MiddlewareObject } from "./src/mod.ts";
-export { Export, Member, Module, Param, Structure } from "./src/mod.ts";
+export type {
+  MethodExtraOptions,
+  Middleware,
+  MiddlewareObject,
+} from "./src/mod.ts";
+export {
+  Export,
+  HttpError,
+  Member,
+  Module,
+  Param,
+  Structure,
+} from "./src/mod.ts";
+export { STATUS_CODE };

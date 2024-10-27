@@ -7,8 +7,10 @@ import type {
 } from "../interfaces/mod.ts";
 import { members } from "../singletons/mod.ts";
 
+// TODO: Add a member to force update the client-side member when the server-side member is updated
 // deno-lint-ignore no-explicit-any
 export function Member(options?: MemberDecoratorOptions): any {
+  console.log("src/decorators/member.decorator.ts:13->Member");
   return function (
     /**
      * The class decored.
@@ -23,6 +25,7 @@ export function Member(options?: MemberDecoratorOptions): any {
      */
     _index: number,
   ) {
+    console.log("src/decorators/member.decorator.ts:13->$Member");
     assert(
       typeof propertyKey !== "symbol",
       `The "Member" decorator does not works with symbols.`,
@@ -48,6 +51,7 @@ export function Member(options?: MemberDecoratorOptions): any {
         nullable: options?.nullable,
         private: options?.private ?? false,
         readonly: options?.readonly ?? false,
+        autoSync: options?.autoSync ?? false,
       } satisfies MemberMetadata,
     );
   };

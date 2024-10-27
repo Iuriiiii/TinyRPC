@@ -1,11 +1,16 @@
 import { modules, structures } from "../../singletons/mod.ts";
-import { formatFolder, randomString, toFilename } from "../../utils/mod.ts";
+import {
+  formatFolder,
+  randomString,
+  toFilename,
+  writeFile,
+} from "../../utils/mod.ts";
 import type { ICompilerOptions } from "../interfaces/mod.ts";
 import { Runner } from "../runner/mod.ts";
 import { buildModule } from "./build-module.compile.ts";
-import { buildUtils } from "./build-utils.compile.ts";
 import sdkDenoJson from "./assets/deno.json" with { type: "json" };
 import { buildStructure } from "./build-structure.compile.ts";
+import denoJson from "../../../deno.json" with { type: "json" };
 
 function createPackageFolder(path: string) {
   try {
@@ -16,21 +21,6 @@ function createPackageFolder(path: string) {
   Deno.mkdirSync(path);
 }
 
-function writeFile(path: string, content: string) {
-  try {
-    Deno.writeTextFileSync(path, content, {
-      append: false,
-      create: true,
-      createNew: true,
-    });
-  } catch (error) {
-    console.warn(
-      `Error writting file "${path}", content length: ${content.length}`,
-    );
-    throw error;
-  }
-}
-
 export function compilePackage(options: ICompilerOptions) {
   const runner = new Runner("package-compiler");
   const {
@@ -38,54 +28,12 @@ export function compilePackage(options: ICompilerOptions) {
     name: packageName = `tinyrpc-sdk-${randomString()}`,
     version: packageVersion = "0.1.0",
   } = options.sdk ?? {};
-  const utilsPath = `${path}/utils`;
   const apiPath = `${path}/api`;
   const structurePath = `${path}/structures`;
-  const typesPath = `${path}/types`;
 
   runner.addStep({
     name: "Creating package folder...",
     step: () => createPackageFolder(path),
-  });
-
-  runner.addStep({
-    name: "Creating utils folder...",
-    step: () => createPackageFolder(utilsPath),
-  });
-
-  runner.addStep({
-    name: "Creating util files...",
-    step: () =>
-      writeFile(`${utilsPath}/rpc.util.ts`, buildUtils(options?.host)),
-  });
-
-  runner.addStep({
-    name: `Bulding utils mod.ts...`,
-    step: () =>
-      writeFile(`${utilsPath}/mod.ts`, 'export * from "./rpc.util.ts";'),
-  });
-
-  runner.addStep({
-    name: "Creating types folder...",
-    step: () => createPackageFolder(typesPath),
-  });
-
-  runner.addStep({
-    name: `Building type: RequestBody...`,
-    step: () =>
-      writeFile(
-        `${typesPath}/${toFilename("RequestBody", "type")}`,
-        `export type RequestBody = Omit<RequestInit, "method" | "headers" | "body">;`,
-      ),
-  });
-
-  runner.addStep({
-    name: `Building types mod.ts...`,
-    step: () =>
-      writeFile(
-        `${typesPath}/mod.ts`,
-        `export * from "./${toFilename("RequestBody", "type")}";`,
-      ),
   });
 
   runner.addStep({
@@ -154,7 +102,14 @@ export function compilePackage(options: ICompilerOptions) {
 
       writeFile(
         `${path}/mod.ts`,
-        [modApi, modStructures].join("\n"),
+        [
+          modApi,
+          modStructures,
+          'import { configSdk } from "jsr:@online/tinyrpc-sdk-core";',
+          `configSdk({ host: "${
+            options.host ?? "http://127.0.0.1/"
+          }", https: false });`,
+        ].join("\n"),
       );
     },
   });
@@ -162,8 +117,10 @@ export function compilePackage(options: ICompilerOptions) {
   runner.addStep({
     name: "Bulding deno.json...",
     step: () => {
-      sdkDenoJson.name = packageName;
+      sdkDenoJson.name = packageName.toLowerCase();
       sdkDenoJson.version = packageVersion;
+      sdkDenoJson.imports["@online/bigserializer"] =
+        denoJson.imports["@online/bigserializer"];
 
       writeFile(
         `${path}/deno.json`,

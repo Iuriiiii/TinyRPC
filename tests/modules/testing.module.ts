@@ -1,4 +1,11 @@
-import { Export, Member, Module, Param, Structure } from "../../mod.ts";
+import {
+  Export,
+  Member,
+  type MethodExtraOptions,
+  Module,
+  Param,
+  Structure,
+} from "../../mod.ts";
 
 @Structure()
 class Location {
@@ -27,8 +34,14 @@ export class Testing {
   userId: number = 0;
   users: User[] = [];
 
-  @Export()
-  howAreYou(@Param() _param1: string): string {
+  @Member({ private: true, autoSync: true })
+  clientValue!: number;
+
+  @Export<Testing>({ links: ["clientValue"] })
+  howAreYou(
+    @Param() _param1: string,
+    _options: MethodExtraOptions<Testing>,
+  ): string {
     return "OK";
   }
 
@@ -104,12 +117,15 @@ export class Testing {
   }
 
   @Export()
-  checkRequest(request: Request): boolean {
+  checkRequest({ request }: MethodExtraOptions<Testing>): boolean {
     return request instanceof Request;
   }
 
   @Export()
-  checkRequest2(@Param() argument: boolean, request: Request): boolean {
+  checkRequest2(
+    @Param() argument: boolean,
+    { request }: MethodExtraOptions<Testing>,
+  ): boolean {
     return argument && request instanceof Request;
   }
 }

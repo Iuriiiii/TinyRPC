@@ -2,7 +2,8 @@
   "version": "4",
   "specifiers": {
     "jsr:@dx/reflect@~0.2.14": "0.2.14",
-    "jsr:@online/bigserializer@~0.1.1": "0.1.1",
+    "jsr:@online/bigserializer@~0.1.2": "0.1.2",
+    "jsr:@online/tinyrpc-sdk-core@*": "0.0.4",
     "jsr:@std/assert@^1.0.6": "1.0.6",
     "jsr:@std/cli@^1.0.6": "1.0.6",
     "jsr:@std/encoding@^1.0.5": "1.0.5",
@@ -18,8 +19,14 @@
     "@dx/reflect@0.2.14": {
       "integrity": "53e1cb54e25170f43d90966679fcd7d6e0d27e23f4f1c869330d339576f446be"
     },
-    "@online/bigserializer@0.1.1": {
-      "integrity": "d7ba0f388efba5d3ee1c4aef89620548a7b516e18a45317b7717d2b4bb0161ef"
+    "@online/bigserializer@0.1.2": {
+      "integrity": "a656cb83d2427f13124bcc5caa8f56d2a65fda44d25d414970a593d949e7584e"
+    },
+    "@online/tinyrpc-sdk-core@0.0.4": {
+      "integrity": "58a34efdc2a78fabd2dd333d45f2d52665ce7def2ef2ffcbcf39076dfb35ffd2",
+      "dependencies": [
+        "jsr:@online/bigserializer"
+      ]
     },
     "@std/assert@1.0.6": {
       "integrity": "1904c05806a25d94fe791d6d883b685c9e2dcd60e4f9fc30f4fc5cf010c72207",
@@ -67,7 +74,7 @@
   "workspace": {
     "dependencies": [
       "jsr:@dx/reflect@~0.2.14",
-      "jsr:@online/bigserializer@~0.1.1",
+      "jsr:@online/bigserializer@~0.1.2",
       "jsr:@std/assert@^1.0.6",
       "jsr:@std/http@^1.0.8"
     ]

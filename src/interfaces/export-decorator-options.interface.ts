@@ -1,6 +1,7 @@
 import type { Constructor } from "../types/constructor.type.ts";
+import type { MapStructure } from "../types/mod.ts";
 
-export interface ExportDecoratorOptions {
+export interface ExportDecoratorOptions<T extends object = object> {
   /**
    * The name to use in the SDK.
    */
@@ -15,4 +16,8 @@ export interface ExportDecoratorOptions {
    * It will be included in the SDK.
    */
   generics: string[];
+  /**
+   * The members to read from the client.
+   */
+  links: MapStructure<T>;
 }

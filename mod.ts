@@ -1,14 +1,14 @@
 import { STATUS_CODE } from "jsr:http";
 import {
-  finishRequest,
   getMiddlewareFunction,
   instances,
   isHttpException,
   modules,
-  prepareRequest,
+  prepareFormdataRequest,
 } from "./src/mod.ts";
 import type { Middleware, ServerSettings } from "./src/mod.ts";
 import { compilePackage } from "./src/tools/mod.ts";
+import { finishFormdataRequest } from "./src/middlewares/mod.ts";
 const { serve } = Deno;
 
 /**
@@ -17,9 +17,9 @@ const { serve } = Deno;
  */
 function prepareClasses() {
   for (const module of modules) {
-    const instance = new module.constructor();
-    instances.set(instance, module.name);
-    instances.set(module.name, instance);
+    module.instance = new module.constructor();
+    instances.set(module.name, module);
+    instances.set(module, module.name);
   }
 }
 
@@ -29,33 +29,30 @@ function prepareClasses() {
 export class TinyRPC {
   /**
    * Starts an HTTP(s) server to start processing RPC requests.
-   * @returns {Deno.HttpServer<Deno.NetAddr>} An HTTPServer deno object.
    */
-  static start({
-    sdk,
-    middlewares = [],
-    server = {},
-  }: Partial<ServerSettings> = {}) {
+  static start(param: Partial<ServerSettings> = {}) {
+    const { sdk, middlewares = [], server = {} } = param;
     prepareClasses();
 
     const _middlewares = [
-      prepareRequest,
+      prepareFormdataRequest,
       ...middlewares,
-      finishRequest,
+      finishFormdataRequest,
     ] as Middleware[];
 
     const _server = serve(server, async function (request: Request) {
       let response = new Response();
+      let next = true;
 
       for (const _middleware of _middlewares) {
         try {
-          let next = false;
           const middlewareFn = getMiddlewareFunction(_middleware);
-          const result = await middlewareFn(
+          const result = await middlewareFn({
             request,
             response,
-            () => (next = true),
-          );
+            stop: () => (next = false),
+            settings: param,
+          });
 
           if (result instanceof Response) {
             response = result;

@@ -64,7 +64,7 @@ export function Param(
         dataType: type ?? paramtypes[index],
         index,
         single,
-        name: paramName,
+        name: paramName ?? `p${params.length}`,
         optional,
       } satisfies ParameterMetadata,
     );

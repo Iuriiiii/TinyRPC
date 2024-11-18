@@ -1,7 +1,7 @@
 import type { Constructor } from "../types/mod.ts";
 import type { RpcRequestBody } from "./rpc-request-body.interface.ts";
 
-export interface RpcRequest<T extends object = object> extends Request {
+export interface JsonRpcRequest<T extends object = object> extends Request {
   rpc: {
     // deno-lint-ignore ban-types
     procedure: Function;

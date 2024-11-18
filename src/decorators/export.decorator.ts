@@ -14,11 +14,15 @@ function isExportDecoratorOptions<T extends object>(
  * Makes a method available for remote calls.
  * @param {string | Partial<ExportDecoratorOptions>} param Name or options of the method.
  */
-export function Export<T extends object, K extends object = PickMembers<T>>(
+export function Export<
+  // deno-lint-ignore ban-types
+  T extends object = {},
+  K extends object = PickMembers<T>,
+>(
   param?: string | Partial<ExportDecoratorOptions<K>>,
   // deno-lint-ignore no-explicit-any
 ): any {
-  console.log('src/decorators/export.decorator.ts:21->Export');
+  console.log("src/decorators/export.decorator.ts:21->Export");
   return function (
     /**
      * The class decored.
@@ -30,7 +34,7 @@ export function Export<T extends object, K extends object = PickMembers<T>>(
     propertyKey: string | symbol,
     descriptor: PropertyDescriptor,
   ) {
-  console.log('src/decorators/export.decorator.ts:21->$Export');
+    console.log("src/decorators/export.decorator.ts:21->$Export");
     const isOptions = isExportDecoratorOptions<K>(param);
     const methodName = isOptions ? param.name : param;
     // @ts-ignore: Array access.
@@ -60,7 +64,7 @@ export function Export<T extends object, K extends object = PickMembers<T>>(
     assert(
       returnType !== undefined,
       `
-The "Export" decorator requires an explicit return type: ${target.constructor.name}.${methodTarget.name}.
+The "Export" decorator requires an explicit return type on ${target.constructor.name}.${methodTarget.name}.
 Only native datatypes and serializable classes are supported.
       `.trim(),
     );
@@ -70,6 +74,8 @@ Only native datatypes and serializable classes are supported.
       params: [...params],
       returnType,
       generics: isOptions ? param.generics : void 0,
+      // @ts-ignore: Irrelevant type error
+      links: isOptions ? param.links : void 0,
     });
     params.length = 0;
   };

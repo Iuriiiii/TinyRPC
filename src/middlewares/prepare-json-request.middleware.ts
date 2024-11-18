@@ -1,25 +1,25 @@
 import { STATUS_CODE } from "jsr:http";
-import { HttpError, isPostRequest, isRpcRequest } from "../mod.ts";
+import { HttpError, isJsonRpcRequest, isPostRequest } from "../mod.ts";
 import { deserializeValue } from "@online/bigserializer";
 import { getClassByName, undefinedDecoder } from "../utils/mod.ts";
-import type { RpcRequest } from "../interfaces/mod.ts";
-import type { Constructor, NextMiddleware } from "../types/mod.ts";
+import type { JsonRpcRequest } from "../interfaces/mod.ts";
+import type { Constructor, StopFunction } from "../types/mod.ts";
 
 /**
  * Prepare request middleware, check JSON and creates "rpc" object.
  */
-export async function prepareRequest(
-  request: RpcRequest,
+export async function prepareJsonRequest(
+  request: JsonRpcRequest,
   _response: Response,
-  next: NextMiddleware,
+  next: StopFunction,
 ) {
   if (!isPostRequest(request)) {
     throw new HttpError(STATUS_CODE.MethodNotAllowed, "Method not allowed");
   }
 
-  const isJSON = request.headers.get("content-type") === "application/json";
+  const isNotJSON = request.headers.get("content-type") !== "application/json";
 
-  if (!isJSON) {
+  if (isNotJSON) {
     throw new HttpError(
       STATUS_CODE.UnsupportedMediaType,
       "Unsupported media type",
@@ -38,7 +38,7 @@ export async function prepareRequest(
     );
   }
 
-  if (!isRpcRequest(body)) {
+  if (!isJsonRpcRequest(body)) {
     throw new HttpError(
       STATUS_CODE.UnprocessableEntity,
       "Invalid request body",
@@ -68,7 +68,7 @@ export async function prepareRequest(
       arguments: _arguments,
       body,
       client: mbr,
-    } satisfies RpcRequest["rpc"],
+    } satisfies JsonRpcRequest["rpc"],
     writable: false,
   });
 

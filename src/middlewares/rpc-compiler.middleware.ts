@@ -1,9 +1,9 @@
-import type { NextMiddleware } from "../mod.ts";
+import type { StopFunction } from "../mod.ts";
 
 export function rpcCompiler(
   _request: Request,
   _response: Response,
-  next: NextMiddleware,
+  next: StopFunction,
 ) {
   return next();
 }

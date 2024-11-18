@@ -8,4 +8,5 @@ export interface ModuleMetadata {
   methods: MethodMetadata[];
   members: MemberMetadata[];
   moduleName?: string;
+  instance?: unknown;
 }

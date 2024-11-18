@@ -49,7 +49,5 @@ export async function rpc<T, K extends object = object>(
   const serialized = await request.json() as T;
   const deserialized = deserializeValue<T>(serialized);
 
-  
-
   return deserialized;
 }

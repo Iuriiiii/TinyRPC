@@ -22,8 +22,14 @@ export function buildModule(module: ModuleMetadata) {
     `import { ${compiledImports} } from "../structures/mod.ts"`;
 
   const output = `
-// deno-lint-ignore-file no-empty-interface require-await
-import { rpc, RequestBody } from "jsr:@online/tinyrpc-sdk-core";
+// deno-lint-ignore-file no-empty-interface
+import {
+  HttpError,
+  MethodResponse,
+  RequestBody,
+  formdataRpc as rpc,
+  MapStructure
+} from "jsr:@online/tinyrpc-sdk-core";
 ${compiledImportPath}
 ${buildedInterfaces}
 

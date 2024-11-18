@@ -11,23 +11,22 @@ Deno.test("Testing API", async (t) => {
 
   await t.step("Method howAreYou must work and return 'OK'", async () => {
     // @ts-ignore: just ignore me
-    assert(await testing.howAreYou({ param0: "test" }) === "OK");
+    assert((await testing.howAreYou({ p0: "test" })).result === "OK");
   });
 
   await t.step(
     "Method concatPlz2 must work and return 'ABCBCA'",
     async () => {
-      // @ts-ignore: just ignore me
-      assert(
-        await testing.concatPlz2({ param0: "ABC", param1: "BCA" }) === "ABCBCA",
-      );
+      const r = await testing.concatPlz2({ p0: "ABC", p1: "BCA" });
+      console.log("tests/2-api.test.ts:21->function", { r });
+      assert(r.result === "ABCBCA");
     },
   );
 
   await t.step(
     'Method getObject must work and return { a: 1, b: "hola" }',
     async () => {
-      const obj = await testing.getObject();
+      const obj = (await testing.getObject()).result;
       // @ts-ignore: just ignore me
       assert(obj.a === 1);
       // @ts-ignore: just ignore me
@@ -40,14 +39,14 @@ Deno.test("Testing API", async (t) => {
   await t.step(
     "Method addNumbers must return the sum of two numbers",
     async () => {
-      assert(await testing.addNumbers({ param0: 2, param1: 3 }) === 5);
-      assert(await testing.addNumbers({ param0: -1, param1: 1 }) === 0);
+      assert((await testing.addNumbers({ p0: 2, p1: 3 })).result === 5);
+      assert((await testing.addNumbers({ p0: -1, p1: 1 })).result === 0);
     },
   );
 
   await t.step("Method greet must return a greeting message", async () => {
     // @ts-ignore: just ignore me
-    const juan = await testing.greet({ param0: "Juan" });
+    const juan = (await testing.greet({ p0: "Juan" })).result;
     // @ts-ignore: just ignore me
     assert(
       juan === "Hola, Juan!",
@@ -55,7 +54,7 @@ Deno.test("Testing API", async (t) => {
     );
     // @ts-ignore: just ignore me
     assert(
-      await testing.greet({ param0: "Ana", param1: "Buenos días" }) ===
+      (await testing.greet({ p0: "Ana", p1: "Buenos días" })).result ===
         "Buenos días, Ana!",
       "Message should be 'Buenos (2), Ana!'",
     );
@@ -65,9 +64,9 @@ Deno.test("Testing API", async (t) => {
     "Method multiply must return the product of two numbers",
     async () => {
       // @ts-ignore: just ignore me
-      assert(await testing.multiply({ param0: 3, param1: 4 }) === 12);
+      assert((await testing.multiply({ p0: 3, p1: 4 })).result === 12);
       // @ts-ignore: just ignore me
-      assert(await testing.multiply({ param0: -2, param1: 5 }) === -10);
+      assert((await testing.multiply({ p0: -2, p1: 5 })).result === -10);
     },
   );
 
@@ -75,9 +74,9 @@ Deno.test("Testing API", async (t) => {
     "Method reverseString must return the reversed string",
     async () => {
       // @ts-ignore: just ignore me
-      assert(await testing.reverseString({ param0: "hello" }) === "olleh");
+      assert((await testing.reverseString({ p0: "hello" })).result === "olleh");
       // @ts-ignore: just ignore me
-      assert(await testing.reverseString({ param0: "" }) === "");
+      assert((await testing.reverseString({ p0: "" })).result === "");
     },
   );
 
@@ -85,9 +84,9 @@ Deno.test("Testing API", async (t) => {
     "Method isEven must return true for even numbers",
     async () => {
       // @ts-ignore: just ignore me
-      assert(await testing.isEven({ param0: 4 }) === true);
+      assert((await testing.isEven({ p0: 4 })).result === true);
       // @ts-ignore: just ignore me
-      assert(await testing.isEven({ param0: 5 }) === false);
+      assert((await testing.isEven({ p0: 5 })).result === false);
     },
   );
 
@@ -95,9 +94,9 @@ Deno.test("Testing API", async (t) => {
     "Method getLength must return the length of the array",
     async () => {
       // @ts-ignore: just ignore me
-      assert(await testing.getLength({ param0: [1, 2, 3] }) === 3);
+      assert((await testing.getLength({ p0: [1, 2, 3] })).result === 3);
       // @ts-ignore: just ignore me
-      assert(await testing.getLength({ param0: [] }) === 0);
+      assert((await testing.getLength({ p0: [] })).result === 0);
     },
   );
 
@@ -106,7 +105,7 @@ Deno.test("Testing API", async (t) => {
     async () => {
       // @ts-ignore: just ignore me
       const date = new Date("2024-01-01T00:00:00Z");
-      const res = await testing.formatDate({ param0: date });
+      const res = (await testing.formatDate({ p0: date })).result;
       assertInstanceOf(res, Date);
       // @ts-ignore: just ignore me
       assert(res.toISOString() === "2024-01-01T00:00:00.000Z");
@@ -117,7 +116,7 @@ Deno.test("Testing API", async (t) => {
     "Method checkVoid must return undefined",
     async () => {
       // @ts-ignore: just ignore me
-      const res = await testing.checkVoid();
+      const res = (await testing.checkVoid()).result;
       // @ts-ignore: just ignore me
       // FIXME: this is a bad result, res must be void or undefined
       assert(res === undefined);
@@ -128,7 +127,7 @@ Deno.test("Testing API", async (t) => {
     "Method getValues must return an empty array of strings",
     async () => {
       // @ts-ignore: just ignore me
-      const res = await testing.getValues();
+      const res = (await testing.getValues()).result;
       assertInstanceOf(res, Array);
       // @ts-ignore: just ignore me
       assert(res.length === 0);
@@ -139,7 +138,7 @@ Deno.test("Testing API", async (t) => {
     "Method addValue must push the value to the array of strings",
     async () => {
       // @ts-ignore: just ignore me
-      const res = await testing.addValue({ param0: "Hola Mundo" });
+      const res = (await testing.addValue({ p0: "Hola Mundo" })).result;
       // @ts-ignore: just ignore me
       assert(res === undefined);
     },
@@ -149,7 +148,7 @@ Deno.test("Testing API", async (t) => {
     "Method getValues must return an array of strings with the previous value pushed",
     async () => {
       // @ts-ignore: just ignore me
-      const res = await testing.getValues();
+      const res = (await testing.getValues()).result;
       assertInstanceOf(res, Array);
       // @ts-ignore: just ignore me
       assert(res.length === 1);
@@ -165,7 +164,7 @@ Deno.test("Testing API", async (t) => {
       usr.age = 30;
       usr.location = new Location();
       usr.location.country = "Colombia";
-      const res = await testing.addUser({ param0: usr });
+      const res = (await testing.addUser({ p0: usr })).result;
       assertInstanceOf(res, User);
       assert(res.name === usr.name);
       assert(res.age === usr.age);
@@ -178,7 +177,7 @@ Deno.test("Testing API", async (t) => {
     "Method checkRequest must return true if its first argument is the request object",
     async () => {
       // @ts-ignore: just ignore me
-      const res = await testing.checkRequest();
+      const res = (await testing.checkRequest()).result;
       assert(res === true);
     },
   );
@@ -187,7 +186,7 @@ Deno.test("Testing API", async (t) => {
     "Method checkRequest2 must return true if its first argument is true and the latest one is a Request instance",
     async () => {
       // @ts-ignore: just ignore me
-      const res = await testing.checkRequest2({ param0: true });
+      const res = (await testing.checkRequest2({ p0: true })).result;
       assert(res === true);
     },
   );
@@ -196,7 +195,7 @@ Deno.test("Testing API", async (t) => {
     "Method checkRequest2 must return false if its first argument is false and the latest one is a Request instance",
     async () => {
       // @ts-ignore: just ignore me
-      const res = await testing.checkRequest2({ param0: false });
+      const res = (await testing.checkRequest2({ p0: false })).result;
       assert(res === false);
     },
   );

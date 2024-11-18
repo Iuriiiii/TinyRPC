@@ -15,13 +15,12 @@ export function buildMethod(
   interfaces: string[],
 ) {
   const moduleName = module.moduleName ?? module.name;
-  const { name: methodName } = method;
+  const { name: methodName, links = [] } = method;
   const { typescriptType: returnType, requireImport } = getTypescriptType(
     method.returnType,
   );
   const generics = method.generics ? `<${method.generics.join(", ")}>` : "";
   const makeVoid = returnType === "void" ? "void " : "";
-  const makeAsync = makeVoid ? "async " : "";
   const paramNames = method.params.map(getParamName).reverse().join(", ");
   const areParams = method.params.length > 0;
   const buildOptionalFirstArgument = !areParams ? " = {}" : "";
@@ -30,9 +29,28 @@ export function buildMethod(
     .map((p) => buildParam(p, buildImports))
     .join("; ");
   const interfaceName = `${camelToPascal(methodName)}Params`;
-  const output = [
-    `${makeAsync}${methodName}${generics}({${paramNames}}: ${interfaceName}${buildOptionalFirstArgument}, req?: RequestBody): Promise<${returnType}> { return ${makeVoid}rpc<${returnType}>("${moduleName}", "${methodName}", [${paramNames}], req); }`,
-  ].join("\n");
+  const _return = makeVoid
+    ? `return { ...response, result: void 0 };`
+    : `return response;`;
+  const output =
+    `async ${methodName}${generics}({${paramNames}}: ${interfaceName}${buildOptionalFirstArgument}, request: RequestBody = {}): Promise<MethodResponse<${returnType}>> {
+    const argument = {
+      connection: {
+        module: "${moduleName}",
+        method: "${methodName}",
+      },
+      args: { ${paramNames} },
+      updates: {
+        parent: this,
+        keys: ${JSON.stringify(links)} as unknown as MapStructure<object>,
+      },
+      request
+    };
+
+    const response = await rpc<${returnType}, HttpError>(argument);
+
+    ${_return}
+}`;
 
   if (requireImport && !buildImports.includes(returnType)) {
     buildImports.push(returnType);

@@ -1,11 +1,4 @@
-import {
-  Export,
-  Member,
-  type MethodExtraOptions,
-  Module,
-  Param,
-  Structure,
-} from "./mod.ts";
+import { Export, Member, type MethodExtraOptions, Module, Param, Structure } from "./mod.ts";
 
 // @Structure()
 // class Location {

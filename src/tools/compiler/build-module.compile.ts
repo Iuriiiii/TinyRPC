@@ -8,8 +8,7 @@ export function buildModule(module: ModuleMetadata) {
   const interfaces: string[] = [];
   const { name, methods, members } = module;
   const { moduleName = name } = module;
-  const methodsMapper = () => (method: MethodMetadata) =>
-    buildMethod(module, method, imports, interfaces);
+  const methodsMapper = () => (method: MethodMetadata) => buildMethod(module, method, imports, interfaces);
 
   const buildedMembers = members
     .map((m) => buildMember(m, imports))
@@ -18,8 +17,7 @@ export function buildModule(module: ModuleMetadata) {
   const buildedInterfaces = interfaces.join("\n");
   const compiledImports = imports
     .join(", ");
-  const compiledImportPath =
-    `import { ${compiledImports} } from "../structures/mod.ts"`;
+  const compiledImportPath = `import { ${compiledImports} } from "../structures/mod.ts"`;
 
   const output = `
 // deno-lint-ignore-file no-empty-interface
@@ -27,9 +25,9 @@ import {
   HttpError,
   MethodResponse,
   RequestBody,
-  formdataRpc as rpc,
+  rawRpc as rpc,
   MapStructure
-} from "jsr:@online/tinyrpc-sdk-core";
+} from "@online/tinyrpc-sdk-core";
 ${compiledImportPath}
 ${buildedInterfaces}
 

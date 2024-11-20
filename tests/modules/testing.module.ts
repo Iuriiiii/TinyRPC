@@ -1,20 +1,22 @@
-import {
-  Export,
-  Member,
-  type MethodExtraOptions,
-  Module,
-  Param,
-  Structure,
-} from "../../mod.ts";
+import { Export, Member, type MethodExtraOptions, Module, Param, SerializableClass, type SerializedClass, Structure } from "../../mod.ts";
 
 @Structure()
-class Location {
+class Location extends SerializableClass {
   @Member({ optional: true })
   country!: string;
+
+  public override serialize(): SerializedClass<typeof Location> {
+    return {
+      arguments: [],
+      members: {
+        coountry: this.country,
+      },
+    };
+  }
 }
 
 @Structure()
-class User {
+class User extends SerializableClass {
   @Member({ optional: true })
   id!: number;
 
@@ -26,6 +28,18 @@ class User {
 
   @Member()
   location!: Location;
+
+  public override serialize(): SerializedClass<typeof User> {
+    return {
+      arguments: [],
+      members: {
+        id: this.id,
+        name: this.name,
+        age: this.age,
+        location: this.location,
+      },
+    };
+  }
 }
 
 @Module()

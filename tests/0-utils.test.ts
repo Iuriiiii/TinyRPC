@@ -10,9 +10,7 @@ function randomToggleCase(input: string): string {
       if (Math.random() < 0.0 || convertedCharacters === 0) {
         convertedCharacters++;
         // Cambiamos el caso del carácter
-        return char === char.toUpperCase()
-          ? char.toLowerCase()
-          : char.toUpperCase();
+        return char === char.toUpperCase() ? char.toLowerCase() : char.toUpperCase();
       }
     } else {
       if (Math.random() < 0.0 || convertedCharacters === 0) {

@@ -1,0 +1,277 @@
+{
+  "manifest": {
+    "/src/enums/mod.ts": {
+      "size": 35,
+      "checksum": "sha256-1ed72fb0ba09130d08e094090183f1a8a84dfdd1998b655e424aad2bae39ade7"
+    },
+    "/NOAI": {
+      "size": 396,
+      "checksum": "sha256-81d7c17763889082b32bde28ec68fb9ef5590935fed8655f6ef708000219e286"
+    },
+    "/src/serializers/mod.ts": {
+      "size": 45,
+      "checksum": "sha256-89ef083f947085e78f02ba6490babb0d9419635d03d1feaf4c1d05dea774bd50"
+    },
+    "/LICENSE": {
+      "size": 1139,
+      "checksum": "sha256-072bba58403e7ebc1cea5ec8e96f8b98759f5ffe3215806720d82f74ac66a0e7"
+    },
+    "/deno.lock": {
+      "size": 951,
+      "checksum": "sha256-a5d1172a109fe6976c54d12200ba4b086a28da787e8bedcdf4e5a6e8440c1495"
+    },
+    "/.vscode/settings.json": {
+      "size": 55,
+      "checksum": "sha256-c6c7abe30f5ce09d88cd4fd0d442bb361b70620da695ca2e2c8d89e1c4b19b12"
+    },
+    "/mod.ts": {
+      "size": 88,
+      "checksum": "sha256-001bd3a254930318db748b6a4209abd5b5159ef70e44f66ea216d26e8a47e427"
+    },
+    "/changelog": {
+      "size": 121,
+      "checksum": "sha256-45698fea23b1fe1ef4546bcc9c1d428d00f9c7541c2022937671ebb63d25564f"
+    },
+    "/src/enums/opcode.enum.ts": {
+      "size": 170,
+      "checksum": "sha256-1f1e5198d316913d179e157ba2ff1cb209670b97e8136ca9b9beaeb8fcfb27ac"
+    },
+    "/README.md": {
+      "size": 43,
+      "checksum": "sha256-792d8f34819057997cf570e1ff282349ee04c8ff41c52f33d2767ab49dbd21f3"
+    },
+    "/src/serializers/uint8array.serializer.ts": {
+      "size": 701,
+      "checksum": "sha256-f1d72bc23926a9202b9b71264d544b45aa5dab3f91a5031bd4a7ea5d3b6811f2"
+    },
+    "/deno.json": {
+      "size": 227,
+      "checksum": "sha256-e765d45ff3b5e061931f58148bb4d854042c34792881b30e13145bdf83004a8c"
+    },
+    "/src/deserializers/uint8array.deserializer.ts": {
+      "size": 673,
+      "checksum": "sha256-000e361b82ccc1786dcd6bf491f8840b6f2698b20cb7b5d3d8ae27eabde7cfa2"
+    },
+    "/tests/uint8array.test.ts": {
+      "size": 1376,
+      "checksum": "sha256-eb585a984068b84cdfeba93a7cf7e2a3de995f312a422b47a5c01db0383f5a89"
+    },
+    "/src/deserializers/mod.ts": {
+      "size": 47,
+      "checksum": "sha256-23ee4f18bd969a1b107390b751df67bf458ea3a1334a4e707138987c0c4a0b31"
+    }
+  },
+  "moduleGraph2": {
+    "/src/enums/opcode.enum.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:/@online/tinyserializer@^0.0.9/types",
+          "specifierRange": [
+            [
+              0,
+              47
+            ],
+            [
+              0,
+              89
+            ]
+          ]
+        }
+      ]
+    },
+    "/mod.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./src/deserializers/mod.ts",
+          "specifierRange": [
+            [
+              0,
+              14
+            ],
+            [
+              0,
+              42
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./src/serializers/mod.ts",
+          "specifierRange": [
+            [
+              1,
+              14
+            ],
+            [
+              1,
+              40
+            ]
+          ]
+        }
+      ]
+    },
+    "/src/deserializers/uint8array.deserializer.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "importType",
+          "specifier": "jsr:/@online/tinyserializer@^0.0.9/types",
+          "specifierRange": [
+            [
+              0,
+              40
+            ],
+            [
+              0,
+              82
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "../enums/mod.ts",
+          "specifierRange": [
+            [
+              1,
+              23
+            ],
+            [
+              1,
+              40
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:@online/tinyserializer@^0.0.9",
+          "specifierRange": [
+            [
+              2,
+              36
+            ],
+            [
+              2,
+              71
+            ]
+          ]
+        }
+      ]
+    },
+    "/src/enums/mod.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./opcode.enum.ts",
+          "specifierRange": [
+            [
+              0,
+              14
+            ],
+            [
+              0,
+              32
+            ]
+          ]
+        }
+      ]
+    },
+    "/src/serializers/uint8array.serializer.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:/@online/tinyserializer@^0.0.9/types",
+          "specifierRange": [
+            [
+              3,
+              7
+            ],
+            [
+              3,
+              49
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:@online/tinyserializer@^0.0.9",
+          "specifierRange": [
+            [
+              4,
+              47
+            ],
+            [
+              4,
+              82
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "../enums/mod.ts",
+          "specifierRange": [
+            [
+              5,
+              23
+            ],
+            [
+              5,
+              40
+            ]
+          ]
+        }
+      ]
+    },
+    "/src/serializers/mod.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./uint8array.serializer.ts",
+          "specifierRange": [
+            [
+              0,
+              14
+            ],
+            [
+              0,
+              42
+            ]
+          ]
+        }
+      ]
+    },
+    "/src/deserializers/mod.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./uint8array.deserializer.ts",
+          "specifierRange": [
+            [
+              0,
+              14
+            ],
+            [
+              0,
+              44
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  "exports": {
+    ".": "./mod.ts"
+  }
+}

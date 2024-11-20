@@ -1,19 +1,13 @@
-import { serializeValue } from "@online/bigserializer";
 import { STATUS_CODE } from "jsr:http";
-import type {
-  FormdataRpcRequest,
-  MethodExtraOptions,
-} from "../interfaces/mod.ts";
-import type { StopFunction } from "../types/mod.ts";
+import type { MethodExtraOptions, MiddlewareParam } from "../interfaces/mod.ts";
+import { pack } from "@online/packager";
 
 /**
  * Calls the requested method with deserialized arguments and returns result.
  * default status: `STATUS_CODE.OK` (200).
  */
 export async function finishFormdataRequest(
-  request: FormdataRpcRequest,
-  _response: Response,
-  next: StopFunction,
+  { request }: MiddlewareParam,
 ) {
   const { procedure, pushableArguments: args, clazz, client } = request.rpc;
   const result = (await procedure.call(
@@ -21,9 +15,11 @@ export async function finishFormdataRequest(
     ...args,
     { request, client } satisfies MethodExtraOptions<unknown>,
   )) ?? {};
-  next();
 
-  return Response.json(serializeValue({ result, updates: client }), {
+  // TODO: The packets sent by the server can't be unpacked by the client.
+  const packed = pack({ result, updates: client });
+
+  return new Response(packed, {
     status: STATUS_CODE.OK,
   });
 }

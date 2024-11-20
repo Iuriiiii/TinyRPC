@@ -3,9 +3,10 @@
   "specifiers": {
     "jsr:@dx/reflect@~0.2.14": "0.2.14",
     "jsr:@online/is@^0.0.1": "0.0.1",
-    "jsr:@online/tinyrpc-sdk-core@~0.1.3": "0.1.3",
-    "jsr:@online/tinyserializer@^0.0.8": "0.0.8",
-    "jsr:@online/tinyserializers@^0.0.1": "0.0.1",
+    "jsr:@online/packager@^0.0.5": "0.0.5",
+    "jsr:@online/tinyrpc-sdk-core@~0.1.8": "0.1.8",
+    "jsr:@online/tinyserializer@^0.0.9": "0.0.9",
+    "jsr:@online/tinyserializers@^0.0.2": "0.0.2",
     "jsr:@std/assert@^1.0.6": "1.0.7",
     "jsr:@std/cli@^1.0.6": "1.0.6",
     "jsr:@std/encoding@^1.0.5": "1.0.5",
@@ -24,21 +25,27 @@
     "@online/is@0.0.1": {
       "integrity": "dba4c1e8932c552a5acec0551ccb22e2debfd3bfc91698d82e7b2cee81e6218c"
     },
-    "@online/tinyrpc-sdk-core@0.1.3": {
-      "integrity": "05ae203bc2e2938c3e3520958f5a3882e0578ccfa1805aa5a933a8a8a7549b22",
+    "@online/packager@0.0.5": {
+      "integrity": "64c74b455b80f8f126464f85ab32fb86cffc5af6aa4bad40c8f2cdb679a2e6e5",
       "dependencies": [
         "jsr:@online/tinyserializer",
         "jsr:@online/tinyserializers"
       ]
     },
-    "@online/tinyserializer@0.0.8": {
-      "integrity": "3298bea65d3e346ca8b69bac632f1c70f5244c91c68aebf0209afc506a759224",
+    "@online/tinyrpc-sdk-core@0.1.8": {
+      "integrity": "f68a1594d294beb1484d0b691361e2d3f4f80be79a30cd2eb947f6f9c3d77f31",
+      "dependencies": [
+        "jsr:@online/packager"
+      ]
+    },
+    "@online/tinyserializer@0.0.9": {
+      "integrity": "e91ac64dbc6a190dd8d1067cadcf602bea9b76b6e9e2265343c453ef10e74250",
       "dependencies": [
         "jsr:@online/is"
       ]
     },
-    "@online/tinyserializers@0.0.1": {
-      "integrity": "f414da1ed348e76488ffe95509e7d8e3fb9e9c636f1ba57126e5bb067d62425c",
+    "@online/tinyserializers@0.0.2": {
+      "integrity": "25243a024dc71c852af3db1cf9ac3d80218b671a3e29c5dee4da2f4c22d48d05",
       "dependencies": [
         "jsr:@online/tinyserializer"
       ]
@@ -89,9 +96,8 @@
   "workspace": {
     "dependencies": [
       "jsr:@dx/reflect@~0.2.14",
-      "jsr:@online/tinyrpc-sdk-core@~0.1.3",
-      "jsr:@online/tinyserializer@^0.0.8",
-      "jsr:@online/tinyserializers@^0.0.1",
+      "jsr:@online/packager@^0.0.5",
+      "jsr:@online/tinyrpc-sdk-core@~0.1.8",
       "jsr:@std/assert@^1.0.6",
       "jsr:@std/http@^1.0.8"
     ]

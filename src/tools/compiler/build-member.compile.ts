@@ -15,9 +15,7 @@ export function buildMember(member: MemberMetadata, buildImports: string[]) {
     dataType,
   );
   const makeOptional = optional ? "?" : "";
-  const makeDefaultValue = defaultValue !== undefined
-    ? ` = ${defaultValue}`
-    : "";
+  const makeDefaultValue = defaultValue !== undefined ? ` = ${defaultValue}` : "";
   const makePrivate = isPrivate ? "private " : "public ";
   const makeNullable = nullable ? " | null" : "";
   const makeLateInit = defaultValue === undefined && !optional ? "!" : "";

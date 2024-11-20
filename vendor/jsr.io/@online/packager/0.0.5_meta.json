@@ -1,0 +1,101 @@
+{
+  "manifest": {
+    "/tests/pack-unpack.test.ts": {
+      "size": 1971,
+      "checksum": "sha256-e0dcd00b7a63f39bb5f2bf97f027aadc9311e095d14015f42ac2fb3eaa669afd"
+    },
+    "/deno.json": {
+      "size": 275,
+      "checksum": "sha256-adb1c7de6bef248e910526996231de6743dbc6d71b022fd0cc57b128e9bf58db"
+    },
+    "/NOAI": {
+      "size": 400,
+      "checksum": "sha256-4b32f3dabf66cdd4cf38e7a494f4070dca2f290ea4ed59443433850da97707a7"
+    },
+    "/deno.lock": {
+      "size": 1248,
+      "checksum": "sha256-ef309b0228197edd5ee972c456442a813a33cdbb05de4126b131e42262215df1"
+    },
+    "/mod.ts": {
+      "size": 2122,
+      "checksum": "sha256-8b21ace77aff2f4432578d1462e2264a1a4183a4eed463e01d9aa481f0e9a23e"
+    },
+    "/changelog": {
+      "size": 252,
+      "checksum": "sha256-97df838d0382be0748f94e7345c56fdb68ff2cc5021ac7ab78723451b03b833a"
+    },
+    "/LICENSE": {
+      "size": 1139,
+      "checksum": "sha256-072bba58403e7ebc1cea5ec8e96f8b98759f5ffe3215806720d82f74ac66a0e7"
+    }
+  },
+  "moduleGraph2": {
+    "/mod.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "importType",
+          "specifier": "jsr:/@online/tinyserializer@^0.0.9/types",
+          "specifierRange": [
+            [
+              6,
+              7
+            ],
+            [
+              6,
+              49
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:/@online/tinyserializer@^0.0.9/types",
+          "specifierRange": [
+            [
+              7,
+              34
+            ],
+            [
+              7,
+              76
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:@online/tinyserializer@^0.0.9",
+          "specifierRange": [
+            [
+              13,
+              7
+            ],
+            [
+              13,
+              42
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:@online/tinyserializers@^0.0.2",
+          "specifierRange": [
+            [
+              17,
+              7
+            ],
+            [
+              17,
+              43
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  "exports": {
+    ".": "./mod.ts"
+  }
+}

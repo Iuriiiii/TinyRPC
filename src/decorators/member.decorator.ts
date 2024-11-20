@@ -1,16 +1,12 @@
 import { Reflect } from "jsr:reflection";
 import { assert } from "jsr:assert";
 import type { Constructor } from "../types/mod.ts";
-import type {
-  MemberDecoratorOptions,
-  MemberMetadata,
-} from "../interfaces/mod.ts";
+import type { MemberDecoratorOptions, MemberMetadata } from "../interfaces/mod.ts";
 import { members } from "../singletons/mod.ts";
 
 // TODO: Add a member to force update the client-side member when the server-side member is updated
 // deno-lint-ignore no-explicit-any
 export function Member(options?: MemberDecoratorOptions): any {
-  console.log("src/decorators/member.decorator.ts:13->Member");
   return function (
     /**
      * The class decored.
@@ -25,7 +21,6 @@ export function Member(options?: MemberDecoratorOptions): any {
      */
     _index: number,
   ) {
-    console.log("src/decorators/member.decorator.ts:13->$Member");
     assert(
       typeof propertyKey !== "symbol",
       `The "Member" decorator does not works with symbols.`,

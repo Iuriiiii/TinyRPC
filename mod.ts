@@ -1,14 +1,13 @@
 import { STATUS_CODE } from "jsr:http";
-import {
-  getMiddlewareFunction,
-  instances,
-  isHttpException,
-  modules,
-  prepareFormdataRequest,
-} from "./src/mod.ts";
-import type { Middleware, ServerSettings } from "./src/mod.ts";
+import { getMiddlewareFunction, instances, isHttpException, modules, prepareFormdataRequest } from "./src/mod.ts";
+import type { Middleware, RpcRequest, ServerSettings } from "./src/mod.ts";
 import { compilePackage } from "./src/tools/mod.ts";
 import { finishFormdataRequest } from "./src/middlewares/mod.ts";
+import { Serializable, SerializableClass, type SerializedClass } from "@online/packager";
+
+export type { SerializedClass };
+export { Serializable, SerializableClass };
+
 const { serve } = Deno;
 
 /**
@@ -48,7 +47,7 @@ export class TinyRPC {
         try {
           const middlewareFn = getMiddlewareFunction(_middleware);
           const result = await middlewareFn({
-            request,
+            request: request as RpcRequest<object>,
             response,
             stop: () => (next = false),
             settings: param,
@@ -87,17 +86,6 @@ export class TinyRPC {
   }
 }
 
-export type {
-  MethodExtraOptions,
-  Middleware,
-  MiddlewareObject,
-} from "./src/mod.ts";
-export {
-  Export,
-  HttpError,
-  Member,
-  Module,
-  Param,
-  Structure,
-} from "./src/mod.ts";
+export type { MethodExtraOptions, Middleware, MiddlewareObject } from "./src/mod.ts";
+export { Export, HttpError, Member, Module, Param, Structure } from "./src/mod.ts";
 export { STATUS_CODE };

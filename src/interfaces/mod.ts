@@ -13,6 +13,6 @@ export * from "./structure-metadata.interface.ts";
 export * from "./member-metadata.interface.ts";
 export * from "./member-decorator-options.interface.ts";
 export * from "./method-extra-options.interface.ts";
-export * from "./formdata-rpc-request.interface.ts";
+export * from "./rpc-request.interface.ts";
 export * from "./middleware-param.interface.ts";
 export * from "./server-options.interface.ts";

@@ -3,7 +3,7 @@
   "version": "{{PROJECT_VERSION}}",
   "tasks": {},
   "imports": {
-    "@online/tinyrpc-sdk-core": "jsr:@online/tinyrpc-sdk-core@^0.1.5"
+    "@online/tinyrpc-sdk-core": "jsr:@online/tinyrpc-sdk-core@^0.1.8"
   },
   "compilerOptions": {
     "experimentalDecorators": true,

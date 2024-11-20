@@ -1,10 +1,5 @@
 import { modules, structures } from "../../singletons/mod.ts";
-import {
-  formatFolder,
-  randomString,
-  toFilename,
-  writeFile,
-} from "../../utils/mod.ts";
+import { formatFolder, randomString, toFilename, writeFile } from "../../utils/mod.ts";
 import type { ICompilerOptions } from "../interfaces/mod.ts";
 import { Runner } from "../runner/mod.ts";
 import { buildModule } from "./build-module.compile.ts";
@@ -58,9 +53,7 @@ export function compilePackage(options: ICompilerOptions) {
     step: () =>
       writeFile(
         `${structurePath}/mod.ts`,
-        structures.map((structure) =>
-          `export * from "./${toFilename(structure.name, "structure")}";`
-        ).join("\n"),
+        structures.map((structure) => `export * from "./${toFilename(structure.name, "structure")}";`).join("\n"),
       ),
   });
 
@@ -86,9 +79,7 @@ export function compilePackage(options: ICompilerOptions) {
     step: () =>
       writeFile(
         `${apiPath}/mod.ts`,
-        modules.map((module) =>
-          `export * from "./${toFilename(module.name, "api")}";`
-        ).join("\n"),
+        modules.map((module) => `export * from "./${toFilename(module.name, "api")}";`).join("\n"),
       ),
   });
 
@@ -96,19 +87,15 @@ export function compilePackage(options: ICompilerOptions) {
     name: `Bulding sdk mod.ts...`,
     step: () => {
       const modApi = modules.length ? 'export * from "./api/mod.ts";' : "";
-      const modStructures = structures.length
-        ? 'export * from "./structures/mod.ts";'
-        : "";
+      const modStructures = structures.length ? 'export * from "./structures/mod.ts";' : "";
 
       writeFile(
         `${path}/mod.ts`,
         [
           modApi,
           modStructures,
-          'import { configSdk } from "jsr:@online/tinyrpc-sdk-core";',
-          `configSdk({ host: "${
-            options.host ?? "http://127.0.0.1/"
-          }", https: false });`,
+          'import { configSdk } from "@online/tinyrpc-sdk-core";',
+          `configSdk({ host: "${options.host ?? "http://127.0.0.1/"}", https: false });`,
         ].join("\n"),
       );
     },
@@ -119,8 +106,6 @@ export function compilePackage(options: ICompilerOptions) {
     step: () => {
       sdkDenoJson.name = packageName.toLowerCase();
       sdkDenoJson.version = packageVersion;
-      sdkDenoJson.imports["@online/bigserializer"] =
-        denoJson.imports["@online/bigserializer"];
 
       writeFile(
         `${path}/deno.json`,

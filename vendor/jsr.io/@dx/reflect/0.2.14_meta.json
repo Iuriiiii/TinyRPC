@@ -1,0 +1,49 @@
+{
+  "manifest": {
+    "/Reflect.ts": {
+      "size": 42785,
+      "checksum": "sha256-fe5258ab6f7ff98b43a0c55f99a69473c34050c1d83c01fbd3096861ea37e748"
+    },
+    "/README.md": {
+      "size": 1801,
+      "checksum": "sha256-316708ccc705d717c88f9acf5d0f0a085d1e6091effc5a4524276a4a591976e5"
+    },
+    "/mod.ts": {
+      "size": 337,
+      "checksum": "sha256-f8e0280d0dcf26bd335d7fc4546cea8587edac0dc295ccf8a90ab4115ff4b89d"
+    },
+    "/deno.json": {
+      "size": 738,
+      "checksum": "sha256-47ce58ed10ffc884be579a96cf49e2b0c951e6d5326a04863c8952bb231c9cde"
+    },
+    "/LICENSE": {
+      "size": 9142,
+      "checksum": "sha256-a5e9f9b1575301c7a7a03508fdaa2e05a918cc17fd21c6e898096a96d6a34f61"
+    }
+  },
+  "moduleGraph2": {
+    "/Reflect.ts": {},
+    "/mod.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./Reflect.ts",
+          "specifierRange": [
+            [
+              0,
+              21
+            ],
+            [
+              0,
+              35
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  "exports": {
+    ".": "./mod.ts"
+  }
+}

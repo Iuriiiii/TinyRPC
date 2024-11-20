@@ -22,7 +22,6 @@ export function Export<
   param?: string | Partial<ExportDecoratorOptions<K>>,
   // deno-lint-ignore no-explicit-any
 ): any {
-  console.log("src/decorators/export.decorator.ts:21->Export");
   return function (
     /**
      * The class decored.
@@ -34,7 +33,6 @@ export function Export<
     propertyKey: string | symbol,
     descriptor: PropertyDescriptor,
   ) {
-    console.log("src/decorators/export.decorator.ts:21->$Export");
     const isOptions = isExportDecoratorOptions<K>(param);
     const methodName = isOptions ? param.name : param;
     // @ts-ignore: Array access.

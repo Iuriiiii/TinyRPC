@@ -1,15 +1,10 @@
 import { STATUS_CODE } from "jsr:http";
 import { HttpError, isPostRequest } from "../mod.ts";
 import { getClassByName } from "../utils/mod.ts";
-import type {
-  FormdataRpcRequest,
-  MiddlewareParam,
-  ModuleMetadata,
-} from "../interfaces/mod.ts";
+import type { MiddlewareParam, ModuleMetadata, RpcRequest } from "../interfaces/mod.ts";
 import type { Constructor } from "../types/mod.ts";
-import { type Database, deserialize } from "@online/tinyserializer";
-import { uInt8ArrayDeserializer } from "@online/tinyserializers";
-import type { ContentBody, ResponseBody } from "@online/tinyrpc-sdk-core";
+import type { ContentBody } from "@online/tinyrpc-sdk-core";
+import { unpack } from "@online/packager";
 
 /**
  * Prepare request middleware, check JSON and creates "rpc" object.
@@ -43,25 +38,7 @@ export async function prepareFormdataRequest(
     }
   })();
 
-  const { value: deserializedBody } = deserialize<ResponseBody>(body, {
-    deserializers: [uInt8ArrayDeserializer],
-  });
-  const { value: deserializedObjectDatabase } = deserialize<Database<object>>(
-    deserializedBody.O,
-    { deserializers: [uInt8ArrayDeserializer] },
-  );
-  const { value: deserializedStringDatabase } = deserialize<Database<string>>(
-    deserializedBody.S,
-    { deserializers: [uInt8ArrayDeserializer] },
-  );
-  const { value: deserializedContentBody } = deserialize<ContentBody>(
-    deserializedBody.X,
-    {
-      deserializers: [uInt8ArrayDeserializer],
-      objectDatabase: deserializedObjectDatabase,
-      stringDatabase: deserializedStringDatabase,
-    },
-  );
+  const deserializedContentBody = unpack<ContentBody>(body);
   const args = deserializedContentBody["&"];
   const client = deserializedContentBody["%"];
   const [moduleName, methodName] = deserializedContentBody["$"].split(".");
@@ -71,9 +48,7 @@ export async function prepareFormdataRequest(
     throw new HttpError(STATUS_CODE.BadRequest, "Module not found");
   }
 
-  const methodMetadata = moduleMetadata.methods.find((method) =>
-    method.name === methodName
-  );
+  const methodMetadata = moduleMetadata.methods.find((method) => method.name === methodName);
 
   if (!methodMetadata) {
     throw new HttpError(STATUS_CODE.BadRequest, "Method not found");
@@ -100,7 +75,7 @@ export async function prepareFormdataRequest(
       arguments: args as Record<string, unknown>,
       pushableArguments,
       client,
-    } satisfies FormdataRpcRequest["rpc"],
+    } satisfies RpcRequest["rpc"],
     writable: false,
   });
 }

@@ -18,7 +18,7 @@ export function buildStructure(structure: StructureMetadata) {
   const membersObject = memberNames.map((memberName) => `${memberName}: this.${memberName}`).join(",\n");
 
   const output = `
-import { Serializable, SerializableClass, SerializedClass } from "@online/tinyrpc-sdk-core";
+import { Serializable, SerializableClass, SerializedClass } from "@tinyrpc/sdk-core";
 ${compiledImports}
 
 @Serializable()

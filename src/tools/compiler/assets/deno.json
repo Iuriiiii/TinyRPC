@@ -3,8 +3,8 @@
   "version": "{{PROJECT_VERSION}}",
   "tasks": {},
   "imports": {
-    "@online/tinyrpc-sdk-core": "jsr:@online/tinyrpc-sdk-core@^0.1.x",
-    "@online/tiniyserializers": "jsr:@online/tiniyserializers@^0.0.x"
+    "@tinyrpc/sdk-core": "jsr:@tinyrpc/sdk-core@^0.1.x",
+    "@online/tinyserializers": "jsr:@online/tinyserializers@^0.0.x"
   },
   "compilerOptions": {
     "experimentalDecorators": true,

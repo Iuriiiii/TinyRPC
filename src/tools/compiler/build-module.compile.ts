@@ -27,7 +27,7 @@ import {
   RequestBody,
   rawRpc as rpc,
   MapStructure
-} from "@online/tinyrpc-sdk-core";
+} from "@tinyrpc/sdk-core";
 ${compiledImportPath}
 ${buildedInterfaces}
 

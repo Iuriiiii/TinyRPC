@@ -1,6 +1,6 @@
 {
   "name": "@tinyrpc/server",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "tasks": {
     "test": "deno test -A ./tests/1-compiler.test.ts && deno test -A ./tests/2-api.test.ts"
   },
@@ -18,7 +18,7 @@
     "emitDecoratorMetadata": true
   },
   "fmt": {
-    "lineWidth": 300,
+    "lineWidth": 200,
     "singleQuote": false,
     "semiColons": true
   }

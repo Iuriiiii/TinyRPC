@@ -51,9 +51,7 @@ export function Param(
     );
 
     if (single) {
-      const nameAlreadyExists = params.find((param) =>
-        param.name === paramName
-      );
+      const nameAlreadyExists = params.find((param) => param.name === paramName);
 
       assert(!nameAlreadyExists, `Param "${paramName}" already exists.`);
     }
@@ -64,7 +62,7 @@ export function Param(
         dataType: type ?? paramtypes[index],
         index,
         single,
-        name: paramName,
+        name: paramName ?? `p${params.length}`,
         optional,
       } satisfies ParameterMetadata,
     );

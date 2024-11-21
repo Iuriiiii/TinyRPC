@@ -1,36 +1,39 @@
 import { Reflect } from "jsr:reflection";
 import { methods, params } from "../singletons/mod.ts";
-import type { Constructor } from "../types/mod.ts";
+import type { Constructor, PickMembers } from "../types/mod.ts";
 import type { ExportDecoratorOptions } from "../interfaces/mod.ts";
 import { assert } from "jsr:assert";
 
-function isExportDecoratorOptions(
-  param?: string | Partial<ExportDecoratorOptions>,
-): param is Partial<ExportDecoratorOptions> {
+function isExportDecoratorOptions<T extends object>(
+  param?: string | Partial<ExportDecoratorOptions<T>>,
+): param is Partial<ExportDecoratorOptions<T>> {
   return typeof param === "object";
 }
 
 /**
  * Makes a method available for remote calls.
- * @param param {string} The name of the method.
+ * @param {string | Partial<ExportDecoratorOptions>} param Name or options of the method.
  */
-export function Export(
-  param?: string | Partial<ExportDecoratorOptions>,
+export function Export<
+  // deno-lint-ignore ban-types
+  T extends object = {},
+  K extends object = PickMembers<T>,
+>(
+  param?: string | Partial<ExportDecoratorOptions<K>>,
   // deno-lint-ignore no-explicit-any
 ): any {
   return function (
     /**
      * The class decored.
      */
-    // deno-lint-ignore no-explicit-any
-    target: any,
+    target: Constructor,
     /**
      * The current method.
      */
     propertyKey: string | symbol,
     descriptor: PropertyDescriptor,
   ) {
-    const isOptions = isExportDecoratorOptions(param);
+    const isOptions = isExportDecoratorOptions<K>(param);
     const methodName = isOptions ? param.name : param;
     // @ts-ignore: Array access.
     const methodTarget = target[propertyKey];
@@ -59,7 +62,7 @@ export function Export(
     assert(
       returnType !== undefined,
       `
-The "Export" decorator requires an explicit return type: ${target.constructor.name}.${methodTarget.name}.
+The "Export" decorator requires an explicit return type on ${target.constructor.name}.${methodTarget.name}.
 Only native datatypes and serializable classes are supported.
       `.trim(),
     );
@@ -69,6 +72,8 @@ Only native datatypes and serializable classes are supported.
       params: [...params],
       returnType,
       generics: isOptions ? param.generics : void 0,
+      // @ts-ignore: Irrelevant type error
+      links: isOptions ? param.links : void 0,
     });
     params.length = 0;
   };

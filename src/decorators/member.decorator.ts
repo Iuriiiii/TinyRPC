@@ -1,12 +1,10 @@
 import { Reflect } from "jsr:reflection";
 import { assert } from "jsr:assert";
 import type { Constructor } from "../types/mod.ts";
-import type {
-  MemberDecoratorOptions,
-  MemberMetadata,
-} from "../interfaces/mod.ts";
+import type { MemberDecoratorOptions, MemberMetadata } from "../interfaces/mod.ts";
 import { members } from "../singletons/mod.ts";
 
+// TODO: Add a member to force update the client-side member when the server-side member is updated
 // deno-lint-ignore no-explicit-any
 export function Member(options?: MemberDecoratorOptions): any {
   return function (
@@ -48,6 +46,7 @@ export function Member(options?: MemberDecoratorOptions): any {
         nullable: options?.nullable,
         private: options?.private ?? false,
         readonly: options?.readonly ?? false,
+        autoSync: options?.autoSync ?? false,
       } satisfies MemberMetadata,
     );
   };

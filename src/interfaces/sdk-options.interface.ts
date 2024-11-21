@@ -1,3 +1,6 @@
+/**
+ * General SDK generation options.
+ */
 export interface SdkOptions {
   /**
    * The path to the package.json file.

@@ -34,4 +34,10 @@ export interface MemberMetadata {
    * Whether the member is readonly or not.
    */
   readonly?: boolean;
+
+  /**
+   * Sync this value on SDK module instance when this member is returned
+   * by an exported method.
+   */
+  autoSync?: boolean;
 }

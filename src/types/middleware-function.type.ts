@@ -1,8 +1,6 @@
-import type { NextMiddleware } from "./next-middleware.type.ts";
+import type { MiddlewareParam } from "../interfaces/mod.ts";
 import type { TypeAndPromise } from "./type-and-promise.type.ts";
 
 export type MiddlewareFunction = (
-  request: Request,
-  response: Response,
-  next: NextMiddleware,
+  param: MiddlewareParam,
 ) => TypeAndPromise<Response | void>;

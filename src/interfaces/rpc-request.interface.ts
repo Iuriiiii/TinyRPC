@@ -1,12 +1,19 @@
 import type { Constructor } from "../types/mod.ts";
-import type { RpcRequestBody } from "./rpc-request-body.interface.ts";
 
-export interface RpcRequest extends Request {
+export interface RpcRequest<T extends object = object> extends Request {
   rpc: {
     // deno-lint-ignore ban-types
     procedure: Function;
     clazz: Constructor;
-    arguments: unknown[];
-    body: RpcRequestBody;
+    /**
+     * The arguments received from the client.
+     * In object format.
+     */
+    arguments: Record<string, unknown>;
+    /**
+     * Array of arguments, ready for .call or .apply.
+     */
+    pushableArguments: unknown[];
+    client: T;
   };
 }

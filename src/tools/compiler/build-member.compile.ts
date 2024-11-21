@@ -15,15 +15,13 @@ export function buildMember(member: MemberMetadata, buildImports: string[]) {
     dataType,
   );
   const makeOptional = optional ? "?" : "";
-  const makeDefaultValue = defaultValue !== undefined
-    ? ` = ${defaultValue}`
-    : "";
-  const makePrivate = isPrivate ? "private #" : "public ";
+  const makeDefaultValue = defaultValue !== undefined ? ` = ${defaultValue}` : "";
+  const makePrivate = isPrivate ? "private " : "public ";
   const makeNullable = nullable ? " | null" : "";
   const makeLateInit = defaultValue === undefined && !optional ? "!" : "";
   const makeReadonly = readonly ? "readonly " : "";
 
-  if (requireImport) {
+  if (requireImport && !buildImports.includes(buildType)) {
     buildImports.push(buildType);
   }
 

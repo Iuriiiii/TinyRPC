@@ -1,9 +1,8 @@
 import { modules, structures } from "../../singletons/mod.ts";
-import { randomString, toFilename } from "../../utils/mod.ts";
+import { formatFolder, randomString, toFilename, writeFile } from "../../utils/mod.ts";
 import type { ICompilerOptions } from "../interfaces/mod.ts";
 import { Runner } from "../runner/mod.ts";
 import { buildModule } from "./build-module.compile.ts";
-import { buildUtils } from "./build-utils.compile.ts";
 import sdkDenoJson from "./assets/deno.json" with { type: "json" };
 import { buildStructure } from "./build-structure.compile.ts";
 
@@ -16,21 +15,6 @@ function createPackageFolder(path: string) {
   Deno.mkdirSync(path);
 }
 
-function writeFile(path: string, content: string) {
-  try {
-    Deno.writeTextFileSync(path, content, {
-      append: false,
-      create: true,
-      createNew: true,
-    });
-  } catch (error) {
-    console.warn(
-      `Error writting file "${path}", content length: ${content.length}`,
-    );
-    throw error;
-  }
-}
-
 export function compilePackage(options: ICompilerOptions) {
   const runner = new Runner("package-compiler");
   const {
@@ -38,7 +22,6 @@ export function compilePackage(options: ICompilerOptions) {
     name: packageName = `tinyrpc-sdk-${randomString()}`,
     version: packageVersion = "0.1.0",
   } = options.sdk ?? {};
-  const utilsPath = `${path}/utils`;
   const apiPath = `${path}/api`;
   const structurePath = `${path}/structures`;
 
@@ -48,24 +31,7 @@ export function compilePackage(options: ICompilerOptions) {
   });
 
   runner.addStep({
-    name: "Creating utils folder...",
-    step: () => createPackageFolder(utilsPath),
-  });
-
-  runner.addStep({
-    name: "Creating util files...",
-    step: () =>
-      writeFile(`${utilsPath}/rpc.util.ts`, buildUtils(options?.host)),
-  });
-
-  runner.addStep({
-    name: `Bulding utils mod.ts...`,
-    step: () =>
-      writeFile(`${utilsPath}/mod.ts`, 'export * from "./rpc.util.ts";'),
-  });
-
-  runner.addStep({
-    name: "Creating structure folder...",
+    name: "Creating structures folder...",
     step: () => createPackageFolder(structurePath),
   });
 
@@ -86,9 +52,7 @@ export function compilePackage(options: ICompilerOptions) {
     step: () =>
       writeFile(
         `${structurePath}/mod.ts`,
-        structures.map((structure) =>
-          `export * from "./${toFilename(structure.name, "structure")}";`
-        ).join("\n"),
+        structures.map((structure) => `export * from "./${toFilename(structure.name, "structure")}";`).join("\n"),
       ),
   });
 
@@ -114,9 +78,7 @@ export function compilePackage(options: ICompilerOptions) {
     step: () =>
       writeFile(
         `${apiPath}/mod.ts`,
-        modules.map((module) =>
-          `export * from "./${toFilename(module.name, "api")}";`
-        ).join("\n"),
+        modules.map((module) => `export * from "./${toFilename(module.name, "api")}";`).join("\n"),
       ),
   });
 
@@ -124,10 +86,17 @@ export function compilePackage(options: ICompilerOptions) {
     name: `Bulding sdk mod.ts...`,
     step: () => {
       const modApi = modules.length ? 'export * from "./api/mod.ts";' : "";
+      const modStructures = structures.length ? 'export * from "./structures/mod.ts";' : "";
 
       writeFile(
         `${path}/mod.ts`,
-        [modApi].join("\n"),
+        [
+          modApi,
+          modStructures,
+          'import { configSdk } from "@online/tinyrpc-sdk-core";',
+          'import { dateSerializer, dateDeserializer } from "@online/tinyserializers";',
+          `configSdk({ host: "${options.host ?? "http://127.0.0.1/"}", https: false, serializers: [dateSerializer], deserializers: [dateDeserializer] });`,
+        ].join("\n"),
       );
     },
   });
@@ -135,7 +104,7 @@ export function compilePackage(options: ICompilerOptions) {
   runner.addStep({
     name: "Bulding deno.json...",
     step: () => {
-      sdkDenoJson.name = packageName;
+      sdkDenoJson.name = packageName.toLowerCase();
       sdkDenoJson.version = packageVersion;
 
       writeFile(
@@ -143,6 +112,11 @@ export function compilePackage(options: ICompilerOptions) {
         JSON.stringify(sdkDenoJson, null, 4),
       );
     },
+  });
+
+  runner.addStep({
+    name: "Format code",
+    step: () => formatFolder(path),
   });
 
   return runner.run(true);

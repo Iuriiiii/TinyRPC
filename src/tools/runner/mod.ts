@@ -24,9 +24,7 @@ export class Runner {
         console.warn(`Error at step "${name}"`);
 
         if (stopOnError) {
-          const message = error instanceof Error
-            ? error.message
-            : "No report error";
+          const message = error instanceof Error ? error.message : "No report error";
 
           throw new Error(
             `Runner "${this.name}" stopped, error at step "${name}": ${message}`,

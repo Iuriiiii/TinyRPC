@@ -1,4 +1,4 @@
-export interface RpcRequestBody {
+export interface RpcRequestBody<T = object> {
   /**
    * Module
    */
@@ -11,4 +11,6 @@ export interface RpcRequestBody {
    * Arguments
    */
   args: object[];
+
+  mbr: T;
 }

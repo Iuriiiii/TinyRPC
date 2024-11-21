@@ -1,14 +1,13 @@
 import { STATUS_CODE } from "jsr:http";
-import {
-  finishRequest,
-  getMiddlewareFunction,
-  instances,
-  isHttpException,
-  modules,
-  prepareRequest,
-} from "./src/mod.ts";
-import type { Middleware, ServerSettings } from "./src/mod.ts";
+import { getMiddlewareFunction, instances, isHttpException, modules, prepareFormdataRequest } from "./src/mod.ts";
+import type { Middleware, RpcRequest, ServerSettings } from "./src/mod.ts";
 import { compilePackage } from "./src/tools/mod.ts";
+import { finishFormdataRequest } from "./src/middlewares/mod.ts";
+import { Serializable, SerializableClass, type SerializedClass } from "@online/packager";
+
+export type { SerializedClass };
+export { Serializable, SerializableClass };
+
 const { serve } = Deno;
 
 /**
@@ -17,38 +16,42 @@ const { serve } = Deno;
  */
 function prepareClasses() {
   for (const module of modules) {
-    const instance = new module.constructor();
-    instances.set(instance, module.name);
-    instances.set(module.name, instance);
+    module.instance = new module.constructor();
+    instances.set(module.name, module);
+    instances.set(module, module.name);
   }
 }
 
+/**
+ * TinyRPC main class.
+ */
 export class TinyRPC {
-  static start({
-    sdk,
-    middlewares = [],
-    server = {},
-  }: Partial<ServerSettings> = {}) {
+  /**
+   * Starts an HTTP(s) server to start processing RPC requests.
+   */
+  static start(param: Partial<ServerSettings> = {}): Deno.HttpServer<Deno.NetAddr> {
+    const { sdk, middlewares = [], server = {} } = param;
     prepareClasses();
 
     const _middlewares = [
-      prepareRequest,
+      prepareFormdataRequest,
       ...middlewares,
-      finishRequest,
+      finishFormdataRequest,
     ] as Middleware[];
 
     const _server = serve(server, async function (request: Request) {
       let response = new Response();
+      let next = true;
 
       for (const _middleware of _middlewares) {
         try {
-          let next = false;
           const middlewareFn = getMiddlewareFunction(_middleware);
-          const result = await middlewareFn(
-            request,
+          const result = await middlewareFn({
+            request: request as RpcRequest<object>,
             response,
-            () => (next = true),
-          );
+            stop: () => (next = false),
+            settings: param,
+          });
 
           if (result instanceof Response) {
             response = result;
@@ -58,13 +61,14 @@ export class TinyRPC {
             break;
           }
         } catch (error) {
-          // TODO: Improve this!
           if (isHttpException(error)) {
             return new Response(error.message, { status: error.errorCode });
           }
 
+          console.error(error);
+
           // @ts-ignore: Return message
-          return new Response(error.description || error.message, {
+          return new Response(error.message ?? error.description ?? null, {
             status: STATUS_CODE.InternalServerError,
           });
         }
@@ -79,8 +83,11 @@ export class TinyRPC {
         host: `${_server.addr.hostname}:${_server.addr.port}`,
       });
     }
+
+    return _server;
   }
 }
 
-export type { Middleware, MiddlewareObject } from "./src/mod.ts";
-export { Export, Module, Param } from "./src/mod.ts";
+export type { MethodExtraOptions, Middleware, MiddlewareObject } from "./src/mod.ts";
+export { Export, HttpError, Member, Module, Param, Structure } from "./src/mod.ts";
+export { STATUS_CODE };

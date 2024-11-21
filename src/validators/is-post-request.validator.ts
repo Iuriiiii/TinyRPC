@@ -1,3 +1,3 @@
 export function isPostRequest(request: Request) {
-  return request.method.toUpperCase() === "POST";
+  return request.method === "POST";
 }

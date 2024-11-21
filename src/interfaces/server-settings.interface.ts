@@ -6,7 +6,7 @@ import type { ServerOptions } from "./server-options.interface.ts";
  * RPC Server settings.
  */
 export interface ServerSettings {
-  server: ServerOptions;
+  server: Partial<ServerOptions>;
   sdk: Partial<SdkOptions>;
   middlewares: Middleware[];
 }

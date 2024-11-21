@@ -1,3 +1,11 @@
+# 0.1.11
+
+Export `SdkOptions`
+
+# 0.1.10
+
+Export `SdkOptions`
+
 # 0.1.9
 
 Replace project name and import the sdk core correctly

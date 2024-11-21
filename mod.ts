@@ -94,6 +94,6 @@ export class TinyRPC {
   }
 }
 
-export type { Compiler, CompilerOptions, MethodExtraOptions, Middleware, MiddlewareObject, SdkOptions, ServerMetadata } from "./src/mod.ts";
+export type { Compiler, CompilerInformation, CompilerOptions, MethodExtraOptions, Middleware, MiddlewareObject, SdkOptions, ServerMetadata } from "./src/mod.ts";
 export { Export, HttpError, Member, Module, Param, Structure } from "./src/mod.ts";
 export { STATUS_CODE };

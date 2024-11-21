@@ -3,7 +3,7 @@ import { HttpError, isPostRequest } from "../mod.ts";
 import { getClassByName } from "../utils/mod.ts";
 import type { MiddlewareParam, ModuleMetadata, RpcRequest } from "../interfaces/mod.ts";
 import type { Constructor } from "../types/mod.ts";
-import type { ContentBody } from "@online/tinyrpc-sdk-core";
+import type { ContentBody } from "@tinyrpc/sdk-core";
 import { unpack } from "@online/packager";
 import { dateDeserializer } from "@online/tinyserializers";
 

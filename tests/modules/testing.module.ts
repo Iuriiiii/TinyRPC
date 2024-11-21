@@ -9,7 +9,7 @@ class Location extends SerializableClass {
     return {
       arguments: [],
       members: {
-        coountry: this.country,
+        country: this.country,
       },
     };
   }
@@ -51,12 +51,19 @@ export class Testing {
   @Member({ private: true, autoSync: true })
   clientValue!: number;
 
-  @Export<Testing>({ links: ["clientValue"] })
-  howAreYou(
-    @Param() _param1: string,
-    _options: MethodExtraOptions<Testing>,
-  ): string {
+  @Export()
+  howAreYou(@Param() _param1: string): string {
     return "OK";
+  }
+
+  @Export<Testing>({ returnType: "void", links: ["clientValue"] })
+  updateClientValue(@Param() value: number) {
+    this.clientValue = value;
+  }
+
+  @Export<Testing>({ links: ["clientValue"] })
+  getClientValue(): number {
+    return this.clientValue;
   }
 
   @Export()

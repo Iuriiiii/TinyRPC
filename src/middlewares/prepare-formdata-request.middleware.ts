@@ -5,6 +5,7 @@ import type { MiddlewareParam, ModuleMetadata, RpcRequest } from "../interfaces/
 import type { Constructor } from "../types/mod.ts";
 import type { ContentBody } from "@online/tinyrpc-sdk-core";
 import { unpack } from "@online/packager";
+import { dateDeserializer } from "@online/tinyserializers";
 
 /**
  * Prepare request middleware, check JSON and creates "rpc" object.
@@ -38,7 +39,7 @@ export async function prepareFormdataRequest(
     }
   })();
 
-  const deserializedContentBody = unpack<ContentBody>(body);
+  const deserializedContentBody = unpack<ContentBody>(body, { deserializers: [dateDeserializer] });
   const args = deserializedContentBody["&"];
   const client = deserializedContentBody["%"];
   const [moduleName, methodName] = deserializedContentBody["$"].split(".");

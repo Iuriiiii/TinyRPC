@@ -1,0 +1,6 @@
+# 0.1.8
+
+Change JSON data transfer with raw data transfer
+Change `BigSerializer` module with `TinySerializer`
+Implement `Packager` to decode and encode data
+Changed license to `Restricted Use License`

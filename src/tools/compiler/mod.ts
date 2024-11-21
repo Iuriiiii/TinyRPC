@@ -95,7 +95,8 @@ export function compilePackage(options: ICompilerOptions) {
           modApi,
           modStructures,
           'import { configSdk } from "@online/tinyrpc-sdk-core";',
-          `configSdk({ host: "${options.host ?? "http://127.0.0.1/"}", https: false });`,
+          'import { dateSerializer, dateDeserializer } from "@online/tinyserializers";',
+          `configSdk({ host: "${options.host ?? "http://127.0.0.1/"}", https: false, serializers: [dateSerializer], deserializers: [dateDeserializer] });`,
         ].join("\n"),
       );
     },

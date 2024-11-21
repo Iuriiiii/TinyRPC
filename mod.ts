@@ -1,9 +1,9 @@
 import { STATUS_CODE } from "jsr:http";
-import { getMiddlewareFunction, instances, isHttpException, modules, prepareFormdataRequest } from "./src/mod.ts";
+import { getMiddlewareFunction, isHttpException, prepareFormdataRequest } from "./src/mod.ts";
 import type { Middleware, RpcRequest, ServerSettings } from "./src/mod.ts";
-import { compilePackage } from "./src/tools/mod.ts";
 import { finishFormdataRequest } from "./src/middlewares/mod.ts";
 import { Serializable, SerializableClass, type SerializedClass } from "@online/packager";
+import { instances, modules, structures } from "./src/singletons/mod.ts";
 
 export type { SerializedClass };
 export { Serializable, SerializableClass };
@@ -65,8 +65,6 @@ export class TinyRPC {
             return new Response(error.message, { status: error.errorCode });
           }
 
-          console.error(error);
-
           // @ts-ignore: Return message
           return new Response(error.message ?? error.description ?? null, {
             status: STATUS_CODE.InternalServerError,
@@ -78,16 +76,24 @@ export class TinyRPC {
     });
 
     if (!sdk?.doNotGenerate) {
-      compilePackage({
-        sdk,
-        host: `${_server.addr.hostname}:${_server.addr.port}`,
-      });
+      const compilers = sdk?.compilers ?? [];
+
+      for (const { name: compilerName, compiler } of compilers) {
+        compiler({
+          sdkOptions: sdk,
+          metadata: {
+            instances,
+            modules,
+            structures,
+          },
+        }).catch(() => console.error(`Error compiling with ${compilerName}.`));
+      }
     }
 
     return _server;
   }
 }
 
-export type { MethodExtraOptions, Middleware, MiddlewareObject } from "./src/mod.ts";
+export type { Compiler, CompilerOptions, MethodExtraOptions, Middleware, MiddlewareObject, SdkOptions, ServerMetadata } from "./src/mod.ts";
 export { Export, HttpError, Member, Module, Param, Structure } from "./src/mod.ts";
 export { STATUS_CODE };

@@ -16,3 +16,6 @@ export * from "./method-extra-options.interface.ts";
 export * from "./rpc-request.interface.ts";
 export * from "./middleware-param.interface.ts";
 export * from "./server-options.interface.ts";
+export * from "./compiler-options.interface.ts";
+export * from "./compiler-information.interface.ts";
+export * from "./server-metadata.interface.ts";

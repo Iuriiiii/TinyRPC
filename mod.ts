@@ -80,6 +80,7 @@ export class TinyRPC {
 
       for (const { name: compilerName, compiler } of compilers) {
         compiler({
+          server,
           sdkOptions: sdk,
           metadata: {
             instances,

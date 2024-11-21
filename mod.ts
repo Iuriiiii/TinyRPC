@@ -29,7 +29,7 @@ export class TinyRPC {
   /**
    * Starts an HTTP(s) server to start processing RPC requests.
    */
-  static start(param: Partial<ServerSettings> = {}) {
+  static start(param: Partial<ServerSettings> = {}): Deno.HttpServer<Deno.NetAddr> {
     const { sdk, middlewares = [], server = {} } = param;
     prepareClasses();
 

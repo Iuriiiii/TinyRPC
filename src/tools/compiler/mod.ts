@@ -5,7 +5,6 @@ import { Runner } from "../runner/mod.ts";
 import { buildModule } from "./build-module.compile.ts";
 import sdkDenoJson from "./assets/deno.json" with { type: "json" };
 import { buildStructure } from "./build-structure.compile.ts";
-import denoJson from "../../../deno.json" with { type: "json" };
 
 function createPackageFolder(path: string) {
   try {

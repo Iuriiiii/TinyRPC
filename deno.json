@@ -17,11 +17,6 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
-  "lint": {
-    "rules": {
-      "line-width": 300
-    }
-  },
   "fmt": {
     "lineWidth": 300,
     "singleQuote": false,

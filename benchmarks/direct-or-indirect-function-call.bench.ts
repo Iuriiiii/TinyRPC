@@ -6,7 +6,7 @@ function doSomething2(arg: number) {
   return arg + 1;
 }
 
-const value = 33;
+const _value = 33;
 
 Deno.bench("Direct function call", () => {
   doSomething2(doSomething(1));

@@ -1,3 +1,4 @@
+import { Serializable, SerializableClass } from "@online/packager";
 import { members, methods, modules } from "../singletons/mod.ts";
 import type { Constructor } from "../types/mod.ts";
 
@@ -11,6 +12,10 @@ import type { Constructor } from "../types/mod.ts";
 // deno-lint-ignore no-explicit-any
 export function Module(moduleName?: string): any {
   return function (target: Constructor) {
+    if (target.prototype instanceof SerializableClass) {
+      Serializable()(target);
+    }
+
     modules.push({
       constructor: target,
       name: target.name,

@@ -5,10 +5,12 @@ export interface MemberMetadata {
    * Name of the member to be used on the SDK.
    */
   name: string;
+
   /**
    * Whether the member is optional or not.
    */
   optional: boolean;
+
   /**
    * Data type of the member.
    * If string, it will be hardcoded to the param type.
@@ -40,4 +42,10 @@ export interface MemberMetadata {
    * by an exported method.
    */
   autoSync?: boolean;
+
+  /**
+   * Set member as constructor param, value will be used as param
+   * position.
+   */
+  constructorParam?: number;
 }

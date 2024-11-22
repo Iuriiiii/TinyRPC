@@ -10,9 +10,7 @@ import type { Constructor } from "../types/mod.ts";
  */
 // deno-lint-ignore no-explicit-any
 export function Module(moduleName?: string): any {
-  console.log("src/decorators/module.decorator.ts:13->Module");
   return function (target: Constructor) {
-    console.log("src/decorators/module.decorator.ts:13->$Module");
     modules.push({
       constructor: target,
       name: target.name,

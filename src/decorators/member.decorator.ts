@@ -47,6 +47,7 @@ export function Member(options?: MemberDecoratorOptions): any {
         private: options?.private ?? false,
         readonly: options?.readonly ?? false,
         autoSync: options?.autoSync ?? false,
+        constructorParam: options?.constructorParam,
       } satisfies MemberMetadata,
     );
   };

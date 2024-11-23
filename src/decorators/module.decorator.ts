@@ -16,7 +16,7 @@ export function Module(moduleName?: string): any {
     if (target.prototype instanceof SerializableClass) {
       const preserveMembers = [...members];
       Structure()(target);
-      members.concat(...preserveMembers);
+      members.push(...preserveMembers);
     }
 
     modules.push({

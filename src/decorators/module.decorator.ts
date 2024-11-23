@@ -14,7 +14,9 @@ import { Structure } from "./structure.decorator.ts";
 export function Module(moduleName?: string): any {
   return function (target: Constructor) {
     if (target.prototype instanceof SerializableClass) {
+      const preserveMembers = [...members];
       Structure()(target);
+      members.concat(...preserveMembers);
     }
 
     modules.push({

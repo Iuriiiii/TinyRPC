@@ -1,6 +1,7 @@
-import { Serializable, SerializableClass } from "@online/packager";
+import { SerializableClass } from "@online/packager";
 import { members, methods, modules } from "../singletons/mod.ts";
 import type { Constructor } from "../types/mod.ts";
+import { Structure } from "./structure.decorator.ts";
 
 /**
  * Defines a module.
@@ -13,7 +14,7 @@ import type { Constructor } from "../types/mod.ts";
 export function Module(moduleName?: string): any {
   return function (target: Constructor) {
     if (target.prototype instanceof SerializableClass) {
-      Serializable()(target);
+      Structure()(target);
     }
 
     modules.push({

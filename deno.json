@@ -6,7 +6,7 @@
   },
   "exports": {
     ".": "./mod.ts",
-    "./classes": "./classes/mod.ts"
+    "./classes": "./src/classes/mod.ts"
   },
   "imports": {
     "@online/packager": "jsr:@online/packager@^0.0.x",

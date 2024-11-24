@@ -1,5 +1,4 @@
-import type { Constructor } from "../types/constructor.type.ts";
-import type { MapStructure } from "../types/mod.ts";
+import type { DataType, MapStructure } from "../types/mod.ts";
 
 export interface ExportDecoratorOptions<T extends object = object> {
   /**
@@ -10,7 +9,7 @@ export interface ExportDecoratorOptions<T extends object = object> {
    * The return type to use in the SDK.
    * If this member is an string, the return type is hardcoded.
    */
-  returnType: Constructor | string | [unknown] | (() => unknown);
+  returnType: DataType;
   /**
    * The generics that this method has.
    * It will be included in the SDK.

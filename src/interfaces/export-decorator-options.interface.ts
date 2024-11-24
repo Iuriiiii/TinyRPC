@@ -10,7 +10,7 @@ export interface ExportDecoratorOptions<T extends object = object> {
    * The return type to use in the SDK.
    * If this member is an string, the return type is hardcoded.
    */
-  returnType: Constructor | string;
+  returnType: Constructor | string | [unknown] | (() => unknown);
   /**
    * The generics that this method has.
    * It will be included in the SDK.

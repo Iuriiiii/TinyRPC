@@ -71,7 +71,7 @@ export class Testing {
     return param1 + param2;
   }
 
-  @Export()
+  @Export({ returnType: [Number] })
   getObject(): object {
     return { a: 1, b: "hola" };
   }

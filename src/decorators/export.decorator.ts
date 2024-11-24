@@ -49,6 +49,18 @@ export function Export<
 
     const returnType = (() => {
       if (isOptions && param.returnType) {
+        if (
+          param.returnType instanceof Function &&
+          typeof param.returnType === "function" &&
+          param.returnType.constructor.name === "Function"
+        ) {
+          // @ts-ignore: Call function to get the return type
+          return param.returnType() as unknown;
+        } else if (param.returnType instanceof Array) {
+          // @ts-ignore: Call function to get the return type
+          return param.returnType[0] as Array;
+        }
+
         return param.returnType;
       }
 
@@ -59,6 +71,7 @@ export function Export<
       ) as Constructor | undefined;
     })();
 
+    assert(!isOptions && returnType !== Promise, `For promise responses the "returnType" option is required.`);
     assert(
       returnType !== undefined,
       `

@@ -1,10 +1,13 @@
 {
   "name": "@tinyrpc/server",
-  "version": "0.1.19",
+  "version": "0.1.20",
   "tasks": {
     "test": "deno test -A ./tests/1-compiler.test.ts && deno test -A ./tests/2-api.test.ts"
   },
-  "exports": "./mod.ts",
+  "exports": {
+    ".": "./mod.ts",
+    "./classes": "./src/classes/mod.ts"
+  },
   "imports": {
     "@online/packager": "jsr:@online/packager@^0.0.x",
     "@tinyrpc/sdk-core": "jsr:@tinyrpc/sdk-core@^0.1.x",

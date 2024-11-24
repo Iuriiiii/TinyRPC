@@ -59,7 +59,7 @@ export function Export<
       ) as Constructor | undefined;
     })();
 
-    assert(!isOptions && returnType !== Promise, `For promise responses the "returnType" option is required.`);
+    assert(!isOptions && returnType === Promise, `For promise responses the "returnType" option is required.`);
     assert(
       returnType !== undefined,
       `

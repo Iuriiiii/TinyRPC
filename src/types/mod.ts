@@ -6,3 +6,4 @@ export * from "./middleware-function.type.ts";
 export * from "./pick-members.type.ts";
 export * from "./map-structure.type.ts";
 export * from "./compiler.type.ts";
+export * from "./datatype.type.ts";

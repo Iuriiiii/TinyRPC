@@ -99,6 +99,7 @@ export type {
   Compiler,
   CompilerInformation,
   CompilerOptions,
+  DataType,
   MemberMetadata,
   MethodExtraOptions,
   MethodMetadata,

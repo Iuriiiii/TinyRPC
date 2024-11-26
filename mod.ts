@@ -1,4 +1,4 @@
-import { STATUS_CODE } from "jsr:http";
+import { STATUS_CODE } from "@std/http";
 import { getMiddlewareFunction, isHttpException, prepareFormdataRequest } from "./src/mod.ts";
 import type { Middleware, RpcRequest, ServerSettings } from "./src/mod.ts";
 import { finishFormdataRequest } from "./src/middlewares/mod.ts";
@@ -31,13 +31,9 @@ export class TinyRPC {
    */
   static start(param: Partial<ServerSettings> = {}): Deno.HttpServer<Deno.NetAddr> {
     const { sdk, middlewares = [], server = {} } = param;
-    prepareClasses();
+    const _middlewares = [prepareFormdataRequest, ...middlewares, finishFormdataRequest] as Middleware[];
 
-    const _middlewares = [
-      prepareFormdataRequest,
-      ...middlewares,
-      finishFormdataRequest,
-    ] as Middleware[];
+    prepareClasses();
 
     const _server = serve(server, async function (request: Request) {
       let response = new Response();
@@ -66,9 +62,7 @@ export class TinyRPC {
           }
 
           // @ts-ignore: Return message
-          return new Response(error.message ?? error.description ?? null, {
-            status: STATUS_CODE.InternalServerError,
-          });
+          return new Response(error.message ?? error.description ?? null, { status: STATUS_CODE.InternalServerError });
         }
       }
 

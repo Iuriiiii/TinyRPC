@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-unused-vars
-import { assert } from "jsr:assert";
+import { assert } from "@std/assert";
 
 class A {
 }

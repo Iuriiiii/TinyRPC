@@ -17,3 +17,4 @@ export * from "./read-file.util.ts";
 export * from "./copy-file.util.ts";
 export * from "./string-to-uid.util.ts";
 export * from "./object-to-uid.util.ts";
+export * from "./get-param-name.util.ts";

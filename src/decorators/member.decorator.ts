@@ -1,5 +1,5 @@
-import { Reflect } from "jsr:reflection";
-import { assert } from "jsr:assert";
+import { Reflect } from "@dx/reflect";
+import { assert } from "@std/assert";
 import type { Constructor } from "../types/mod.ts";
 import type { MemberDecoratorOptions, MemberMetadata } from "../interfaces/mod.ts";
 import { members } from "../singletons/mod.ts";

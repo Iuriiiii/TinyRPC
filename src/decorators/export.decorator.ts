@@ -1,8 +1,8 @@
-import { Reflect } from "jsr:reflection";
+import { Reflect } from "@dx/reflect";
 import { methods, params } from "../singletons/mod.ts";
 import type { Constructor, PickMembers } from "../types/mod.ts";
 import type { ExportDecoratorOptions } from "../interfaces/mod.ts";
-import { assert } from "jsr:assert";
+import { assert } from "@std/assert";
 
 function isExportDecoratorOptions<T extends object>(
   param?: string | Partial<ExportDecoratorOptions<T>>,
@@ -34,29 +34,19 @@ export function Export<
     descriptor: PropertyDescriptor,
   ) {
     const isOptions = isExportDecoratorOptions<K>(param);
-    const methodName = isOptions ? param.name : param;
+    const methodName = (isOptions ? param.name : param) || descriptor.value.name;
     // @ts-ignore: Array access.
     const methodTarget = target[propertyKey];
 
-    assert(
-      methodTarget instanceof Function,
-      `The "Export" decorator is for methods only.`,
-    );
-    assert(
-      typeof propertyKey !== "symbol",
-      `The "Export" decorator does not works with symbols.`,
-    );
+    assert(methodTarget instanceof Function, `The "Export" decorator is for methods only.`);
+    assert(typeof propertyKey !== "symbol", `The "Export" decorator does not works with symbols.`);
 
     const returnType = (() => {
       if (isOptions && param.returnType) {
         return param.returnType;
       }
 
-      return Reflect.getMetadata(
-        "design:returntype",
-        target,
-        propertyKey,
-      ) as Constructor | undefined;
+      return Reflect.getMetadata("design:returntype", target, propertyKey) as Constructor | undefined;
     })();
 
     assert(returnType !== Promise, `For promise responses the "returnType" option is required and needs to be different to a promise.`);
@@ -69,7 +59,7 @@ Only native datatypes and serializable classes are supported.
     );
 
     methods.push({
-      name: methodName ?? descriptor.value.name,
+      name: methodName,
       params: [...params],
       returnType,
       generics: isOptions ? param.generics : void 0,

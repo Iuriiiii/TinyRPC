@@ -1,4 +1,4 @@
-import { assert, assertInstanceOf, assertObjectMatch } from "jsr:assert";
+import { assert, assertInstanceOf, assertObjectMatch } from "@std/assert";
 import { runServer } from "./utils.ts";
 import { Testing, User } from "./sdk/mod.ts";
 import { Location } from "./sdk/structures/location.structure.ts";

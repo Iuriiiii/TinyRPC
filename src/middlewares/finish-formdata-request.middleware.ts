@@ -1,4 +1,4 @@
-import { STATUS_CODE } from "jsr:http";
+import { STATUS_CODE } from "@std/http";
 import type { MethodExtraOptions, MiddlewareParam } from "../interfaces/mod.ts";
 import { pack } from "@online/packager";
 import { dateSerializer } from "@online/tinyserializers";
@@ -11,13 +11,7 @@ export async function finishFormdataRequest(
   { request }: MiddlewareParam,
 ) {
   const { procedure, pushableArguments: args, clazz, client } = request.rpc;
-  const result = (await procedure.call(
-    clazz,
-    ...args,
-    { request, client } satisfies MethodExtraOptions<unknown>,
-  )) ?? {};
-
-  // TODO: The packets sent by the server can't be unpacked by the client.
+  const result = (await procedure.call(clazz, ...args, { request, client } satisfies MethodExtraOptions<unknown>)) ?? {};
   const packed = pack({ result, updates: client }, { serializers: [dateSerializer] });
 
   return new Response(packed, {

@@ -1,4 +1,4 @@
-import { Reflect } from "jsr:reflection";
+import { Reflect } from "@dx/reflect";
 
 /**
  * Declares a class as an interface to be used within a controller.

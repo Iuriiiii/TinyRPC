@@ -1,8 +1,9 @@
-import { Reflect } from "jsr:reflection";
+import { Reflect } from "@dx/reflect";
 import type { ParamDecoratorOptions } from "../mod.ts";
 import { params } from "../singletons/mod.ts";
-import { assert } from "jsr:assert";
+import { assert } from "@std/assert";
 import type { ParameterMetadata } from "../interfaces/mod.ts";
+import { getParamName } from "../utils/mod.ts";
 
 function isParamOptions(
   item?: string | Partial<ParamDecoratorOptions>,
@@ -34,36 +35,26 @@ export function Param(
      */
     index: number,
   ) {
+    // @ts-ignore: Array access.
+    // deno-lint-ignore ban-types
+    const methodTarget: Function = target[propertyKey];
     const isOptions = isParamOptions(paramNameOrOptions);
-    const paramName = isOptions ? paramNameOrOptions.name : paramNameOrOptions;
+    const paramName = (isOptions ? paramNameOrOptions.name : paramNameOrOptions) || getParamName(methodTarget, index) || `p${params.length}`;
     const optional = isOptions ? paramNameOrOptions.optional : void 0;
-    const type = isOptions ? paramNameOrOptions.dataType : void 0;
-    const single = paramName !== undefined && paramName.length > 0;
-
-    if (typeof paramName === "string") {
-      assert(paramName.length > 0, "Param name expected.");
-    }
-
-    const paramtypes = Reflect.getMetadata(
+    const paramTypes = Reflect.getMetadata(
       "design:paramtypes",
       target,
       propertyKey,
     );
 
-    if (single) {
-      const nameAlreadyExists = params.find((param) => param.name === paramName);
-
-      assert(!nameAlreadyExists, `Param "${paramName}" already exists.`);
-    }
+    assert(paramName.length > 0, "Param name expected.");
 
     params.push(
       {
-        // @ts-ignore: Array access.
-        dataType: type ?? paramtypes[index],
         index,
-        single,
-        name: paramName ?? `p${params.length}`,
         optional,
+        name: paramName,
+        dataType: (isOptions ? paramNameOrOptions.dataType : void 0) ?? paramTypes[index],
       } satisfies ParameterMetadata,
     );
   };

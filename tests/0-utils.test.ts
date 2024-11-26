@@ -1,4 +1,4 @@
-import { assert } from "jsr:assert";
+import { assert } from "@std/assert";
 import { randomString, stringToUID } from "../src/utils/mod.ts";
 
 function randomToggleCase(input: string): string {

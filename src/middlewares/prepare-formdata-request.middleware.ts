@@ -1,4 +1,4 @@
-import { STATUS_CODE } from "jsr:http";
+import { STATUS_CODE } from "@std/http";
 import { HttpError, isPostRequest } from "../mod.ts";
 import { getClassByName } from "../utils/mod.ts";
 import type { MiddlewareParam, ModuleMetadata, RpcRequest } from "../interfaces/mod.ts";
@@ -18,24 +18,17 @@ export async function prepareFormdataRequest(
   }
 
   const contentType = request.headers.get("content-type");
-  const isNotApplicationRaw = typeof contentType !== "string" ||
-    !contentType.startsWith("application/raw");
+  const isNotApplicationRaw = typeof contentType !== "string" || !contentType.startsWith("application/raw");
 
   if (isNotApplicationRaw) {
-    throw new HttpError(
-      STATUS_CODE.UnsupportedMediaType,
-      "Unsupported media type",
-    );
+    throw new HttpError(STATUS_CODE.UnsupportedMediaType, "Unsupported media type");
   }
 
   const body = await (async () => {
     try {
       return await request.bytes();
     } catch {
-      throw new HttpError(
-        STATUS_CODE.UnprocessableEntity,
-        "Invalid request body",
-      );
+      throw new HttpError(STATUS_CODE.UnprocessableEntity, "Invalid request body");
     }
   })();
 

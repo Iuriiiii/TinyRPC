@@ -1,4 +1,4 @@
-import { assert } from "jsr:assert";
+import { assert } from "@std/assert";
 import { runServer } from "./utils.ts";
 
 const exists = async (filename: string): Promise<boolean> => {

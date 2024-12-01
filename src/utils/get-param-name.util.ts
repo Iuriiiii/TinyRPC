@@ -1,5 +1,5 @@
 // deno-lint-ignore-file ban-types
-import { isUndefined } from "jsr:@online/is@0.0";
+import { isUndefined } from "@online/is";
 
 export function getParamName(value: Function, index: number): string;
 export function getParamName(value: Function, index?: number): string[];
@@ -10,5 +10,19 @@ export function getParamName(value: Function, index?: number) {
     .split(",")
     .map((param) => param.trim());
 
-  return !isUndefined(index) ? params[index] : params;
+  if (isUndefined(index)) {
+    return params;
+  }
+
+  const argument = params[index];
+
+  if (isUndefined(argument)) {
+    return;
+  }
+
+  if (argument.startsWith("{")) {
+    return;
+  }
+
+  return argument;
 }

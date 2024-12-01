@@ -47,8 +47,8 @@ export async function prepareFormdataRequest(
 
   const pushableArguments: unknown[] = methodMetadata.params
     // @ts-ignore: Ignore any
-    .map(({ name: paramName }) => args[paramName!])
-    .reverse();
+    .map(({ name: paramName }) => args[paramName!]);
+
   const clazzInstance: Constructor = moduleMetadata.instance ?? new moduleMetadata.constructor(...constructorArguments);
   // TODO: Add an option to able a class to be created each time the method is called
   // @ts-ignore: Get class method with index name.

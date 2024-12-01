@@ -1,6 +1,6 @@
 {
   "name": "@tinyrpc/server",
-  "version": "0.1.28",
+  "version": "0.1.29",
   "tasks": {
     "test": "deno test -A ./tests/1-compiler.test.ts && deno test -A ./tests/2-api.test.ts"
   },
@@ -8,7 +8,7 @@
     ".": "./mod.ts"
   },
   "imports": {
-    "@online/is": "jsr:@online/is@^0.0.2",
+    "@online/is": "jsr:@online/is@^0.0.x",
     "@online/packager": "jsr:@online/packager@^0.0.x",
     "@tinyrpc/sdk-core": "jsr:@tinyrpc/sdk-core@^0.1.x",
     "@online/tinyserializers": "jsr:@online/tinyserializers@^0.0.x",

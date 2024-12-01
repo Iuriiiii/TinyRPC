@@ -4,6 +4,7 @@ import type { Middleware, RpcRequest, ServerSettings } from "./src/mod.ts";
 import { finishFormdataRequest } from "./src/middlewares/mod.ts";
 import { Serializable, SerializableClass, type SerializedClass } from "@online/packager";
 import { instances, modules, structures } from "./src/singletons/mod.ts";
+import { isUndefined } from "jsr:@online/is@0.0";
 
 export type { SerializedClass };
 export { Serializable, SerializableClass };
@@ -12,11 +13,17 @@ const { serve } = Deno;
 
 /**
  * Create instances of all classes to be used
- * on requests.
+ * on requests, just if those classes has no constructor
+ * arguments
  */
 function prepareClasses() {
   for (const module of modules) {
-    module.instance = new module.constructor();
+    const isSomeMemberAConstructorArgument = module.members.some((member) => !isUndefined(member.constructorParam));
+
+    if (!isSomeMemberAConstructorArgument) {
+      module.instance = new module.constructor();
+    }
+
     instances.set(module.name, module);
     instances.set(module, module.name);
   }
@@ -27,7 +34,7 @@ function prepareClasses() {
  */
 export class TinyRPC {
   /**
-   * Starts an HTTP(s) server to start processing RPC requests.
+   * Starts an HTTP(s) server to start processing RPC requests
    */
   static start(param: Partial<ServerSettings> = {}): Deno.HttpServer<Deno.NetAddr> {
     const { sdk, middlewares = [], server = {} } = param;

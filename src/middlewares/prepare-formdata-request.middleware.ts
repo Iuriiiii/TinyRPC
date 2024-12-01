@@ -6,7 +6,6 @@ import type { Constructor } from "../types/mod.ts";
 import type { ContentBody } from "@tinyrpc/sdk-core";
 import { unpack } from "@online/packager";
 import { dateDeserializer } from "@online/tinyserializers";
-import { modules } from "../singletons/mod.ts";
 
 /**
  * Prepare request middleware, check JSON and creates "rpc" object.

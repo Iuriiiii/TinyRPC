@@ -6,6 +6,7 @@ import type { Constructor } from "../types/mod.ts";
 import type { ContentBody } from "@tinyrpc/sdk-core";
 import { unpack } from "@online/packager";
 import { dateDeserializer } from "@online/tinyserializers";
+import { modules } from "../singletons/mod.ts";
 
 /**
  * Prepare request middleware, check JSON and creates "rpc" object.
@@ -24,18 +25,15 @@ export async function prepareFormdataRequest(
     throw new HttpError(STATUS_CODE.UnsupportedMediaType, "Unsupported media type");
   }
 
-  const body = await (async () => {
-    try {
-      return await request.bytes();
-    } catch {
-      throw new HttpError(STATUS_CODE.UnprocessableEntity, "Invalid request body");
-    }
-  })();
+  const body = await request.bytes().catch(() => {
+    throw new HttpError(STATUS_CODE.UnprocessableEntity, "Invalid request body");
+  });
 
-  const deserializedContentBody = unpack<ContentBody>(body, { deserializers: [dateDeserializer] });
-  const args = deserializedContentBody["&"];
-  const client = deserializedContentBody["%"];
-  const [moduleName, methodName] = deserializedContentBody["$"].split(".");
+  const deserializedBody = unpack<ContentBody>(body, { deserializers: [dateDeserializer] });
+  const args = deserializedBody["&"];
+  const client = deserializedBody["%"];
+  const constructorArguments = deserializedBody["="];
+  const [moduleName, methodName] = deserializedBody["$"].split(".");
   const moduleMetadata = getClassByName(moduleName) as ModuleMetadata | null;
 
   if (moduleMetadata === null) {
@@ -52,8 +50,7 @@ export async function prepareFormdataRequest(
     // @ts-ignore: Ignore any
     .map(({ name: paramName }) => args[paramName!])
     .reverse();
-  const clazzInstance = moduleMetadata.instance as Constructor;
-
+  const clazzInstance: Constructor = moduleMetadata.instance ?? new moduleMetadata.constructor(...constructorArguments);
   // TODO: Add an option to able a class to be created each time the method is called
   // @ts-ignore: Get class method with index name.
   const procedure: (...args: unknown[]) => unknown = clazzInstance[methodName];

@@ -1,3 +1,7 @@
+# 0.1.27
+
+Use received client arguments to construct local modules
+
 # 0.1.17
 
 Serializable modules may be added to structures

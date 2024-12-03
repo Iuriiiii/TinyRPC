@@ -1,3 +1,10 @@
+# 0.2.1
+
+Rename `Structure` decorator to `Expose`
+Create `expose` function to process enums and other kind of datatypes (in future...)
+Improved types for decorators
+Export types from `type.ts` as `/types`
+
 # 0.1.27
 
 Use received client arguments to construct local modules

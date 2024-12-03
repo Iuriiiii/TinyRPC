@@ -5,7 +5,8 @@
     "test": "deno test -A ./tests/1-compiler.test.ts && deno test -A ./tests/2-api.test.ts"
   },
   "exports": {
-    ".": "./mod.ts"
+    ".": "./mod.ts",
+    "./types": "./types.ts"
   },
   "imports": {
     "@online/is": "jsr:@online/is@^0.0.x",

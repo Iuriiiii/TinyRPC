@@ -16,11 +16,7 @@ export function getParamName(value: Function, index?: number) {
 
   const argument = params[index];
 
-  if (isUndefined(argument)) {
-    return;
-  }
-
-  if (argument.startsWith("{")) {
+  if (isUndefined(argument) || argument.startsWith("{")) {
     return;
   }
 

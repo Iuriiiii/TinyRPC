@@ -1,6 +1,6 @@
 {
   "name": "@tinyrpc/server",
-  "version": "0.1.29",
+  "version": "0.2.1",
   "tasks": {
     "test": "deno test -A ./tests/1-compiler.test.ts && deno test -A ./tests/2-api.test.ts"
   },

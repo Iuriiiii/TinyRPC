@@ -1,12 +1,12 @@
 import { Reflect } from "@dx/reflect";
 import { assert } from "@std/assert";
-import type { Constructor } from "../types/mod.ts";
+import type { Constructor, MemberDecorator } from "../types/mod.ts";
 import type { MemberDecoratorOptions, MemberMetadata } from "../interfaces/mod.ts";
 import { members } from "../singletons/mod.ts";
+import { isUndefined } from "@online/is";
 
 // TODO: Add a member to force update the client-side member when the server-side member is updated
-// deno-lint-ignore no-explicit-any
-export function Member(options?: MemberDecoratorOptions): any {
+export function Member(options?: MemberDecoratorOptions): MemberDecorator {
   return function (
     /**
      * The class decored.
@@ -22,6 +22,13 @@ export function Member(options?: MemberDecoratorOptions): any {
     _index: number,
   ) {
     assert(
+      !isUndefined(target),
+      `
+The "Member" decorator can't read the class information.
+Did you enable decorators on your project?
+    `.trim(),
+    );
+    assert(
       typeof propertyKey !== "symbol",
       `The "Member" decorator does not works with symbols.`,
     );
@@ -33,7 +40,7 @@ export function Member(options?: MemberDecoratorOptions): any {
     ) as Constructor | undefined;
 
     assert(
-      dataType !== undefined,
+      !isUndefined(dataType),
       `The "Member" decorator is for methods only.`,
     );
 

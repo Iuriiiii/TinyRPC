@@ -112,5 +112,5 @@ export type {
   ServerMetadata,
   StructureMetadata,
 } from "./src/mod.ts";
-export { Export, HttpError, Member, Module, Param, Structure } from "./src/mod.ts";
+export { Export, Expose, HttpError, Member, Module, Param } from "./src/mod.ts";
 export { STATUS_CODE };

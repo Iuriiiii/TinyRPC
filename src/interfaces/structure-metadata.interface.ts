@@ -5,4 +5,5 @@ export interface StructureMetadata {
   name: string;
   constructor: Constructor;
   members: MemberMetadata[];
+  isInterface: boolean;
 }

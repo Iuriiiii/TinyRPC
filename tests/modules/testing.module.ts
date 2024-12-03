@@ -1,6 +1,6 @@
-import { Export, Member, Module, Param, SerializableClass, type SerializedClass, Structure } from "../../mod.ts";
+import { Export, Expose, Member, Module, Param, SerializableClass, type SerializedClass } from "../../mod.ts";
 
-@Structure()
+@Expose()
 class Location extends SerializableClass {
   @Member({ optional: true })
   country!: string;
@@ -15,7 +15,7 @@ class Location extends SerializableClass {
   }
 }
 
-@Structure()
+@Expose()
 class User extends SerializableClass {
   @Member({ optional: true })
   id!: number;

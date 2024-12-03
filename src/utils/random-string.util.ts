@@ -1,4 +1,4 @@
-export function randomString(length: number = 10): string {
+export function randomString(length = 10): string {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   const charactersLength = characters.length;
   let result = "";

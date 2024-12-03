@@ -1,12 +1,11 @@
+import type { Middleware, RpcRequest, ServerSettings } from "./src/mod.ts";
 import { STATUS_CODE } from "@std/http";
 import { getMiddlewareFunction, isHttpException, prepareFormdataRequest } from "./src/mod.ts";
-import type { Middleware, RpcRequest, ServerSettings } from "./src/mod.ts";
 import { finishFormdataRequest } from "./src/middlewares/mod.ts";
-import { Serializable, SerializableClass, type SerializedClass } from "@online/packager";
+import { Serializable, SerializableClass } from "@online/packager";
 import { instances, modules, structures } from "./src/singletons/mod.ts";
-import { isUndefined } from "jsr:@online/is@0.0";
+import { isUndefined } from "jsr:@online/is";
 
-export type { SerializedClass };
 export { Serializable, SerializableClass };
 
 const { serve } = Deno;
@@ -96,21 +95,5 @@ export class TinyRPC {
   }
 }
 
-export type {
-  Compiler,
-  CompilerInformation,
-  CompilerOptions,
-  DataType,
-  MemberMetadata,
-  MethodExtraOptions,
-  MethodMetadata,
-  Middleware,
-  MiddlewareObject,
-  ModuleMetadata,
-  ParameterMetadata,
-  SdkOptions,
-  ServerMetadata,
-  StructureMetadata,
-} from "./src/mod.ts";
-export { Export, HttpError, Member, Module, Param, Structure } from "./src/mod.ts";
+export { Export, Expose, HttpError, Member, Module, Param } from "./src/mod.ts";
 export { STATUS_CODE };

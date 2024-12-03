@@ -1,13 +1,12 @@
+import type { ParamDecorator } from "../types/mod.ts";
+import type { ParamDecoratorOptions, ParameterMetadata } from "../interfaces/mod.ts";
 import { Reflect } from "@dx/reflect";
-import type { ParamDecoratorOptions } from "../mod.ts";
 import { params } from "../singletons/mod.ts";
 import { assert } from "@std/assert";
-import type { ParameterMetadata } from "../interfaces/mod.ts";
 import { getParamName } from "../utils/mod.ts";
+import { isUndefined } from "@online/is";
 
-function isParamOptions(
-  item?: string | Partial<ParamDecoratorOptions>,
-): item is Partial<ParamDecoratorOptions> {
+function isParamOptions(item?: string | Partial<ParamDecoratorOptions>): item is Partial<ParamDecoratorOptions> {
   return typeof item === "object";
 }
 
@@ -17,10 +16,7 @@ function isParamOptions(
  *
  * @param paramNameOrOptions
  */
-export function Param(
-  paramNameOrOptions?: string | Partial<ParamDecoratorOptions>,
-  // deno-lint-ignore no-explicit-any
-): any {
+export function Param(paramNameOrOptions?: string | Partial<ParamDecoratorOptions>): ParamDecorator {
   return function (
     /**
      * The class decored.
@@ -35,6 +31,13 @@ export function Param(
      */
     index: number,
   ) {
+    assert(
+      !isUndefined(target),
+      `
+The "Param" decorator can't read the class information.
+Did you enable decorators on your project?
+    `.trim(),
+    );
     // @ts-ignore: Array access.
     // deno-lint-ignore ban-types
     const methodTarget: Function = target[propertyKey];

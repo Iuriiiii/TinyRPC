@@ -1,8 +1,9 @@
+import type { ExportDecoratorOptions } from "../interfaces/mod.ts";
+import type { Constructor, MethodDecorator, PickMembers } from "../types/mod.ts";
 import { Reflect } from "@dx/reflect";
 import { methods, params } from "../singletons/mod.ts";
-import type { Constructor, PickMembers } from "../types/mod.ts";
-import type { ExportDecoratorOptions } from "../interfaces/mod.ts";
 import { assert } from "@std/assert";
+import { isUndefined } from "@online/is";
 
 function isExportDecoratorOptions<T extends object>(
   param?: string | Partial<ExportDecoratorOptions<T>>,
@@ -18,10 +19,7 @@ export function Export<
   // deno-lint-ignore ban-types
   T extends object = {},
   K extends object = PickMembers<T>,
->(
-  param?: string | Partial<ExportDecoratorOptions<K>>,
-  // deno-lint-ignore no-explicit-any
-): any {
+>(param?: string | Partial<ExportDecoratorOptions<K>>): MethodDecorator {
   return function (
     /**
      * The class decored.
@@ -33,6 +31,14 @@ export function Export<
     propertyKey: string | symbol,
     descriptor: PropertyDescriptor,
   ) {
+    assert(
+      !isUndefined(target),
+      `
+The "Export" decorator can't read the class information.
+Did you enable decorators on your project?
+    `.trim(),
+    );
+
     const isOptions = isExportDecoratorOptions<K>(param);
     const methodName = (isOptions ? param.name : param) || descriptor.value.name;
     // @ts-ignore: Array access.
@@ -51,7 +57,7 @@ export function Export<
 
     assert(returnType !== Promise, `For promise responses the "returnType" option is required and needs to be different to a promise.`);
     assert(
-      returnType !== undefined,
+      !isUndefined(returnType),
       `
 The "Export" decorator requires an explicit return type on ${target.constructor.name}.${methodTarget.name}.
 Only native datatypes and serializable classes are supported.

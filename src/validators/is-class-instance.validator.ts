@@ -1,4 +1,4 @@
-import { isObject } from "./is-object.validator.ts";
+import { isObject } from "@online/is";
 
 export function isClassInstance(value: unknown): value is object {
   return (

@@ -19,3 +19,5 @@ export * from "./server-options.interface.ts";
 export * from "./compiler-options.interface.ts";
 export * from "./compiler-information.interface.ts";
 export * from "./server-metadata.interface.ts";
+export * from "./expose-decorator-options.interface.ts";
+export * from "./expose-param.interface.ts";

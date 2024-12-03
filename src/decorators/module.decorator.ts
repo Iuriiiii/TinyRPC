@@ -1,7 +1,9 @@
+import type { ClassDecorator, Constructor } from "../types/mod.ts";
 import { SerializableClass } from "@online/packager";
 import { members, methods, modules } from "../singletons/mod.ts";
-import type { Constructor } from "../types/mod.ts";
-import { Structure } from "./structure.decorator.ts";
+import { Expose } from "./expose.decorator.ts";
+import { assert } from "@std/assert";
+import { isUndefined } from "@online/is";
 
 /**
  * Defines a module.
@@ -10,12 +12,19 @@ import { Structure } from "./structure.decorator.ts";
  *
  * @param moduleName {string} The name of the module, this name will be used to identify the module on the client.
  */
-// deno-lint-ignore no-explicit-any
-export function Module(moduleName?: string): any {
+export function Module(moduleName?: string): ClassDecorator {
   return function (target: Constructor) {
+    assert(
+      !isUndefined(target),
+      `
+The "Module" decorator can't read the class information.
+Did you enable decorators on your project?
+    `.trim(),
+    );
+
     if (target.prototype instanceof SerializableClass) {
       const preserveMembers = [...members];
-      Structure()(target);
+      Expose()(target);
       members.push(...preserveMembers);
     }
 

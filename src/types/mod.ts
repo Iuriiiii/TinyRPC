@@ -7,3 +7,7 @@ export * from "./pick-members.type.ts";
 export * from "./map-structure.type.ts";
 export * from "./compiler.type.ts";
 export * from "./datatype.type.ts";
+export * from "./class-decorator.type.ts";
+export * from "./method-decorator.type.ts";
+export * from "./param-decorator.type.ts";
+export * from "./member-decorator.type.ts";

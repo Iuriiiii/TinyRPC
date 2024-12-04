@@ -1,5 +1,5 @@
-import { isPlainObject } from "@online/is";
 import type { ExposeParam } from "../interfaces/mod.ts";
+import { isPlainObject } from "@online/is";
 import { enums } from "../singletons/mod.ts";
 
 export function expose<T extends object>({ enum: _enum, schema, as: name }: ExposeParam<T>): T {
@@ -9,13 +9,13 @@ export function expose<T extends object>({ enum: _enum, schema, as: name }: Expo
     throw new Error(`Either "enum" or "schema" must be provided.`);
   } else if (objects.length > 1) {
     throw new Error(`Only one of "enum" or "schema" can be provided.`);
-  } else if (enums.has(name)) {
+  } else if (enums.some((_enum) => _enum.name === name)) {
     throw new Error(`Enum "${name}" already exposed.`);
   } else if (_enum && !isPlainObject(_enum)) {
     throw new Error("Enum must be an enum object.");
   }
 
   const exposable = objects[0]!;
-  enums.set(name, exposable);
+  enums.push({ name, value: exposable });
   return exposable;
 }

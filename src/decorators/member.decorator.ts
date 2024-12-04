@@ -16,10 +16,6 @@ export function Member(options?: MemberDecoratorOptions): MemberDecorator {
      * The current method.
      */
     propertyKey: string | symbol,
-    /**
-     * The param index.
-     */
-    _index: number,
   ) {
     assert(
       !isUndefined(target),

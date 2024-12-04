@@ -1,1 +1,1 @@
-export type MemberDecorator = (target: unknown, propertyKey: string | symbol, index: number) => void;
+export type MemberDecorator = (target: unknown, propertyKey: string | symbol) => void;

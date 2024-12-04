@@ -3,7 +3,7 @@ import { STATUS_CODE } from "@std/http";
 import { getMiddlewareFunction, isHttpException, prepareFormdataRequest } from "./src/mod.ts";
 import { finishFormdataRequest } from "./src/middlewares/mod.ts";
 import { Serializable, SerializableClass } from "@online/packager";
-import { exposes, instances, modules, structures } from "./src/singletons/mod.ts";
+import { enums, instances, modules, structures } from "./src/singletons/mod.ts";
 import { isUndefined } from "@online/is";
 
 export { Serializable, SerializableClass };
@@ -86,7 +86,7 @@ export class TinyRPC {
             instances,
             modules,
             structures,
-            exposes,
+            enums,
           },
         }).catch(() => console.error(`Error compiling with ${compilerName}.`));
       }

@@ -1,3 +1,7 @@
+# 0.2.4
+
+Export `expose` function
+
 # 0.2.3
 
 Rename `exposes` singleton to `enums`

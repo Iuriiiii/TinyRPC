@@ -1,4 +1,4 @@
-import { Export, Expose, Member, Module, Param, SerializableClass, type SerializedClass } from "../../mod.ts";
+import { Export, ExposeMetadata, Member, Module, Param, SerializableClass, type SerializedClass } from "../../mod.ts";
 
 @Expose()
 class Location extends SerializableClass {

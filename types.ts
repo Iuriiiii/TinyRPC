@@ -3,6 +3,7 @@ export type {
   CompilerInformation,
   CompilerOptions,
   DataType,
+  EnumMetadata,
   MemberMetadata,
   MethodExtraOptions,
   MethodMetadata,

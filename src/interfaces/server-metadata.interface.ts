@@ -5,4 +5,5 @@ export interface ServerMetadata {
   instances: Map<string | ModuleMetadata, string | ModuleMetadata>;
   modules: ModuleMetadata[];
   structures: StructureMetadata[];
+  exposes: Map<string | object, string | object>;
 }

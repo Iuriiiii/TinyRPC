@@ -1,7 +1,7 @@
 import type { ClassDecorator, Constructor } from "../types/mod.ts";
 import type { ExposeDecoratorOptions } from "../interfaces/mod.ts";
 import { members, structures } from "../singletons/mod.ts";
-import { Serializable } from "@online/packager";
+import { Serializable, SerializableClass } from "@online/packager";
 import { assert } from "@std/assert";
 import { isUndefined } from "@online/is";
 import { getClassExtension, getStructure } from "../utils/mod.ts";
@@ -20,7 +20,7 @@ Did you enable decorators on your project?
     const className = target.name;
     const extensionName = getClassExtension(target);
 
-    if (extensionName) {
+    if (extensionName && extensionName !== SerializableClass.name) {
       const extensionStructure = getStructure(extensionName);
 
       assert(extensionStructure, `The class "${className}" extends a non exposed type: "${extensionName}".`);

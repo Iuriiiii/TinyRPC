@@ -1,4 +1,4 @@
-import type { Constructor } from "../types/mod.ts";
+import type { DataType } from "../../types.ts";
 
 export interface MemberMetadata {
   /**
@@ -15,7 +15,7 @@ export interface MemberMetadata {
    * Data type of the member.
    * If string, it will be hardcoded to the param type.
    */
-  dataType: Constructor | string | object;
+  dataType: DataType;
 
   /**
    * Default value of the member.

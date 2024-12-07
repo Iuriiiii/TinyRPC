@@ -58,7 +58,7 @@ Did you enable decorators on your project?
         optional,
         name: paramName,
         dataType: (isOptions ? paramNameOrOptions.dataType : void 0) ?? paramTypes[index],
-      } satisfies ParameterMetadata,
+      },
     );
   };
 }

@@ -1,4 +1,4 @@
-# 0.2.11
+# 0.2.12
 
 Avoid util types to assign members
 Check if a module or exposed type is extending a non-exposed type

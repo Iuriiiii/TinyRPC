@@ -4,7 +4,7 @@ import type { TypedClass } from "../interfaces/mod.ts";
 import type { ArrayToIntersection, DeleteMembersByType } from "../types/mod.ts";
 import { assert } from "@std/assert";
 import { isUndefined } from "@online/is";
-import { getClassName, getStructure, safePath } from "../../utils/mod.ts";
+import { getClassName, getStructure, safePatch } from "../../utils/mod.ts";
 import { SerializableClass } from "@online/packager";
 
 // deno-lint-ignore ban-types
@@ -18,7 +18,7 @@ export function partialType<T extends Constructor[]>(...types: T): PartialTypeRe
       super();
       for (const type of types) {
         const instance = new type();
-        safePath(this, instance);
+        safePatch(this, instance);
       }
     }
   }

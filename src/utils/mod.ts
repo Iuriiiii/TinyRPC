@@ -9,4 +9,4 @@ export * from "./get-param-name.util.ts";
 export * from "./expose.util.ts";
 export * from "./get-module.util.ts";
 export * from "./get-structure.util.ts";
-export * from "./safe-path.util.ts";
+export * from "./safe-patch.util.ts";

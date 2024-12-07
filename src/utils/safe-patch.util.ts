@@ -1,6 +1,6 @@
 import { isUndefined } from "@online/is";
 
-export function safePath(target: object, ...sources: object[]) {
+export function safePatch(target: object, ...sources: object[]) {
   for (const source of sources) {
     const nonUndefinedSourceKeys = Object.getOwnPropertyNames(source)
       // @ts-ignore: Key access.

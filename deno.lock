@@ -104,7 +104,7 @@
   "workspace": {
     "dependencies": [
       "jsr:@dx/reflect@~0.2.14",
-      "jsr:@online/is@^0.0.2",
+      "jsr:@online/is@0.0",
       "jsr:@online/packager@0.0",
       "jsr:@online/tinyserializers@0.0",
       "jsr:@std/assert@^1.0.6",

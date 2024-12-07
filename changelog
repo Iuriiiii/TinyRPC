@@ -1,3 +1,11 @@
+# 0.2.7
+
+Added `/utils` exports!
+Added `intersectionType` utility
+Added `partialType` utility
+Added `cleanPartialType` utility
+Better `Constructor` definition
+
 # 0.2.4
 
 Export `expose` function

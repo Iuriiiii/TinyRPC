@@ -6,6 +6,7 @@ import { assert } from "@std/assert";
 import { isUndefined } from "@online/is";
 import { getClassName, getStructure, safePatch } from "../../utils/mod.ts";
 import { SerializableClass } from "@online/packager";
+import { members } from "../../singletons/mod.ts";
 
 // deno-lint-ignore ban-types
 type PartialTypeResponse<T extends Constructor[]> = TypedClass<SerializableClass & DeleteMembersByType<ArrayToIntersection<T>, Function>>;
@@ -37,6 +38,7 @@ export function partialType<T extends Constructor[]>(...types: T): PartialTypeRe
   };
 
   structures.push(structure);
+  members.push(...structure.members);
 
   Object.defineProperty(PartialClass, "name", { value: structureName });
 

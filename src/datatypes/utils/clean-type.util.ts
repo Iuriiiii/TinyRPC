@@ -5,7 +5,7 @@ import type { DeleteMembersByType } from "../types/mod.ts";
 import { assert } from "@std/assert";
 import { getClassName, getStructure } from "../../utils/mod.ts";
 import { SerializableClass } from "@online/packager";
-import { members, structures } from "../../singletons/mod.ts";
+import { structures } from "../../singletons/mod.ts";
 
 // deno-lint-ignore ban-types
 type CleanTypeResponse<T extends Constructor> = TypedClass<SerializableClass & DeleteMembersByType<T, Function>>;
@@ -36,7 +36,6 @@ export function cleanType<T extends Constructor>(datatype: T): CleanTypeResponse
   };
 
   structures.push(structure);
-  members.push(...structure.members);
 
   Object.defineProperty(CleanClass, "name", { value: structureName });
 

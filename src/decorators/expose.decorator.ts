@@ -4,6 +4,7 @@ import { members, structures } from "../singletons/mod.ts";
 import { Serializable } from "@online/packager";
 import { assert } from "@std/assert";
 import { isUndefined } from "@online/is";
+import { getClassExtension, getStructure } from "../utils/mod.ts";
 
 export function Expose(options?: ExposeDecoratorOptions): ClassDecorator {
   return function (target: Constructor) {
@@ -17,6 +18,15 @@ Did you enable decorators on your project?
 
     const isInterface = !!options?.as;
     const className = target.name;
+    const extensionName = getClassExtension(target);
+
+    if (extensionName) {
+      const extensionStructure = getStructure(extensionName);
+
+      assert(extensionStructure, `The class "${className}" extends a non exposed type: "${extensionName}".`);
+
+      members.push(...extensionStructure.members);
+    }
 
     if (isInterface) {
       // TODO: Enhance this to parse classes statically.

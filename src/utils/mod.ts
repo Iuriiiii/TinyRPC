@@ -10,3 +10,4 @@ export * from "./expose.util.ts";
 export * from "./get-module.util.ts";
 export * from "./get-structure.util.ts";
 export * from "./safe-patch.util.ts";
+export * from "./get-class-extension.util.ts";

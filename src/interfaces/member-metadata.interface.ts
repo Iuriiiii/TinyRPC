@@ -15,7 +15,7 @@ export interface MemberMetadata {
    * Data type of the member.
    * If string, it will be hardcoded to the param type.
    */
-  dataType: Constructor | string;
+  dataType: Constructor | string | object;
 
   /**
    * Default value of the member.

@@ -1,20 +1,20 @@
+import type { MemberDecoratorOptions, MemberMetadata } from "../interfaces/mod.ts";
+import type { Constructor, MemberDecorator } from "../types/mod.ts";
 import { Reflect } from "@dx/reflect";
 import { assert } from "@std/assert";
-import type { Constructor, MemberDecorator } from "../types/mod.ts";
-import type { MemberDecoratorOptions, MemberMetadata } from "../interfaces/mod.ts";
 import { members } from "../singletons/mod.ts";
 import { isUndefined } from "@online/is";
 
-// TODO: Add a member to force update the client-side member when the server-side member is updated
+/**
+ * Declare a member.
+ *
+ * @param {MemberDecoratorOptions} options
+ * @returns {MemberDecorator}
+ */
 export function Member(options?: MemberDecoratorOptions): MemberDecorator {
   return function (
-    /**
-     * The class decored.
-     */
-    target: unknown,
-    /**
-     * The current method.
-     */
+    // deno-lint-ignore no-explicit-any
+    target: any,
     propertyKey: string | symbol,
   ) {
     assert(

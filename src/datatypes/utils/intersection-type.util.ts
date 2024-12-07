@@ -12,7 +12,7 @@ import { members } from "../../singletons/members.singleton.ts";
 type IntersectionTypeResponse<T extends Constructor[]> = TypedClass<SerializableClass & DeleteMembersByType<ArrayToIntersection<T>, Function>>;
 
 export function intersectionType<T extends Constructor[]>(...types: T): IntersectionTypeResponse<T> {
-  assert(types.length > 0, "Union type must have at least one type.");
+  assert(types.length > 0, `"IntersectionType" must receive at least one type.`);
 
   abstract class IntersectionClass extends SerializableClass {
     constructor() {
@@ -26,7 +26,7 @@ export function intersectionType<T extends Constructor[]>(...types: T): Intersec
 
   const structures = types.map((type) => getStructure(getClassName(type)));
 
-  assert(!structures.some(isUndefined), "IntersectionType must receive only exposed types.");
+  assert(!structures.some(isUndefined), `"IntersectionType" must receive only exposed types.`);
 
   const typesName = types.map((type) => getClassName(type)).join("_");
   const structureName = `IntersectionOf${typesName}`;

@@ -1,3 +1,8 @@
+# 0.2.11
+
+Avoid util types to assign members
+Check if a module or exposed type is extending a non-exposed type
+
 # 0.2.9
 
 Added `omitType` utility

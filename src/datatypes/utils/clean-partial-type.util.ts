@@ -6,6 +6,7 @@ import { assert } from "@std/assert";
 import { isUndefined } from "@online/is";
 import { getClassName, getStructure } from "../../utils/mod.ts";
 import { SerializableClass } from "@online/packager";
+import { members } from "../../singletons/mod.ts";
 
 // deno-lint-ignore ban-types
 type CleanPartialTypeResponse<T extends Constructor[]> = TypedClass<SerializableClass & DeleteMembersByType<ArrayToIntersection<T>, Function>>;
@@ -33,6 +34,7 @@ export function cleanPartialType<T extends Constructor[]>(...types: T): CleanPar
   };
 
   structures.push(structure);
+  members.push(...structure.members);
 
   Object.defineProperty(CleanPartialClass, "name", { value: structureName });
 

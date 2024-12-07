@@ -1,12 +1,13 @@
 {
   "name": "@tinyrpc/server",
-  "version": "0.2.5",
+  "version": "0.2.7",
   "tasks": {
     "test": "deno test -A ./tests/1-compiler.test.ts && deno test -A ./tests/2-api.test.ts"
   },
   "exports": {
     ".": "./mod.ts",
-    "./types": "./types.ts"
+    "./types": "./types.ts",
+    "./utils": "./utils.ts"
   },
   "imports": {
     "@online/is": "jsr:@online/is@^0.0.x",

@@ -1,3 +1,2 @@
-import type { Constructor } from "./constructor.type.ts";
-
-export type MethodDecorator = (target: Constructor, propertyKey: string | symbol, descriptor: PropertyDescriptor) => void;
+// deno-lint-ignore no-explicit-any
+export type MethodDecorator = (target: any, propertyKey: string | symbol, descriptor: PropertyDescriptor) => void;

@@ -5,7 +5,6 @@ import { finishFormdataRequest } from "./src/middlewares/mod.ts";
 import { Serializable, SerializableClass } from "@online/packager";
 import { enums, instances, modules, structures } from "./src/singletons/mod.ts";
 import { isUndefined } from "@online/is";
-import { DataType } from "./types.ts";
 
 const { serve } = Deno;
 
@@ -99,9 +98,3 @@ export { expose } from "./src/mod.ts";
 export { Serializable, SerializableClass };
 export { Export, Expose, HttpError, Member, Module, Param } from "./src/mod.ts";
 export { STATUS_CODE };
-
-enum Testing {
-  Test = 1,
-}
-
-const variable: DataType = Testing;

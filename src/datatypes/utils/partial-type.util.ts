@@ -1,37 +1,31 @@
 import type { StructureMetadata } from "../../interfaces/mod.ts";
 import type { Constructor } from "../../types/mod.ts";
 import type { TypedClass } from "../interfaces/mod.ts";
-import type { ArrayToIntersection, DeleteMembersByType } from "../types/mod.ts";
+import type { DeleteMembersByType } from "../types/mod.ts";
 import { assert } from "@std/assert";
-import { isUndefined } from "@online/is";
 import { getClassName, getStructure, safePatch } from "../../utils/mod.ts";
 import { SerializableClass } from "@online/packager";
-import { members } from "../../singletons/mod.ts";
+import { members, structures } from "../../singletons/mod.ts";
 
 // deno-lint-ignore ban-types
-type PartialTypeResponse<T extends Constructor[]> = TypedClass<SerializableClass & DeleteMembersByType<ArrayToIntersection<T>, Function>>;
+type PartialTypeResponse<T extends Constructor> = TypedClass<SerializableClass & DeleteMembersByType<T, Function>>;
 
-export function partialType<T extends Constructor[]>(...types: T): PartialTypeResponse<T> {
-  assert(types.length > 0, "Union type must have at least one type.");
+export function partialType<T extends Constructor>(datatype: T): PartialTypeResponse<T> {
+  const datatypeName = getClassName(datatype);
+  const datatypeStructure = getStructure(datatypeName);
+  assert(!!datatypeStructure, `"PartialType" must receive only exposed types.`);
 
   abstract class PartialClass extends SerializableClass {
     constructor() {
       super();
-      for (const type of types) {
-        const instance = new type();
-        safePatch(this, instance);
-      }
+      const instance = new datatype();
+      safePatch(this, instance);
     }
   }
 
-  const structures = types.map((type) => getStructure(getClassName(type)));
-
-  assert(!structures.some(isUndefined), "PartialType must receive only exposed types.");
-
-  const typesName = types.map((type) => getClassName(type)).join("_");
-  const structureName = `PartialOf${typesName}`;
+  const structureName = `PartialOf${datatypeName}`;
   const structure: StructureMetadata = {
-    members: structures.flatMap((_module) => _module!.members).map((member) => ({ ...member, optional: true })),
+    members: datatypeStructure.members.map((member) => ({ ...member, optional: true })),
     name: structureName,
     constructor: PartialClass as Constructor,
     isInterface: false,

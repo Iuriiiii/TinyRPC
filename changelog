@@ -1,3 +1,9 @@
+# 0.2.9
+
+Added `omitType` utility
+Added `pickType` utility
+Added `cleanType` utility
+
 # 0.2.7
 
 Added `/utils` exports!
@@ -5,6 +11,7 @@ Added `intersectionType` utility
 Added `partialType` utility
 Added `cleanPartialType` utility
 Better `Constructor` definition
+
 
 # 0.2.4
 

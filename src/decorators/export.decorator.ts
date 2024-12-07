@@ -21,13 +21,8 @@ export function Export<
   K extends object = PickMembers<T>,
 >(param?: string | Partial<ExportDecoratorOptions<K>>): MethodDecorator {
   return function (
-    /**
-     * The class decored.
-     */
-    target: Constructor,
-    /**
-     * The current method.
-     */
+    // deno-lint-ignore no-explicit-any
+    target: any,
     propertyKey: string | symbol,
     descriptor: PropertyDescriptor,
   ) {

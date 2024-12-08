@@ -6,7 +6,7 @@ import { getClassName, getStructure, randomString, safePatch } from "../../utils
 import { SerializableClass } from "@online/packager";
 import { structures } from "../../singletons/mod.ts";
 
-type PartialTypeResponse<T extends Constructor> = TypedClass<SerializableClass & PickMembers<T>>;
+type PartialTypeResponse<T extends Constructor> = TypedClass<SerializableClass & PickMembers<InstanceType<T>>>;
 
 export function partialType<T extends Constructor>(datatype: T): PartialTypeResponse<T> {
   const datatypeName = getClassName(datatype);

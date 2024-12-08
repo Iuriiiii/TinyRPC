@@ -1,41 +1,48 @@
 import type { StructureMetadata } from "../../interfaces/mod.ts";
 import type { Constructor, PickMembers } from "../../types/mod.ts";
 import type { TypedClass } from "../interfaces/mod.ts";
-import type { DeleteMembersByType } from "../types/mod.ts";
+import type { ArrayToUnion } from "../types/mod.ts";
 import { assert } from "@std/assert";
 import { getClassName, getStructure, safePatch } from "../../utils/mod.ts";
 import { SerializableClass } from "@online/packager";
 import { structures } from "../../singletons/mod.ts";
 
-// deno-lint-ignore ban-types
-type CleanTypeResponse<T extends Constructor> = TypedClass<SerializableClass & DeleteMembersByType<T, Function>>;
+type PickTypeResponse<
+  T extends Constructor,
+  K extends Array<keyof PickMembers<InstanceType<T>>>,
+> = TypedClass<SerializableClass & Pick<PickMembers<InstanceType<T>>, ArrayToUnion<K>>>;
 
 /**
  * Removes all default values of a class.
  *
  * @param {Constructor} datatype Previously exposed type
- * @returns {CleanTypeResponse<T>} A type without default values
+ * @returns {PickTypeResponse<T>} A type without default values
  */
-export function pickType<T extends Constructor>(datatype: T, ...datatypeMembers: (keyof PickMembers<T>)[]): CleanTypeResponse<T> {
+export function pickType<
+  T extends Constructor,
+  K extends Array<keyof PickMembers<InstanceType<T>>> = Array<keyof PickMembers<InstanceType<T>>>,
+>(datatype: T, ...datatypeMembers: (keyof InstanceType<T>)[]): PickTypeResponse<T, K> {
   const datatypeName = getClassName(datatype);
   const datatypeStructure = getStructure(datatypeName);
   assert(!!datatypeStructure, `"PickType" must receive only exposed types.`);
 
-  const areAllDatatypeMembersDeclared = datatypeMembers.every((datatypeMember) => datatypeStructure.members.some((_member) => _member.name === datatypeMember));
+  const areAllDatatypeMembersDeclared = datatypeMembers.every((datatypeMember) =>
+    datatypeStructure.members.some((_member) => _member.name === datatypeMember)
+  );
   assert(areAllDatatypeMembersDeclared, `"PickType" just can pick members decorated with "Member".`);
 
   abstract class PickClass extends SerializableClass {
     constructor() {
       super();
       const instance = new datatype();
-      safePatch(this, instance, ...datatypeMembers);
+      safePatch(this, instance, ...datatypeMembers as string[]);
     }
   }
 
   const structureName = `PickOf${datatypeName}`;
   const structure: StructureMetadata = {
     members: datatypeStructure.members
-      .filter((member) => datatypeMembers.includes(member.name as keyof PickMembers<T>))
+      .filter((member) => datatypeMembers.includes(member.name as keyof InstanceType<T>))
       .map((member) => ({ ...member, defaultValue: undefined })),
     name: structureName,
     constructor: PickClass as Constructor,
@@ -46,5 +53,5 @@ export function pickType<T extends Constructor>(datatype: T, ...datatypeMembers:
 
   Object.defineProperty(PickClass, "name", { value: structureName });
 
-  return PickClass as unknown as CleanTypeResponse<T>;
+  return PickClass as unknown as PickTypeResponse<T, K>;
 }

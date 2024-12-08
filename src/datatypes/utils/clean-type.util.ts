@@ -1,14 +1,14 @@
 import type { StructureMetadata } from "../../interfaces/mod.ts";
-import type { Constructor } from "../../types/mod.ts";
+import type { Constructor, PickMembers } from "../../types/mod.ts";
 import type { TypedClass } from "../interfaces/mod.ts";
-import type { DeleteMembersByType } from "../types/mod.ts";
 import { assert } from "@std/assert";
 import { getClassName, getStructure } from "../../utils/mod.ts";
 import { SerializableClass } from "@online/packager";
 import { structures } from "../../singletons/mod.ts";
 
-// deno-lint-ignore ban-types
-type CleanTypeResponse<T extends Constructor> = TypedClass<SerializableClass & DeleteMembersByType<T, Function>>;
+type CleanTypeResponse<T extends Constructor> = TypedClass<
+  SerializableClass & PickMembers<InstanceType<T>>
+>;
 
 /**
  * Removes all default values of a class.

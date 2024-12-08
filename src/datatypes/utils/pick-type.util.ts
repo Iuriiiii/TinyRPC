@@ -3,7 +3,7 @@ import type { Constructor, PickMembers } from "../../types/mod.ts";
 import type { TypedClass } from "../interfaces/mod.ts";
 import type { ArrayToUnion } from "../types/mod.ts";
 import { assert } from "@std/assert";
-import { getClassName, getStructure, safePatch } from "../../utils/mod.ts";
+import { getClassName, getStructure, randomString, safePatch } from "../../utils/mod.ts";
 import { SerializableClass } from "@online/packager";
 import { structures } from "../../singletons/mod.ts";
 
@@ -39,7 +39,7 @@ export function pickType<
     }
   }
 
-  const structureName = `PickOf${datatypeName}`;
+  const structureName = `PickOf${datatypeName}${randomString()}`;
   const structure: StructureMetadata = {
     members: datatypeStructure.members
       .filter((member) => datatypeMembers.includes(member.name as keyof InstanceType<T>))

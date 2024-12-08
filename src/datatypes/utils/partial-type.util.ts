@@ -2,7 +2,7 @@ import type { StructureMetadata } from "../../interfaces/mod.ts";
 import type { Constructor, PickMembers } from "../../types/mod.ts";
 import type { TypedClass } from "../interfaces/mod.ts";
 import { assert } from "@std/assert";
-import { getClassName, getStructure, safePatch } from "../../utils/mod.ts";
+import { getClassName, getStructure, randomString, safePatch } from "../../utils/mod.ts";
 import { SerializableClass } from "@online/packager";
 import { structures } from "../../singletons/mod.ts";
 
@@ -21,7 +21,7 @@ export function partialType<T extends Constructor>(datatype: T): PartialTypeResp
     }
   }
 
-  const structureName = `PartialOf${datatypeName}`;
+  const structureName = `PartialOf${datatypeName}${randomString()}`;
   const structure: StructureMetadata = {
     members: datatypeStructure.members.map((member) => ({ ...member, optional: true })),
     name: structureName,

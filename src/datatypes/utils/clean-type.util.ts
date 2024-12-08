@@ -2,7 +2,7 @@ import type { StructureMetadata } from "../../interfaces/mod.ts";
 import type { Constructor, PickMembers } from "../../types/mod.ts";
 import type { TypedClass } from "../interfaces/mod.ts";
 import { assert } from "@std/assert";
-import { getClassName, getStructure } from "../../utils/mod.ts";
+import { getClassName, getStructure, randomString } from "../../utils/mod.ts";
 import { SerializableClass } from "@online/packager";
 import { structures } from "../../singletons/mod.ts";
 
@@ -27,7 +27,7 @@ export function cleanType<T extends Constructor>(datatype: T): CleanTypeResponse
     }
   }
 
-  const structureName = `CleanOf${datatypeName}`;
+  const structureName = `CleanOf${datatypeName}${randomString()}`;
   const structure: StructureMetadata = {
     members: datatypeStructure.members.map((member) => ({ ...member, defaultValue: undefined })),
     name: structureName,

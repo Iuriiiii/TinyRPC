@@ -1,9 +1,7 @@
 {
   "name": "@tinyrpc/server",
-  "version": "0.2.16",
-  "tasks": {
-    "test": "deno test -A ./tests/1-compiler.test.ts && deno test -A ./tests/2-api.test.ts"
-  },
+  "version": "0.2.17",
+  "tasks": {},
   "exports": {
     ".": "./mod.ts",
     "./types": "./types.ts",

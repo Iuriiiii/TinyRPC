@@ -1,14 +1,12 @@
 import type { StructureMetadata } from "../../interfaces/mod.ts";
-import type { Constructor } from "../../types/mod.ts";
+import type { Constructor, PickMembers } from "../../types/mod.ts";
 import type { TypedClass } from "../interfaces/mod.ts";
-import type { DeleteMembersByType } from "../types/mod.ts";
 import { assert } from "@std/assert";
 import { getClassName, getStructure, safePatch } from "../../utils/mod.ts";
 import { SerializableClass } from "@online/packager";
 import { structures } from "../../singletons/mod.ts";
 
-// deno-lint-ignore ban-types
-type PartialTypeResponse<T extends Constructor> = TypedClass<SerializableClass & DeleteMembersByType<T, Function>>;
+type PartialTypeResponse<T extends Constructor> = TypedClass<SerializableClass & PickMembers<T>>;
 
 export function partialType<T extends Constructor>(datatype: T): PartialTypeResponse<T> {
   const datatypeName = getClassName(datatype);

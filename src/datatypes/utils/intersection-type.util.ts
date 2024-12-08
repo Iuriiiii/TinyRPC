@@ -1,13 +1,15 @@
 import type { StructureMetadata } from "../../interfaces/mod.ts";
 import type { Constructor, PickMembers } from "../../types/mod.ts";
 import type { TypedClass } from "../interfaces/mod.ts";
-import type { ArrayToIntersection } from "../types/mod.ts";
+import type { ArrayToIntersection, MapType } from "../types/mod.ts";
 import { assert } from "@std/assert";
 import { isUndefined } from "@online/is";
 import { getClassName, getStructure, safePatch } from "../../utils/mod.ts";
 import { SerializableClass } from "@online/packager";
 
-type IntersectionTypeResponse<T extends Constructor[]> = TypedClass<SerializableClass & PickMembers<ArrayToIntersection<T>>>;
+type IntersectionTypeResponse<T extends Constructor[]> = TypedClass<
+  SerializableClass & PickMembers<ArrayToIntersection<MapType<T, Constructor, InstanceType<T[number]>>>>
+>;
 
 export function intersectionType<T extends Constructor[]>(...types: T): IntersectionTypeResponse<T> {
   assert(types.length > 0, `"IntersectionType" must receive at least one type.`);

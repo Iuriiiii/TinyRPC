@@ -1,14 +1,13 @@
 import type { StructureMetadata } from "../../interfaces/mod.ts";
-import type { Constructor } from "../../types/mod.ts";
+import type { Constructor, PickMembers } from "../../types/mod.ts";
 import type { TypedClass } from "../interfaces/mod.ts";
-import type { ArrayToIntersection, DeleteMembersByType } from "../types/mod.ts";
+import type { ArrayToIntersection } from "../types/mod.ts";
 import { assert } from "@std/assert";
 import { isUndefined } from "@online/is";
 import { getClassName, getStructure, safePatch } from "../../utils/mod.ts";
 import { SerializableClass } from "@online/packager";
 
-// deno-lint-ignore ban-types
-type IntersectionTypeResponse<T extends Constructor[]> = TypedClass<SerializableClass & DeleteMembersByType<ArrayToIntersection<T>, Function>>;
+type IntersectionTypeResponse<T extends Constructor[]> = TypedClass<SerializableClass & PickMembers<ArrayToIntersection<T>>>;
 
 export function intersectionType<T extends Constructor[]>(...types: T): IntersectionTypeResponse<T> {
   assert(types.length > 0, `"IntersectionType" must receive at least one type.`);

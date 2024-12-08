@@ -50,7 +50,10 @@ Did you enable decorators on your project?
       return Reflect.getMetadata("design:returntype", target, propertyKey) as Constructor | undefined;
     })();
 
-    assert(returnType !== Promise, `For promise responses the "returnType" option is required and needs to be different to a promise.`);
+    assert(
+      returnType !== Promise,
+      `For promise responses the "returnType" option is required and needs to be different to a promise.`,
+    );
     assert(
       !isUndefined(returnType),
       `

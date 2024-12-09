@@ -6,6 +6,7 @@ import { assert } from "@std/assert";
 import { isUndefined } from "@online/is";
 import { getClassName, getStructure, randomString, safePatch } from "../../utils/mod.ts";
 import { SerializableClass } from "@online/packager";
+import { structures } from "../../singletons/mod.ts";
 
 type IntersectionTypeResponse<T extends Constructor[]> = TypedClass<
   SerializableClass & PickMembers<ArrayToIntersection<MapType<T, Constructor, InstanceType<T[number]>>>>
@@ -24,14 +25,14 @@ export function intersectionType<T extends Constructor[]>(...types: T): Intersec
     }
   }
 
-  const structures = types.map((type) => getStructure(getClassName(type)));
+  const _structures = types.map((type) => getStructure(getClassName(type)));
 
-  assert(!structures.some(isUndefined), `"IntersectionType" must receive only exposed types.`);
+  assert(!_structures.some(isUndefined), `"IntersectionType" must receive only exposed types.`);
 
   const typesName = types.map((type) => getClassName(type)).join("_");
   const structureName = `IntersectionOf${typesName}${randomString()}`;
   const structure: StructureMetadata = {
-    members: structures.flatMap((_module) => _module!.members),
+    members: _structures.flatMap((_module) => _module!.members),
     name: structureName,
     constructor: IntersectionClass as Constructor,
     isInterface: false,

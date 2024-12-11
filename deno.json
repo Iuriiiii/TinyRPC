@@ -1,6 +1,6 @@
 {
   "name": "@tinyrpc/server",
-  "version": "0.2.20",
+  "version": "0.2.21",
   "tasks": {},
   "exports": {
     ".": "./mod.ts",

@@ -86,7 +86,10 @@ export class TinyRPC {
             structures,
             enums,
           },
-        }).catch(() => console.error(`Error compiling with ${compilerName}.`));
+        }).catch((error) => {
+          console.error(`Error compiling with ${compilerName}.`);
+          console.error(error);
+        });
       }
     }
 

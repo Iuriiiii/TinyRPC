@@ -11,7 +11,7 @@ function stringToUniqueId(str: string): number {
 
 let textToTest = "SuperMegaText";
 
-for (let i = 0; i < 3; i++) {
+for (let i = 0; i < 1; i++) {
   textToTest += textToTest;
 }
 

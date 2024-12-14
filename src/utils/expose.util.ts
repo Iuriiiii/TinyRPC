@@ -17,7 +17,7 @@ export function expose<T extends object>({ enum: _enum, schema, as: name }: Expo
 
   const exposable = objects[0]!;
 
-  Object.defineProperty(exposable, "__TS_ENUM__", { value: "EXPOSED", writable: false, enumerable: false, configurable: true });
+  Object.defineProperty(exposable, "__TS_ENUM__", { value: name, writable: false, enumerable: false, configurable: true });
   enums.push({ name, value: exposable });
 
   return exposable;

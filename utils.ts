@@ -7,5 +7,6 @@ export * from "./src/utils/get-module.util.ts";
 export * from "./src/utils/get-param.util.ts";
 export * from "./src/utils/get-enum.util.ts";
 export * from "./src/utils/get-method.util.ts";
+export * from "./src/utils/get-exposed-enum-name.util.ts";
 
 export * from "./src/validators/is-exposed-enum.validator.ts";

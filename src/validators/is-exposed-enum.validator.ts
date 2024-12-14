@@ -1,3 +1,5 @@
+import { isUndefined } from "@online/is";
+
 export function isExposedEnum(_enum: object): boolean {
-  return Object.getOwnPropertyDescriptor(_enum, "__TS_ENUM__")?.value === "EXPOSED";
+  return !isUndefined(Object.getOwnPropertyDescriptor(_enum, "__TS_ENUM__")?.value);
 }

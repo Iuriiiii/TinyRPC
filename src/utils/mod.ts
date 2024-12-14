@@ -15,3 +15,4 @@ export * from "./get-param.util.ts";
 export * from "./get-structure.util.ts";
 export * from "./get-enum.util.ts";
 export * from "./get-method.util.ts";
+export * from "./get-exposed-enum-name.util.ts";

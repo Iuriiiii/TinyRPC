@@ -36,7 +36,7 @@ Did you enable decorators on your project?
 
     const isOptions = isExportDecoratorOptions<K>(param);
     const methodName = (isOptions ? param.name : param) || descriptor.value.name;
-    // @ts-ignore: Array access.
+    // @ts-ignore: index access
     const methodTarget = target[propertyKey];
 
     assert(methodTarget instanceof Function, `The "Export" decorator is for methods only.`);

@@ -1,5 +1,6 @@
+import type { ModuleMetadata } from "../interfaces/mod.ts";
 import { modules } from "../singletons/mod.ts";
 
-export function getModule(name: string) {
+export function getModule(name: string): ModuleMetadata | undefined {
   return modules.find((module) => module.name === name);
 }

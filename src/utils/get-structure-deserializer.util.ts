@@ -20,6 +20,10 @@ export function getStructureDeserializer<T extends Constructor>(
     return Object.assign(instance, members);
   }
 
+  if (serialized instanceof clazz) {
+    return serialized;
+  }
+
   const getParameterNames = (members: MemberMetadata[]) =>
     members.filter((member) => !isUndefined(member.constructorParam))
       .map((member) => member.name);

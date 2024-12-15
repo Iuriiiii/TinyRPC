@@ -4,7 +4,7 @@ import { members, structures } from "../singletons/mod.ts";
 import { type RequireAtLeastOne, Serializable, SerializableClass, type SerializedClass } from "@online/packager";
 import { assert } from "@std/assert";
 import { isUndefined } from "@online/is";
-import { getClassExtension, getStructureDeserializer, getModuleSerializer, getStructure } from "../utils/mod.ts";
+import { getClassExtension, getModuleSerializer, getStructure, getStructureDeserializer } from "../utils/mod.ts";
 
 export function Expose(options?: ExposeDecoratorOptions): ClassDecorator {
   return function (target: Constructor) {

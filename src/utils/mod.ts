@@ -16,3 +16,5 @@ export * from "./get-structure.util.ts";
 export * from "./get-enum.util.ts";
 export * from "./get-method.util.ts";
 export * from "./get-exposed-enum-name.util.ts";
+export * from "./get-module-deserializer.util.ts";
+export * from "./get-module-serializer.util.ts";

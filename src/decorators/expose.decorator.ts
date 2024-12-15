@@ -1,10 +1,10 @@
 import type { ClassDecorator, Constructor } from "../types/mod.ts";
 import type { ExposeDecoratorOptions } from "../interfaces/mod.ts";
 import { members, structures } from "../singletons/mod.ts";
-import { Serializable, SerializableClass } from "@online/packager";
+import { type RequireAtLeastOne, Serializable, SerializableClass, type SerializedClass } from "@online/packager";
 import { assert } from "@std/assert";
 import { isUndefined } from "@online/is";
-import { getClassExtension, getStructure } from "../utils/mod.ts";
+import { getClassExtension, getModuleDeserializer, getModuleSerializer, getStructure } from "../utils/mod.ts";
 
 export function Expose(options?: ExposeDecoratorOptions): ClassDecorator {
   return function (target: Constructor) {
@@ -26,6 +26,19 @@ Did you enable decorators on your project?
       assert(extensionStructure, `The class "${className}" extends a non exposed type: "${extensionName}".`);
 
       members.push(...extensionStructure.members);
+    }
+
+    if (!("deserialize" in target && target.deserialize instanceof Function)) {
+      // @ts-ignore: insert deserialize method
+      target.deserialize = (serialized: RequireAtLeastOne<SerializedClass<Constructor>>) =>
+        getModuleDeserializer(target, serialized);
+    }
+
+    if (!("serialize" in target.prototype && target.prototype.serialize instanceof Function)) {
+      // @ts-ignore: insert serialize method
+      target.prototype.serialize = function (): RequireAtLeastOne<SerializedClass<T>> {
+        getModuleSerializer(target, this);
+      };
     }
 
     if (isInterface) {

@@ -16,4 +16,4 @@ export type {
   StructureMetadata,
 } from "./src/mod.ts";
 
-export type { SerializedClass } from "@online/packager";
+export type { RequireAtLeastOne, SerializedClass } from "@online/packager";

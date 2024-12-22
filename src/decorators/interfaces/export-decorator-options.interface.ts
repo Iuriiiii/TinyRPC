@@ -1,4 +1,4 @@
-import type { DataType, MapStructure } from "../types/mod.ts";
+import type { DataType, MapStructure } from "../../types/mod.ts";
 
 export interface ExportDecoratorOptions<T extends object = object> {
   /**

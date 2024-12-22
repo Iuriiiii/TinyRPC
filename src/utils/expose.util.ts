@@ -1,4 +1,4 @@
-import type { ExposeParam } from "../interfaces/mod.ts";
+import type { ExposeParam } from "../decorators/interfaces/mod.ts";
 import { isPlainObject } from "@online/is";
 import { enums } from "../singletons/mod.ts";
 

@@ -1,5 +1,6 @@
+import type { MethodExtraOptions } from "../interfaces/mod.ts";
+import type { MiddlewareParam } from "./interfaces/mod.ts";
 import { STATUS_CODE } from "@std/http";
-import type { MethodExtraOptions, MiddlewareParam } from "../interfaces/mod.ts";
 import { pack } from "@online/packager";
 import { dateSerializer } from "@online/tinyserializers";
 

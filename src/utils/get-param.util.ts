@@ -1,4 +1,4 @@
-import type { ParameterMetadata } from "../interfaces/mod.ts";
+import type { ParameterMetadata } from "../singletons/interfaces/mod.ts";
 import { isNumber } from "@online/is";
 import { getMethod } from "./get-method.util.ts";
 

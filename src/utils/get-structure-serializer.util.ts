@@ -4,22 +4,23 @@ import { getConstructorName } from "./get-constructor-name.util.ts";
 import { getModule } from "./get-module.util.ts";
 import { assert } from "@std/assert";
 import { isUndefined } from "@online/is";
+import { getStructure } from "./get-structure.util.ts";
 
-export function getModuleSerializer<T extends Constructor>(
+export function getStructureSerializer<T extends Constructor>(
   cosntructor: Constructor,
   _this: object,
 ): RequireAtLeastOne<SerializedClass<T>> {
   const className = getConstructorName(cosntructor);
-  const module = getModule(className);
+  const structure = getStructure(className);
 
-  assert(module, `The class "${className}" is not a module.`);
+  assert(structure, `The class "${className}" is not a structure.`);
 
-  const argumentMembers = module.members.filter((member) => !isUndefined(member.constructorParam));
-  const bodyMembers = module.members.filter((member) => isUndefined(member.constructorParam));
+  const argumentMembers = structure.members.filter((member) => !isUndefined(member.constructorParam));
+  const bodyMembers = structure.members.filter((member) => isUndefined(member.constructorParam));
   // @ts-ignore: index access
   const _arguments = argumentMembers.map((member) => _this[member.name]) as ConstructorParameters<T>;
   const members = bodyMembers.reduce((acc, member) => {
-    // @ts-ignore: index access;;
+    // @ts-ignore: index access
     acc[member.name] = _this[member.name];
     return acc;
   }, {} as Partial<PickMembers<InstanceType<T>>>);

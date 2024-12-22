@@ -4,7 +4,7 @@ import { type RequireAtLeastOne, Serializable, SerializableClass, type Serialize
 import { members, structures } from "../singletons/mod.ts";
 import { assert } from "@std/assert";
 import { isUndefined } from "@online/is";
-import { getClassExtension, getModuleSerializer, getStructure, getStructureDeserializer } from "../utils/mod.ts";
+import { getClassExtension, getStructureSerializer, getStructure, getStructureDeserializer } from "../utils/mod.ts";
 
 export function Expose(options?: ExposeDecoratorOptions): ClassDecorator {
   return function (target: Constructor) {
@@ -37,7 +37,7 @@ Did you enable decorators on your project?
     if (!("serialize" in target.prototype && target.prototype.serialize instanceof Function)) {
       // @ts-ignore: insert serialize method
       target.prototype.serialize = function (): RequireAtLeastOne<SerializedClass<T>> {
-        return getModuleSerializer(target, this);
+        return getStructureSerializer(target, this);
       };
     }
 

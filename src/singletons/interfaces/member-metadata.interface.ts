@@ -1,4 +1,4 @@
-import type { DataType } from "../../types.ts";
+import type { DataType } from "../../types/mod.ts";
 
 export interface MemberMetadata {
   /**

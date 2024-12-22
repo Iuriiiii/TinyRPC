@@ -1,5 +1,5 @@
-import type { ExportDecoratorOptions } from "../interfaces/mod.ts";
-import type { Constructor, MethodDecorator, PickMembers } from "../types/mod.ts";
+import type { Constructor, PickMembers } from "../types/mod.ts";
+import type { ExportDecoratorOptions } from "./interfaces/mod.ts";
 import { Reflect } from "@dx/reflect";
 import { methods, params } from "../singletons/mod.ts";
 import { assert } from "@std/assert";

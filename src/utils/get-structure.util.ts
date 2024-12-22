@@ -1,4 +1,4 @@
-import type { StructureMetadata } from "../interfaces/mod.ts";
+import type { StructureMetadata } from "../singletons/interfaces/mod.ts";
 import { structures } from "../singletons/mod.ts";
 
 export function getStructure(name: string): StructureMetadata | undefined {

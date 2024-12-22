@@ -1,4 +1,4 @@
-import type { DataType } from "../types/mod.ts";
+import type { DataType } from "../../types/mod.ts";
 
 export interface ParamDecoratorOptions {
   /**

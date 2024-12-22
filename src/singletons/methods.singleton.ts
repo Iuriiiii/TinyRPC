@@ -1,3 +1,3 @@
-import type { MethodMetadata } from "../interfaces/mod.ts";
+import type { MethodMetadata } from "./interfaces/mod.ts";
 
 export const methods: MethodMetadata[] = [];

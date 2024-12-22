@@ -1,7 +1,7 @@
-import type { StructureMetadata } from "../../interfaces/mod.ts";
 import type { Constructor, PickMembers } from "../../types/mod.ts";
 import type { TypedClass } from "../interfaces/mod.ts";
 import type { ArrayToUnion } from "../types/mod.ts";
+import type { StructureMetadata } from "../../singletons/interfaces/mod.ts";
 import { assert } from "@std/assert";
 import { getClassName, getStructure, randomString, safePatch } from "../../utils/mod.ts";
 import { SerializableClass } from "@online/packager";

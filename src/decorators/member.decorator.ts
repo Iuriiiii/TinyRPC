@@ -1,5 +1,7 @@
-import type { MemberDecoratorOptions, MemberMetadata } from "../interfaces/mod.ts";
-import type { Constructor, MemberDecorator } from "../types/mod.ts";
+import type { Constructor } from "../types/mod.ts";
+import type { MemberDecoratorOptions } from "./interfaces/mod.ts";
+import type { MemberDecorator } from "./types/mod.ts";
+import type { MemberMetadata } from "../singletons/interfaces/mod.ts";
 import { Reflect } from "@dx/reflect";
 import { assert } from "@std/assert";
 import { members } from "../singletons/mod.ts";

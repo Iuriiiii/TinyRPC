@@ -1,4 +1,4 @@
-import type { Middleware } from "../types/mod.ts";
+import type { Middleware } from "../middlewares/types/mod.ts";
 import type { SdkOptions } from "./sdk-options.interface.ts";
 import type { ServerOptions } from "./server-options.interface.ts";
 

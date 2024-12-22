@@ -1,4 +1,5 @@
-import type { Middleware, RpcRequest, ServerSettings } from "./src/mod.ts";
+import type { RpcRequest, ServerSettings } from "./src/mod.ts";
+import type { Middleware } from "./src/middlewares/types/mod.ts";
 import { STATUS_CODE } from "@std/http";
 import { getMiddlewareFunction, isHttpException, prepareFormdataRequest } from "./src/mod.ts";
 import { finishFormdataRequest } from "./src/middlewares/mod.ts";

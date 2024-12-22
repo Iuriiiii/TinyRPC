@@ -1,6 +1,5 @@
+import type { RpcRequest, ServerSettings } from "../../interfaces/mod.ts";
 import type { StopFunction } from "../../types/mod.ts";
-import type { ServerSettings } from "../../interfaces/server-settings.interface.ts";
-import type { RpcRequest } from "../../interfaces/rpc-request.interface.ts";
 
 export interface MiddlewareParam {
   request: RpcRequest;

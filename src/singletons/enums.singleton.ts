@@ -1,3 +1,3 @@
-import type { EnumMetadata } from "../interfaces/mod.ts";
+import type { EnumMetadata } from "./interfaces/mod.ts";
 
 export const enums: EnumMetadata[] = [];

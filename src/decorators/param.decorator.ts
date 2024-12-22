@@ -1,5 +1,5 @@
-import type { ParamDecorator } from "../types/mod.ts";
-import type { ParamDecoratorOptions } from "../interfaces/mod.ts";
+import type { ParamDecoratorOptions } from "./interfaces/mod.ts";
+import type { ParamDecorator } from "./types/mod.ts";
 import { Reflect } from "@dx/reflect";
 import { params } from "../singletons/mod.ts";
 import { assert } from "@std/assert";

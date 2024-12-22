@@ -17,6 +17,6 @@ export * from "./get-enum.util.ts";
 export * from "./get-method.util.ts";
 export * from "./get-exposed-enum-name.util.ts";
 export * from "./get-structure-deserializer.util.ts";
-export * from "./get-module-serializer.util.ts";
+export * from "./get-structure-serializer.util.ts";
 export * from "./object-pick-to-array.util.ts";
 export * from "./object-pick.util.ts";

@@ -9,10 +9,10 @@
   },
   "imports": {
     "@online/is": "jsr:@online/is@^0.0.x",
-    "@online/packager": "jsr:@online/packager@^0.0.12",
-    "@tinyrpc/sdk-core": "jsr:@tinyrpc/sdk-core@^0.1.24",
+    "@online/packager": "jsr:@online/packager@^0.0.13",
+    "@tinyrpc/sdk-core": "jsr:@tinyrpc/sdk-core@^0.1.29",
     "@online/tinyserializers": "jsr:@online/tinyserializers@^0.0.x",
-    "@std/assert": "jsr:@std/assert@^1.0.9",
+    "@std/assert": "jsr:@std/assert@^1.0.10",
     "@std/http": "jsr:@std/http@^1.0.12",
     "@dx/reflect": "jsr:@dx/reflect@^0.2.14"
   },

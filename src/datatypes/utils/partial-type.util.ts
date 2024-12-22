@@ -11,6 +11,7 @@ type PartialTypeResponse<T extends Constructor> = TypedClass<SerializableClass &
 export function partialType<T extends Constructor>(datatype: T): PartialTypeResponse<T> {
   const datatypeName = getClassName(datatype);
   const datatypeStructure = getStructure(datatypeName);
+
   assert(!!datatypeStructure, `"PartialType" must receive only exposed types.`);
 
   abstract class PartialClass extends SerializableClass {
@@ -30,7 +31,6 @@ export function partialType<T extends Constructor>(datatype: T): PartialTypeResp
   };
 
   structures.push(structure);
-
   Object.defineProperty(PartialClass, "name", { value: structureName });
 
   return PartialClass as unknown as PartialTypeResponse<T>;

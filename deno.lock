@@ -130,7 +130,7 @@
       "jsr:@dx/reflect@~0.2.14",
       "jsr:@online/is@0.0",
       "jsr:@online/packager@^0.0.13",
-      "jsr:@online/tinyserializers@^0.0.18",
+      "jsr:@online/tinyserializers@0.0",
       "jsr:@std/assert@^1.0.10",
       "jsr:@std/http@^1.0.12",
       "jsr:@tinyrpc/sdk-core@~0.1.29"

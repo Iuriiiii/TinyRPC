@@ -1,7 +1,6 @@
 import type { RequireAtLeastOne, SerializedClass } from "@online/packager";
 import type { Constructor, PickMembers } from "../types/mod.ts";
 import { getConstructorName } from "./get-constructor-name.util.ts";
-import { getModule } from "./get-module.util.ts";
 import { assert } from "@std/assert";
 import { isUndefined } from "@online/is";
 import { getStructure } from "./get-structure.util.ts";

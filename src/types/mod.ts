@@ -8,3 +8,6 @@ export * from "./datatype.type.ts";
 export * from "./class-decorator.type.ts";
 export * from "./class-reference.type.ts";
 export * from "./falsy.type.ts";
+export * from "./manipulator.type.ts";
+export * from "./type-and-array.type.ts";
+export * from "./type-and-promise.type.ts";

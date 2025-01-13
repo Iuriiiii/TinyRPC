@@ -2,7 +2,7 @@ export type { Compiler, CompilerInformation, CompilerOptions, DataType, MethodEx
 
 export type { Middleware } from "./src/middlewares/types/mod.ts";
 export type { MiddlewareObject } from "./src/middlewares/interfaces/mod.ts";
-export type { RequireAtLeastOne, SerializedClass } from "@online/packager";
+export type { Decoder, Encoder, RequireAtLeastOne, SerializedClass } from "@online/packager";
 
 export type {
   EnumMetadata,

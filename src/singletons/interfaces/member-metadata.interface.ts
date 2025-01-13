@@ -1,4 +1,4 @@
-import type { DataType } from "../../types/mod.ts";
+import type { DataType, Manipulator } from "../../types/mod.ts";
 
 export interface MemberMetadata {
   /**
@@ -48,4 +48,9 @@ export interface MemberMetadata {
    * position.
    */
   constructorParam?: number;
+
+  /**
+   * Set member manipulators.
+   */
+  manipulators?: Manipulator[];
 }

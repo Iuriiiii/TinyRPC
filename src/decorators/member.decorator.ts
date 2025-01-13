@@ -31,6 +31,7 @@ Did you enable decorators on your project?
       `The "Member" decorator does not works with symbols.`,
     );
 
+    const className = target.constructor.name;
     const dataType = options?.dataType ?? Reflect.getMetadata(
       "design:type",
       target,
@@ -39,20 +40,21 @@ Did you enable decorators on your project?
 
     assert(
       !isUndefined(dataType),
-      `The "Member" decorator is for methods only.`,
+      `The "Member" decorator needs a typed class member. Parameter "${className}.${propertyKey}" is not explicitly typed.`,
     );
 
     members.push(
       {
         dataType,
         name: options?.name ?? propertyKey,
-        optional: options?.optional ?? false,
         defaultValue: options?.defaultValue,
-        nullable: options?.nullable,
+        optional: options?.optional ?? false,
+        nullable: options?.nullable ?? false,
         private: options?.private ?? false,
         readonly: options?.readonly ?? false,
         autoSync: options?.autoSync ?? false,
         constructorParam: options?.constructorParam,
+        manipulators: options?.manipulators ?? [],
       } satisfies MemberMetadata,
     );
   };

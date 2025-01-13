@@ -1,6 +1,7 @@
 // deno-lint-ignore-file ban-types
 import { isUndefined } from "@online/is";
 
+// FIXME: Avoid to catch default values on params
 export function getParamName(value: Function, index: number): string;
 export function getParamName(value: Function, index?: number): string[];
 export function getParamName(value: Function, index?: number) {

@@ -5,3 +5,5 @@ export * from "./rpc-request.interface.ts";
 export * from "./server-options.interface.ts";
 export * from "./compiler-options.interface.ts";
 export * from "./compiler-information.interface.ts";
+export * from "./event-settings.interface.ts";
+export * from "./pack-argument.interface.ts";

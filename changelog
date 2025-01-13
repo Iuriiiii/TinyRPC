@@ -1,6 +1,13 @@
+# 0.2.35
+
+Added `log`, `logIf`, `logIfNot`, `info`, `infoIf`, `infoIfNot`, `debug`, `debugIf`,
+`debugIfNot`, `warn`, `warnIf` and `warnIfNot`.
+Implemented manipulators for members.
+UNSTABLE: Implemented `register` to register enums, encoders and decoders.
+
 # 0.2.15
 
-Add `crashIf` and `crashIfNot` utility functions
+Added `crashIf` and `crashIfNot` utility functions
 
 # 0.2.14
 

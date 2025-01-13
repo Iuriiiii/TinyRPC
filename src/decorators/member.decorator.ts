@@ -6,7 +6,6 @@ import { Reflect } from "@dx/reflect";
 import { assert } from "@std/assert";
 import { members } from "../singletons/mod.ts";
 import { isUndefined } from "@online/is";
-import { getClassName } from "../utils/mod.ts";
 
 /**
  * Declare a member.

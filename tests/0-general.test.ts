@@ -1,4 +1,4 @@
-import { test, assertObjectMatch } from "@inspatial/test";
+import { assertObjectMatch, test } from "@inspatial/test";
 import { enums, modules, structures } from "../src/singletons/mod.ts";
 import { Expose } from "../src/decorators/expose.decorator.ts";
 import { Member } from "../src/decorators/member.decorator.ts";
@@ -26,22 +26,25 @@ class TestModule {
 // Test enum
 enum TestEnum {
   A = "A",
-  B = "B"
+  B = "B",
 }
 
 test("Structures singleton should store structure metadata", () => {
   const structureMetadata = structures.find((s) => s.name === TestStructure.name)!;
 
-  assertObjectMatch(structureMetadata, {
-    name: "TestStructure",
-    constructor: TestStructure,
-    isInterface: false,
-    members: [{
-      name: "prop",
-      dataType: String,
-      optional: false,
-    }]
-  } satisfies StructureMetadata);
+  assertObjectMatch(
+    structureMetadata,
+    {
+      name: "TestStructure",
+      constructor: TestStructure,
+      isInterface: false,
+      members: [{
+        name: "prop",
+        dataType: String,
+        optional: false,
+      }],
+    } satisfies StructureMetadata,
+  );
 });
 
 test("Modules singleton should store module metadata", () => {
@@ -52,11 +55,10 @@ test("Modules singleton should store module metadata", () => {
     constructor: TestModule,
     moduleName: "TestModule",
     methods: [{
-      name: "testMethod"
-    }]
+      name: "testMethod",
+    }],
   });
 });
-
 
 test("Enums singleton should store enum metadata", () => {
   expose({ enum: TestEnum, as: "TestEnum" });
@@ -64,6 +66,6 @@ test("Enums singleton should store enum metadata", () => {
   const enumMetadata = enums.find((m) => m.name === "TestEnum")!;
   assertObjectMatch(enumMetadata, {
     name: "TestEnum",
-    value: TestEnum
+    value: TestEnum,
   });
 });

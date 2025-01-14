@@ -13,3 +13,5 @@ export type {
   ServerMetadata,
   StructureMetadata,
 } from "./src/singletons/interfaces/mod.ts";
+
+export type { ListenInformation, PrintInformation } from "./src/interfaces/mod.ts";

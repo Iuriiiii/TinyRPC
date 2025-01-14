@@ -1,7 +1,7 @@
 import type { PrintType } from "../enums/mod.ts";
 import type { TypeAndPromise } from "../types/mod.ts";
 
-interface PrintInformation {
+export interface PrintInformation {
   // deno-lint-ignore no-explicit-any
   logger: (...args: any[]) => void;
   // deno-lint-ignore no-explicit-any
@@ -11,7 +11,7 @@ interface PrintInformation {
   moduleName?: string;
 }
 
-interface ListenInformation {
+export interface ListenInformation {
   port: number;
   host: string;
 }

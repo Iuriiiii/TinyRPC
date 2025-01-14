@@ -38,10 +38,13 @@ export class TinyRPC {
   static start(param: Partial<ServerSettings> = {}): Deno.HttpServer<Deno.NetAddr> {
     const { sdk, middlewares = [], server = {}, events } = param;
     const _middlewares = [prepareRawRequest, ...middlewares, finishRawRequest] as Middleware[];
-    const onListen = (localAddr: Deno.NetAddr) => events?.onListen?.({ host: localAddr.hostname, port: localAddr.port });
 
-    Object.assign(settings, { events });
     prepareClasses();
+    settings.events.onException ??= events?.onException
+    settings.events.onListen ??= events?.onListen
+    settings.events.onPrint ??= events?.onPrint
+
+    const onListen = (localAddr: Deno.NetAddr) => events?.onListen?.({ host: localAddr.hostname, port: localAddr.port });
 
     const _server = serve({
       ...server,

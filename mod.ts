@@ -40,9 +40,9 @@ export class TinyRPC {
     const _middlewares = [prepareRawRequest, ...middlewares, finishRawRequest] as Middleware[];
 
     prepareClasses();
-    settings.events.onException ??= events?.onException
-    settings.events.onListen ??= events?.onListen
-    settings.events.onPrint ??= events?.onPrint
+    settings.events.onException ??= events?.onException;
+    settings.events.onListen ??= events?.onListen;
+    settings.events.onPrint ??= events?.onPrint;
 
     const onListen = (localAddr: Deno.NetAddr) => events?.onListen?.({ host: localAddr.hostname, port: localAddr.port });
 

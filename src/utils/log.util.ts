@@ -9,7 +9,7 @@ const asyncLocalStorage = new AsyncLocalStorage();
  * Write logs
  */
 // deno-lint-ignore no-explicit-any
-export function log(...args: any[]) {
+export function log(...args: any[]): void {
   const ctx = asyncLocalStorage.getStore() as MiddlewareParam["request"]["rpc"] | undefined;
 
   settings.events.onPrint?.({

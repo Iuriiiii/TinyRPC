@@ -6,7 +6,7 @@ import { PrintType } from "../enums/mod.ts";
 const asyncLocalStorage = new AsyncLocalStorage();
 
 // deno-lint-ignore no-explicit-any
-export function warn(...args: any[]) {
+export function warn(...args: any[]): void {
   const ctx = asyncLocalStorage.getStore() as MiddlewareParam["request"]["rpc"] | undefined;
 
   settings.events.onPrint?.({

@@ -2,6 +2,7 @@ import { assert } from "@std/assert";
 import { settings, webhooks } from "../singletons/mod.ts";
 import { getArrayUid } from "./get-array-uid.util.ts";
 import { getFunctionUid } from "./get-function-uid.util.ts";
+import { getStringFromNumber } from "./get-string-from-number.util.ts";
 
 export interface CreateWebhookParams {
   handler(request: Request): Response;
@@ -36,7 +37,7 @@ export function createWebhook(
   assert(settings.server, "The server must be running before creating webhooks.");
 
   const dependenciesId = getArrayUid(dependencies);
-  const uid = id ?? `${getFunctionUid(handler) + dependenciesId}`;
+  const uid = id ?? getStringFromNumber(getFunctionUid(handler) + dependenciesId);
   const webhook = webhooks.find((webhook) => webhook.id === uid);
 
   if (webhook) {
@@ -46,7 +47,7 @@ export function createWebhook(
     };
   }
 
-  const url = settings.server.hostname! + !path ? `/webhooks/${uid}` : path === "/" ? `/${uid}` : `${path}/${uid}`;
+  const url = settings.server.hostname! + (!path ? `/webhooks/${uid}` : path === "/" ? `/${uid}` : `${path}/${uid}`);
 
   webhooks.push({
     id: uid,

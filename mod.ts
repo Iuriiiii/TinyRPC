@@ -6,6 +6,7 @@ import { finishRawRequest } from "./src/middlewares/mod.ts";
 import { Serializable, SerializableClass } from "@online/packager";
 import { enums, instances, modules, settings, structures } from "./src/singletons/mod.ts";
 import { isUndefined } from "@online/is";
+import { getStringFromNumber } from "./src/utils/get-string-from-number.util.ts";
 
 const { serve } = Deno;
 

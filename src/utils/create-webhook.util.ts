@@ -23,7 +23,7 @@ export interface CreateWebhookParam {
   id?: string;
   /**
    * Modify this array to create a new webhook if needed.
-   * 
+   *
    * "If something here updates, please generate a new webhook for me!"
    */
   dependencies?: unknown[];

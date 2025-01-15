@@ -1,6 +1,6 @@
 {
   "name": "@tinyrpc/server",
-  "version": "0.2.44",
+  "version": "0.2.45",
   "tasks": {
     "generate:ai-docs": "deno doc --json ./mod.ts ./types.ts >> ./ai-docs.json"
   },

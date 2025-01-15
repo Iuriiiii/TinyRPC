@@ -52,7 +52,7 @@ function handleManipulators(value: unknown) {
 /**
  * Prepare request middleware, check JSON and creates "rpc" object.
  */
-export async function prepareRawRequest({ request }: MiddlewareParam) {
+export async function prepareRawRequest({ request, stop }: MiddlewareParam) {
   if (!isRawRequest(request)) {
     const url = new URL(request.url);
     const path = url.pathname;
@@ -60,6 +60,7 @@ export async function prepareRawRequest({ request }: MiddlewareParam) {
 
     crashIfNot(webhook, "Webhook not found.", STATUS_CODE.NotFound);
 
+    stop();
     return webhook.handler(request);
   }
 

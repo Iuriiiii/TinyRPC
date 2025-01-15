@@ -3,7 +3,7 @@ import { settings, webhooks } from "../singletons/mod.ts";
 import { getArrayUid } from "./get-array-uid.util.ts";
 import { getFunctionUid } from "./get-function-uid.util.ts";
 import { getStringFromNumber } from "./get-string-from-number.util.ts";
-import { getFullUrl } from "./get-full-url.util.ts";
+import { buildUrl } from "./build-url.util.ts";
 
 export interface CreateWebhookParam {
   handler(request: Request): Response;
@@ -47,7 +47,7 @@ export function createWebhook(param: CreateWebhookParam): CreateWebhookResponse 
     };
   }
 
-  const url = getFullUrl({
+  const url = buildUrl({
     host: settings.server.hostname!,
     port: settings.server.port,
     https: settings.server.hostname?.startsWith("https://"),

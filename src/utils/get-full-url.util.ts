@@ -6,7 +6,7 @@ export interface GetFullUrlParam {
   https?: boolean;
 }
 
-export function getFullUrl(param: GetFullUrlParam) {
+export function getFullUrl(param: GetFullUrlParam): string {
   const { host, port, path, query, https } = param;
   const protocol = https ? "https://" : "http://";
   const fixedHost = host.startsWith("http://") || host.startsWith("https://") ? host : `${protocol}${host}`;

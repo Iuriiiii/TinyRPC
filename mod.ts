@@ -1,12 +1,11 @@
 import type { RpcRequest, ServerSettings } from "./src/mod.ts";
 import type { Middleware } from "./src/middlewares/types/mod.ts";
 import { STATUS_CODE } from "@std/http";
-import { getFullUrl, getMiddlewareFunction, isHttpException, prepareRawRequest } from "./src/mod.ts";
+import { getMiddlewareFunction, isHttpException, prepareRawRequest } from "./src/mod.ts";
 import { finishRawRequest } from "./src/middlewares/mod.ts";
 import { Serializable, SerializableClass } from "@online/packager";
 import { enums, instances, modules, settings, structures } from "./src/singletons/mod.ts";
 import { isUndefined } from "@online/is";
-import { getStringFromNumber } from "./src/utils/get-string-from-number.util.ts";
 
 const { serve } = Deno;
 

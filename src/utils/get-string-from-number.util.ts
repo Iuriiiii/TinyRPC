@@ -8,6 +8,6 @@ function someLettersToUppercase(str: string) {
 /**
  * Converts a float number to an alphanumeric string.
  */
-export function getStringFromNumber(value: number) {
+export function getStringFromNumber(value: number): string {
   return someLettersToUppercase(value.toString(36).replaceAll(".", ""));
 }

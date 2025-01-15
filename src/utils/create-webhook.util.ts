@@ -22,7 +22,15 @@ export interface CreateWebhookParams {
   dependencies?: unknown[];
 }
 
-export function createWebhook({ id, handler, dependencies = [], path = "/webhooks" }: CreateWebhookParams) {
+export interface CreateWebhookResponse {
+  id: string;
+  url: string;
+}
+
+/**
+ * Creates a new webhook to handle requests.
+ */
+export function createWebhook({ id, handler, dependencies = [], path = "/webhooks" }: CreateWebhookParams): CreateWebhookResponse {
   assert(settings.server, "The server must be running before creating webhooks.");
 
   const dependenciesId = getArrayUid(dependencies);

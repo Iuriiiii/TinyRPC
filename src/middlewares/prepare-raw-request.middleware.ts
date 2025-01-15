@@ -9,7 +9,7 @@ import { STATUS_CODE } from "@std/http";
 import { HttpError, isPostRequest } from "../mod.ts";
 import { getClassByName, getClassName, getStructure } from "../utils/mod.ts";
 import { crashIfNot, isRawRequest } from "../utils/mod.ts";
-import { decoders } from "../singletons/mod.ts";
+import { decoders, webhooks } from "../singletons/mod.ts";
 import { isClassObject } from "@online/is";
 
 const decoder: Decoder = (body: ContentBody) => {
@@ -53,6 +53,16 @@ function handleManipulators(value: unknown) {
  * Prepare request middleware, check JSON and creates "rpc" object.
  */
 export async function prepareRawRequest({ request }: MiddlewareParam) {
+  if (!isRawRequest(request)) {
+    const url = new URL(request.url);
+    const path = url.pathname;
+    const webhook = webhooks.find((webhook) => webhook.url === path);
+
+    crashIfNot(webhook, "Webhook not found.", STATUS_CODE.NotFound);
+
+    return webhook.handler(request);
+  }
+
   crashIfNot(isPostRequest(request), "Method not allowed");
   crashIfNot(isRawRequest(request), "Unsupported media type");
 
@@ -67,11 +77,11 @@ export async function prepareRawRequest({ request }: MiddlewareParam) {
   const [moduleName, methodName] = deserializedBody["$"].split(".");
   const moduleMetadata = getClassByName(moduleName) as ModuleMetadata | null;
 
-  crashIfNot(moduleMetadata, "Module not found");
+  crashIfNot(moduleMetadata, "Module not found", STATUS_CODE.NotFound);
 
   const methodMetadata = moduleMetadata.methods.find((method) => method.name === methodName);
 
-  crashIfNot(methodMetadata, "Method not found");
+  crashIfNot(methodMetadata, "Method not found", STATUS_CODE.NotFound);
 
   const pushableArguments: unknown[] = methodMetadata.params
     // @ts-ignore: Ignore any
@@ -83,7 +93,7 @@ export async function prepareRawRequest({ request }: MiddlewareParam) {
   // @ts-ignore: Get class method with index name.
   const procedure: (...args: unknown[]) => unknown = clazzInstance[methodName];
 
-  crashIfNot(procedure, "Method not found");
+  crashIfNot(procedure, "Method not found", STATUS_CODE.NotFound);
 
   Object.defineProperty(request, "rpc", {
     value: {

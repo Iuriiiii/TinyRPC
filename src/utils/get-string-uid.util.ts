@@ -1,4 +1,4 @@
-export function stringToUID(text: string) {
+export function getStringUid(text: string) {
   let uid = 0;
 
   for (let i = 0; i < text.length; i++) {

@@ -56,7 +56,7 @@ export async function prepareRawRequest({ request }: MiddlewareParam) {
   if (!isRawRequest(request)) {
     const url = new URL(request.url);
     const path = url.pathname;
-    const webhook = webhooks.find((webhook) => webhook.url === path);
+    const webhook = webhooks.find((webhook) => webhook.url.endsWith(path));
 
     crashIfNot(webhook, "Webhook not found.", STATUS_CODE.NotFound);
 

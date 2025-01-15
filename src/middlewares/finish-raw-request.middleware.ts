@@ -3,10 +3,7 @@ import type { MiddlewareParam } from "./interfaces/mod.ts";
 import { STATUS_CODE } from "@std/http";
 import { type Encoder, pack } from "@online/packager";
 import { dateSerializer } from "@online/tinyserializers";
-import { AsyncLocalStorage } from "node:async_hooks";
-import { encoders } from "../singletons/mod.ts";
-
-const asyncLocalStorage = new AsyncLocalStorage();
+import { asyncLocalStorage, encoders } from "../singletons/mod.ts";
 
 const encoder: Encoder = ({ result, updates }: PackArgument) => {
   let _result = result;

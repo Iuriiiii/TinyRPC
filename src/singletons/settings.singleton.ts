@@ -17,7 +17,8 @@ const PREFIX_TEXT_BY_TYPE = {
   [PrintType.Warning]: "WARN",
 };
 
-export const settings: Pick<ServerSettings, "events"> = {
+export const settings: Pick<ServerSettings, "events" | "server"> = {
+  server: {},
   events: {
     onPrint({ type, args, logger, methodName, moduleName }) {
       const isModulePrint = methodName && moduleName;

@@ -1,4 +1,4 @@
-import { stringToUID } from "../src/utils/mod.ts";
+import { getStringUid } from "../src/utils/mod.ts";
 
 function stringToUniqueId(str: string): number {
   let hash = 5381;
@@ -16,7 +16,7 @@ for (let i = 0; i < 1; i++) {
 }
 
 Deno.bench(`StringToUID vs ${textToTest.length} text length`, () => {
-  stringToUID(textToTest);
+  getStringUid(textToTest);
 });
 
 Deno.bench(`stringToUniqueId vs ${textToTest.length} text length`, () => {

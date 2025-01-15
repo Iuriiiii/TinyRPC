@@ -4,9 +4,8 @@ import { STATUS_CODE } from "@std/http";
 import { getMiddlewareFunction, isHttpException, prepareRawRequest } from "./src/mod.ts";
 import { finishRawRequest } from "./src/middlewares/mod.ts";
 import { Serializable, SerializableClass } from "@online/packager";
-import { enums, instances, modules, structures } from "./src/singletons/mod.ts";
+import { enums, instances, modules, settings, structures } from "./src/singletons/mod.ts";
 import { isUndefined } from "@online/is";
-import { settings } from "./src/singletons/settings.singleton.ts";
 
 const { serve } = Deno;
 
@@ -44,7 +43,10 @@ export class TinyRPC {
     settings.events.onListen ??= events?.onListen;
     settings.events.onPrint ??= events?.onPrint;
 
-    const onListen = (localAddr: Deno.NetAddr) => events?.onListen?.({ host: localAddr.hostname, port: localAddr.port });
+    const onListen = (localAddr: Deno.NetAddr) => {
+      settings.server = { hostname: localAddr.hostname, port: localAddr.port };
+      events?.onListen?.({ host: localAddr.hostname, port: localAddr.port });
+    };
 
     const _server = serve({
       ...server,

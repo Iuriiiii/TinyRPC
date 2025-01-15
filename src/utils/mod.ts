@@ -44,4 +44,4 @@ export * from "./get-array-uid.util.ts";
 export * from "./chance-of.util.ts";
 export * from "./get-string-from-number.util.ts";
 export * from "./chance-of.util.ts";
-export * from "./get-full-url.util.ts";
+export * from "./build-url.util.ts";

@@ -3,8 +3,9 @@ import { settings, webhooks } from "../singletons/mod.ts";
 import { getArrayUid } from "./get-array-uid.util.ts";
 import { getFunctionUid } from "./get-function-uid.util.ts";
 import { getStringFromNumber } from "./get-string-from-number.util.ts";
+import { getFullUrl } from "./get-full-url.util.ts";
 
-export interface CreateWebhookParams {
+export interface CreateWebhookParam {
   handler(request: Request): Response;
   /**
    * The webhook path.
@@ -31,11 +32,10 @@ export interface CreateWebhookResponse {
 /**
  * Creates a new webhook to handle requests.
  */
-export function createWebhook(
-  { id, handler, dependencies = [], path = "/webhooks" }: CreateWebhookParams,
-): CreateWebhookResponse {
+export function createWebhook(param: CreateWebhookParam): CreateWebhookResponse {
   assert(settings.server, "The server must be running before creating webhooks.");
 
+  const { id, handler, dependencies = [], path = "/webhooks" } = param;
   const dependenciesId = getArrayUid(dependencies);
   const uid = id ?? getStringFromNumber(getFunctionUid(handler) + dependenciesId);
   const webhook = webhooks.find((webhook) => webhook.id === uid);
@@ -47,7 +47,12 @@ export function createWebhook(
     };
   }
 
-  const url = settings.server.hostname! + (!path ? `/webhooks/${uid}` : path === "/" ? `/${uid}` : `${path}/${uid}`);
+  const url = getFullUrl({
+    host: settings.server.hostname!,
+    port: settings.server.port,
+    https: settings.server.hostname?.startsWith("https://"),
+    path: (!path ? `/webhooks/${uid}` : path === "/" ? `/${uid}` : `${path}/${uid}`),
+  });
 
   webhooks.push({
     id: uid,

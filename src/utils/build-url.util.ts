@@ -11,8 +11,9 @@ export function buildUrl(param: GetFullUrlParam): string {
   const protocol = https ? "https://" : "http://";
   const fixedHost = host.startsWith("http://") || host.startsWith("https://") ? host : `${protocol}${host}`;
   const fixedPort = port ? `:${port}` : "";
-  const fixedQuery = new URLSearchParams(query).toString();
+  const fixedQueryParams = new URLSearchParams(query).toString();
+  const fixedQuery = fixedQueryParams ? `?${fixedQueryParams}` : "";
   const fixedPath = !path ? "" : path.startsWith("/") ? path : `/${path}`;
 
-  return `${fixedHost}${fixedPort}${fixedPath}?${fixedQuery}`;
+  return `${fixedHost}${fixedPort}${fixedPath}${fixedQuery}`;
 }

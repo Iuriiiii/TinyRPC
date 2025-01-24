@@ -53,4 +53,9 @@ export interface MemberMetadata {
    * Set member manipulators.
    */
   manipulators?: Manipulator[];
+
+  /**
+   * Set member as module identifier.
+   */
+  identifier?: boolean;
 }

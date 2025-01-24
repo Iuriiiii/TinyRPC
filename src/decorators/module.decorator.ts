@@ -28,6 +28,10 @@ Did you enable decorators on your project?
       members.push(...preserveMembers);
     }
 
+    const identifierMembers = members.filter((m) => m.identifier);
+
+    assert(identifierMembers.length <= 1, "Only one identifier member is allowed per module.");
+
     modules.push({
       constructor: target,
       name: target.name,

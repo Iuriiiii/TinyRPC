@@ -13,7 +13,7 @@ export function warn(...args: any[]): void {
     type: PrintType.Warning,
     args,
     methodName: ctx?.procedure.name,
-    moduleName: ctx?.clazz.name,
+    moduleName: ctx?.instance.name,
     logger: console.warn,
   });
 }

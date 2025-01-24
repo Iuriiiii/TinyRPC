@@ -13,7 +13,7 @@ export function debug(...args: any[]): void {
     type: PrintType.Debug,
     args,
     methodName: ctx?.procedure.name,
-    moduleName: ctx?.clazz.name,
+    moduleName: ctx?.instance.name,
     logger: console.debug,
   });
 }

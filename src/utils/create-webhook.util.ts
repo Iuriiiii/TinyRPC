@@ -36,11 +36,17 @@ export interface CreateWebhookResponse {
 
 /**
  * Creates a new webhook to handle requests.
+ *
+ * @example
+ * const { id, url } = createWebhook((request) => new Response("Hello, world!"));
+ *
+ * console.log({ id, url });
  */
-export function createWebhook(param: CreateWebhookParam): CreateWebhookResponse {
+export function createWebhook(handler: CreateWebhookParam["handler"]): CreateWebhookResponse;
+export function createWebhook(param: CreateWebhookParam | CreateWebhookParam["handler"]): CreateWebhookResponse {
   assert(settings.server, "The server must be running before creating webhooks.");
 
-  const { id, handler, dependencies = [], path = "/webhooks" } = param;
+  const { id, handler, dependencies = [], path = "/webhooks" } = typeof param === "function" ? { handler: param } : param;
   const dependenciesId = getArrayUid(dependencies);
   const uid = id ?? getStringFromNumber(getFunctionUid(handler) + dependenciesId);
   const webhook = webhooks.find((webhook) => webhook.id === uid);

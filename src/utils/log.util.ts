@@ -13,7 +13,7 @@ export function log(...args: any[]): void {
     type: PrintType.Log,
     args,
     methodName: ctx?.procedure.name,
-    moduleName: ctx?.clazz.name,
+    moduleName: ctx?.instance.name,
     logger: console.log,
   });
 }

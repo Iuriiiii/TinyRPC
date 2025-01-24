@@ -10,8 +10,7 @@ import { isUndefined } from "@online/is";
 /**
  * Declare a member.
  *
- * @param {MemberDecoratorOptions} options
- * @returns {MemberDecorator}
+ * @param options
  */
 export function Member(options?: MemberDecoratorOptions): MemberDecorator {
   return function (
@@ -42,6 +41,11 @@ Did you enable decorators on your project?
       !isUndefined(dataType),
       `The "Member" decorator needs a typed class member. Parameter "${className}.${propertyKey}" is not explicitly typed.`,
     );
+
+    if (options?.identifier) {
+      // @ts-ignore: compare `dataType` with `String` and `Number`
+      assert([String, Number].includes(dataType), "Identifier must be a string or number.");
+    }
 
     members.push(
       {

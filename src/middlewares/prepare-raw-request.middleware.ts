@@ -1,4 +1,3 @@
-import type { Constructor } from "../types/mod.ts";
 import type { ContentBody } from "@tinyrpc/sdk-core";
 import type { MiddlewareParam } from "./interfaces/mod.ts";
 import type { ModuleMetadata } from "../singletons/interfaces/mod.ts";
@@ -7,10 +6,9 @@ import { type Decoder, unpack } from "@online/packager";
 import { dateDeserializer } from "@online/tinyserializers";
 import { STATUS_CODE } from "@std/http";
 import { HttpError, isPostRequest } from "../mod.ts";
-import { getClassByName, getClassName, getStructure } from "../utils/mod.ts";
+import { getClassByName, getInstance, handleManipulators } from "../utils/mod.ts";
 import { crashIfNot, isRawRequest } from "../utils/mod.ts";
 import { decoders, webhooks } from "../singletons/mod.ts";
-import { isClassObject } from "@online/is";
 
 const decoder: Decoder = (body: ContentBody) => {
   let result = body;
@@ -21,33 +19,6 @@ const decoder: Decoder = (body: ContentBody) => {
 
   return result;
 };
-
-function handleManipulators(value: unknown) {
-  if (!isClassObject(value)) {
-    return value;
-  }
-
-  const structure = getStructure(getClassName(value as Constructor));
-
-  if (!structure) {
-    return value;
-  }
-
-  for (const member of structure.members) {
-    const { manipulators = [], name: memberName } = member;
-    // @ts-ignore: index access
-    let result = value[memberName];
-
-    for (const manipulator of manipulators) {
-      result = manipulator(result, value);
-    }
-
-    // @ts-ignore: index access
-    value[memberName] = result;
-  }
-
-  return value;
-}
 
 /**
  * Prepare request middleware, check JSON and creates "rpc" object.
@@ -89,7 +60,12 @@ export async function prepareRawRequest({ request, stop }: MiddlewareParam) {
     .map(({ name: paramName }) => args[paramName!])
     .map(handleManipulators);
 
-  const clazzInstance: Constructor = moduleMetadata.instance ?? new moduleMetadata.constructor(...constructorArguments);
+  const clazzInstance = handleManipulators(getInstance({
+    moduleMetadata: moduleMetadata,
+    args: constructorArguments,
+    client: client as Record<string, unknown>,
+  }));
+
   // TODO: Add an option to able a class to be created each time the method is called
   // @ts-ignore: Get class method with index name.
   const procedure: (...args: unknown[]) => unknown = clazzInstance[methodName];
@@ -98,7 +74,7 @@ export async function prepareRawRequest({ request, stop }: MiddlewareParam) {
 
   Object.defineProperty(request, "rpc", {
     value: {
-      clazz: clazzInstance,
+      instance: clazzInstance,
       procedure,
       arguments: args as Record<string, unknown>,
       pushableArguments,

@@ -22,8 +22,8 @@ const encoder: Encoder = ({ result, updates }: PackArgument) => {
 export async function finishRawRequest({ request }: MiddlewareParam) {
   const { rpc } = request;
   const packed = await asyncLocalStorage.run(rpc, async () => {
-    const { procedure, pushableArguments: args, clazz, client } = rpc;
-    const result = (await procedure.call(clazz, ...args, { request, client } satisfies MethodExtraOptions<unknown>)) ?? {};
+    const { procedure, pushableArguments: args, instance, client } = rpc;
+    const result = (await procedure.call(instance, ...args, { request, client } satisfies MethodExtraOptions<unknown>)) ?? {};
     const packArgument = { result, updates: client } satisfies PackArgument;
 
     return pack(packArgument, { serializers: [dateSerializer], encoder });

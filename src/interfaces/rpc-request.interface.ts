@@ -1,10 +1,9 @@
-import type { Constructor } from "../types/mod.ts";
-
 export interface RpcRequest<T extends object = object> extends Request {
   rpc: {
     // deno-lint-ignore ban-types
     procedure: Function;
-    clazz: Constructor;
+    // deno-lint-ignore no-explicit-any
+    instance: any;
     /**
      * The arguments received from the client.
      * In object format.

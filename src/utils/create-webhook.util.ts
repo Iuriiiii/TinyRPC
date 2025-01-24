@@ -36,10 +36,10 @@ export interface CreateWebhookResponse {
 
 /**
  * Creates a new webhook to handle requests.
- * 
+ *
  * @example
  * const { id, url } = createWebhook((request) => new Response("Hello, world!"));
- * 
+ *
  * console.log({ id, url });
  */
 export function createWebhook(handler: CreateWebhookParam["handler"]): CreateWebhookResponse;

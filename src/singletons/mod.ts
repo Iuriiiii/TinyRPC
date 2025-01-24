@@ -10,3 +10,4 @@ export * from "./decoders.singleton.ts";
 export * from "./async-local-storage.singleton.ts";
 export * from "./settings.singleton.ts";
 export * from "./webhooks.singleton.ts";
+export * from "./identifiables.singleton.ts";

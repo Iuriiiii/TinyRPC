@@ -6,6 +6,7 @@ import { finishRawRequest } from "./src/middlewares/mod.ts";
 import { Serializable, SerializableClass } from "@online/packager";
 import { enums, instances, modules, settings, structures } from "./src/singletons/mod.ts";
 import { isUndefined } from "@online/is";
+import { getMethodComments } from "./src/decorators/utils/mod.ts";
 
 const { serve } = Deno;
 
@@ -48,10 +49,7 @@ export class TinyRPC {
       events?.onListen?.({ host: localAddr.hostname, port: localAddr.port });
     };
 
-    const _server = serve({
-      ...server,
-      onListen,
-    }, async function (request: Request) {
+    const _server = serve({ ...server, onListen, }, async (request: Request) => {
       let response = new Response();
       let next = true;
 
@@ -120,6 +118,5 @@ export { STATUS_CODE };
 // TODO: Add logs logic
 // TODO: Add a new option to `TinyRPC.start` to disable logs, debugs or warnings, it must be an array
 // to add more than one
-// TODO: Add a way to handle common HTTP(s) requests, just for webhooks...
 // TODO!: Add `manipulators` member to members to validate members data and transform them if needed
 // EJ: manipulators: [isEmail, removeArroba, endsWith(".com")]

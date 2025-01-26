@@ -42,7 +42,8 @@ Did you enable decorators on your project?
     // deno-lint-ignore ban-types
     const methodTarget: Function = target[propertyKey];
     const isOptions = isParamOptions(paramNameOrOptions);
-    const paramName = (isOptions ? paramNameOrOptions.name : paramNameOrOptions) || getParamName(methodTarget, index) ||
+    const paramName = (isOptions ? paramNameOrOptions.name : paramNameOrOptions) ||
+      getParamName(methodTarget, index) ||
       `p${params.length}`;
     const optional = isOptions ? paramNameOrOptions.optional : void 0;
     const paramTypes = Reflect.getMetadata(

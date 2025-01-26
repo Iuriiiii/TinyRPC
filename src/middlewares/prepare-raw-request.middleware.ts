@@ -79,6 +79,7 @@ export async function prepareRawRequest({ request, stop }: MiddlewareParam) {
       arguments: args as Record<string, unknown>,
       pushableArguments,
       client,
+      rawBody: body
     } satisfies RpcRequest["rpc"],
     writable: false,
   });

@@ -1,3 +1,4 @@
+// deno-lint-ignore-file
 import type { Constructor } from "../../types/mod.ts";
 
 interface Comment {
@@ -7,7 +8,7 @@ interface Comment {
 
 // TODO: Some day...
 export function getMethodComments(clazz: Constructor) {
-  const lines = clazz.toString().split(/[\r\n]/).filter(line => line.length).map((line) => line.trim());
+  const lines = clazz.toString().split(/[\r\n]/).filter((line) => line.length).map((line) => line.trim());
   const comments: Comment[] = [];
   let docs = false;
   let rest;
@@ -19,7 +20,6 @@ export function getMethodComments(clazz: Constructor) {
 
     if (docs && line.startsWith("* ")) {
       rest = line.slice(2).trim();
-
     }
 
     if (line.endsWith("*/")) {

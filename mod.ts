@@ -6,7 +6,6 @@ import { finishRawRequest } from "./src/middlewares/mod.ts";
 import { Serializable, SerializableClass } from "@online/packager";
 import { enums, instances, modules, settings, structures } from "./src/singletons/mod.ts";
 import { isUndefined } from "@online/is";
-import { getMethodComments } from "./src/decorators/utils/mod.ts";
 
 const { serve } = Deno;
 
@@ -49,7 +48,7 @@ export class TinyRPC {
       events?.onListen?.({ host: localAddr.hostname, port: localAddr.port });
     };
 
-    const _server = serve({ ...server, onListen, }, async (request: Request) => {
+    const _server = serve({ ...server, onListen }, async (request: Request) => {
       let response = new Response();
       let next = true;
 

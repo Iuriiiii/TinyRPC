@@ -14,5 +14,6 @@ export interface RpcRequest<T extends object = object> extends Request {
      */
     pushableArguments: unknown[];
     client: T;
+    rawBody: Uint8Array;
   };
 }

@@ -20,7 +20,6 @@ export * from "./get-structure-deserializer.util.ts";
 export * from "./get-structure-serializer.util.ts";
 export * from "./object-pick-to-array.util.ts";
 export * from "./object-pick.util.ts";
-export * from "./is-raw-request.util.ts";
 export * from "./warn-if-not.util.ts";
 export * from "./warn-if.util.ts";
 export * from "./warn.util.ts";

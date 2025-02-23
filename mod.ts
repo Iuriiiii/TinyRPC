@@ -6,8 +6,7 @@ import { finishRawRequest } from "./src/middlewares/mod.ts";
 import { Serializable, SerializableClass } from "@online/packager";
 import { enums, instances, modules, settings, structures } from "./src/singletons/mod.ts";
 import { isUndefined } from "@online/is";
-
-const { serve } = Deno;
+import { type IHandlerOptions, type IServer, serve } from "@online/serve";
 
 /**
  * Create instances of all classes to be used
@@ -34,8 +33,8 @@ export class TinyRPC {
   /**
    * Starts an HTTP(s) server to start processing RPC requests
    */
-  static start(param: Partial<ServerSettings> = {}): Deno.HttpServer<Deno.NetAddr> {
-    const { sdk, middlewares = [], server = {}, events } = param;
+  static start(param: Partial<ServerSettings> = {}): Promise<IServer> {
+    const { sdk, middlewares = [], server = {}, events, websockHandler } = param;
     const _middlewares = [prepareRawRequest, ...middlewares, finishRawRequest] as Middleware[];
 
     prepareClasses();
@@ -48,7 +47,7 @@ export class TinyRPC {
       events?.onListen?.({ host: localAddr.hostname, port: localAddr.port });
     };
 
-    const _server = serve({ ...server, onListen }, async (request: Request) => {
+    const requestHandler = async ({ request }: IHandlerOptions) => {
       let response = new Response();
       let next = true;
 
@@ -82,6 +81,12 @@ export class TinyRPC {
       }
 
       return response;
+    };
+
+    const _server = serve({
+      ...server,
+      wsHandler: websockHandler,
+      handler: requestHandler
     });
 
     if (!sdk?.doNotGenerate) {

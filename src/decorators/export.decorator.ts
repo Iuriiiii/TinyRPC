@@ -4,6 +4,7 @@ import { Reflect } from "@dx/reflect";
 import { methods, params } from "../singletons/mod.ts";
 import { assert } from "@std/assert";
 import { isUndefined } from "@online/is";
+import { Stream } from "../classes/mod.ts";
 
 function isExportDecoratorOptions<T extends object>(
   param?: string | Partial<ExportDecoratorOptions<T>>,
@@ -42,6 +43,15 @@ Did you enable decorators on your project?
     assert(methodTarget instanceof Function, `The "Export" decorator is for methods only.`);
     assert(typeof propertyKey !== "symbol", `The "Export" decorator does not works with symbols.`);
 
+    const isSomeStreamParam = params.some((param) => param.dataType === Stream);
+
+    if (isSomeStreamParam) {
+      assert(
+        params.length === 1,
+        `Exports with streams can only have one param, error on ${target.constructor.name}.${methodTarget.name}.`,
+      );
+    }
+
     const returnType = (() => {
       if (isOptions && param.returnType) {
         return param.returnType;
@@ -52,7 +62,7 @@ Did you enable decorators on your project?
 
     assert(
       returnType !== Promise,
-      `For promise responses the "returnType" option is required and needs to be different to a promise.`,
+      `For promise responses the "returnType" option is required and needs to be different to a promise. Error on ${target.constructor.name}.${methodTarget.name}.`,
     );
     assert(
       !isUndefined(returnType),

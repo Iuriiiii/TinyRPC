@@ -1,11 +1,15 @@
 import type { RpcRequest } from "../../interfaces/mod.ts";
 import type { ContentBody } from "@tinyrpc/sdk-core";
 import type { ModuleMetadata } from "../../singletons/interfaces/mod.ts";
-import { crashIfNot, getClassByName, getInstance, handleManipulators } from "../../utils/mod.ts";
+import { crashIfNot, getClassByName, getModuleInstance, handleManipulators } from "../../utils/mod.ts";
 import { dateDeserializer } from "@online/tinyserializers";
 import { type Decoder, unpack } from "@online/packager";
 import { STATUS_CODE } from "@std/http";
 import { decoders } from "../../singletons/mod.ts";
+import { getModuleAndMethod } from "./get-module-and-method.util.ts";
+import { isRawStreamRequest } from "../validators/mod.ts";
+import { getModuleArguments } from "./get-module-arguments.util.ts";
+import { HttpError } from "../../exceptions/mod.ts";
 
 const decoder: Decoder = (body: ContentBody) => {
   let result = body;
@@ -17,45 +21,59 @@ const decoder: Decoder = (body: ContentBody) => {
   return result;
 };
 
-export function setRpcRequest(request: Request, body: Uint8Array) {
-  const deserializedBody = unpack<ContentBody>(body, { deserializers: [dateDeserializer], decoder });
-  const args = deserializedBody["&"];
-  const client = deserializedBody["%"];
-  const constructorArguments = deserializedBody["="];
-  const [moduleName, methodName] = deserializedBody["$"].split(".");
+export async function setRpcRequest(request: Request) {
+  const { moduleName, methodName } = getModuleAndMethod(request);
   const moduleMetadata = getClassByName(moduleName) as ModuleMetadata | null;
 
-  crashIfNot(moduleMetadata, "Module not found", STATUS_CODE.NotFound);
+  crashIfNot(moduleMetadata, `Module ${moduleName} not found`, STATUS_CODE.NotFound);
+
+  const constructorArguments = getModuleArguments(request, moduleMetadata);
+  // const constructorBody = getModuleMembers(request);
+  const clazzInstance = handleManipulators(
+    getModuleInstance({
+      moduleMetadata,
+      args: constructorArguments,
+      client: {} as Record<string, unknown>,
+    }),
+  );
 
   const methodMetadata = moduleMetadata.methods.find((method) => method.name === methodName);
 
-  crashIfNot(methodMetadata, "Method not found", STATUS_CODE.NotFound);
-
-  const pushableArguments: unknown[] = methodMetadata.params
-    // @ts-ignore: Ignore any
-    .map(({ name: paramName }) => args[paramName!])
-    .map(handleManipulators);
-
-  const clazzInstance = handleManipulators(getInstance({
-    moduleMetadata: moduleMetadata,
-    args: constructorArguments,
-    client: client as Record<string, unknown>,
-  }));
+  crashIfNot(methodMetadata, `Method ${methodName} not found`, STATUS_CODE.NotFound);
 
   // TODO: Add an option to able a class to be created each time the method is called
   // @ts-ignore: Get class method with index name.
   const procedure: (...args: unknown[]) => unknown = clazzInstance[methodName];
 
-  crashIfNot(procedure, "Method not found", STATUS_CODE.NotFound);
+  crashIfNot(procedure, `Method ${methodName} not found`, STATUS_CODE.NotFound);
+
+  const pushableArguments: unknown[] = await (async () => {
+    if (isRawStreamRequest(request)) {
+      return [request.body!];
+    }
+
+    const body = await request.bytes().catch(() => {
+      throw new HttpError(STATUS_CODE.UnprocessableEntity, "Invalid request body");
+    });
+
+    const deserializedBody = unpack<ContentBody>(body, { deserializers: [dateDeserializer], decoder });
+    const args = deserializedBody["&"];
+    // const client = deserializedBody["%"];
+
+    return methodMetadata.params
+      // @ts-ignore: Ignore any
+      .map(({ name: paramName }) => args[paramName!])
+      .map(handleManipulators);
+  })();
 
   Object.defineProperty(request, "rpc", {
     value: {
       instance: clazzInstance,
       procedure,
-      arguments: args as Record<string, unknown>,
+      // arguments: args as Record<string, unknown>,
       pushableArguments,
-      client,
-      rawBody: body,
+      // client,
+      // rawBody: body,
     } satisfies RpcRequest["rpc"],
     writable: false,
   });

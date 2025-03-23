@@ -44,5 +44,5 @@ export * from "./chance-of.util.ts";
 export * from "./get-string-from-number.util.ts";
 export * from "./chance-of.util.ts";
 export * from "./build-url.util.ts";
-export * from "./get-instance.util.ts";
+export * from "./get-module-instance.util.ts";
 export * from "./handle-manipulators.util.ts";

@@ -5,3 +5,4 @@ export * from "./is-class-instance.validator.ts";
 export * from "./is-exposed-enum.validator.ts";
 export * from "./is-ralo-serialized-class.validator.ts";
 export * from "./is-falsy.validator.ts";
+export * from "./is-primitive-constructor.validator.ts";

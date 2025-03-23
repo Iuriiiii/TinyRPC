@@ -47,7 +47,7 @@ export class TinyRPC {
       events?.onListen?.({ host: localAddr.hostname, port: localAddr.port });
     };
 
-    const requestHandler = async ({ request }: IHandlerOptions) => {
+    const requestHandler = async ({ request, upgradeToWebSocket }: IHandlerOptions) => {
       let response = new Response();
       let next = true;
 
@@ -58,6 +58,7 @@ export class TinyRPC {
             request: request as RpcRequest<object>,
             response,
             stop: () => (next = false),
+            upgradeToWebSocket,
             settings: param,
           });
 
@@ -86,7 +87,7 @@ export class TinyRPC {
     const _server = serve({
       ...server,
       wsHandler: websockHandler,
-      handler: requestHandler
+      handler: requestHandler,
     });
 
     if (!sdk?.doNotGenerate) {
@@ -119,8 +120,5 @@ export { Export, Expose, HttpError, Member, Module, Param } from "./src/mod.ts";
 export { STATUS_CODE };
 
 // TODO: Implement logic to show server-warnings up to clients via sdk
-// TODO: Add logs logic
 // TODO: Add a new option to `TinyRPC.start` to disable logs, debugs or warnings, it must be an array
 // to add more than one
-// TODO!: Add `manipulators` member to members to validate members data and transform them if needed
-// EJ: manipulators: [isEmail, removeArroba, endsWith(".com")]

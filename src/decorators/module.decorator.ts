@@ -30,7 +30,16 @@ Did you enable decorators on your project?
 
     const identifierMembers = members.filter((m) => m.identifier);
 
-    assert(identifierMembers.length <= 1, "Only one identifier member is allowed per module.");
+    // for (const member of members) {
+    //   if (!isUndefined(member.constructorParam)) {
+    //     assert(
+    //       isPrimitiveConstructor(member.dataType),
+    //       `Module constructor members must be primitive types, error on constructor member: ${member.name}.`,
+    //     );
+    //   }
+    // }
+
+    assert(identifierMembers.length <= 1, `Only one identifier member is allowed per module. Error on ${target.name}`);
 
     modules.push({
       constructor: target,

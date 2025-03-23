@@ -8,12 +8,12 @@ export interface RpcRequest<T extends object = object> extends Request {
      * The arguments received from the client.
      * In object format.
      */
-    arguments: Record<string, unknown>;
+    // arguments: Record<string, unknown>;
     /**
      * Array of arguments, ready for .call or .apply.
      */
     pushableArguments: unknown[];
-    client: T;
-    rawBody: Uint8Array;
+    // client: T;
+    // rawBody: Uint8Array;
   };
 }

@@ -19,15 +19,32 @@ const encoder: Encoder = ({ result, updates }: PackArgument) => {
  * Calls the requested method with deserialized arguments and returns result.
  * default status: `STATUS_CODE.OK` (200).
  */
-export async function finishRawRequest({ request }: MiddlewareParam) {
+export async function finishRawRequest({ request, upgradeToWebSocket }: MiddlewareParam) {
   const { rpc } = request;
-  const packed = await asyncLocalStorage.run(rpc, async () => {
-    const { procedure, pushableArguments: args, instance, client } = rpc;
-    const result = (await procedure.call(instance, ...args, { request, client } satisfies MethodExtraOptions<unknown>)) ?? {};
-    const packArgument = { result, updates: client } satisfies PackArgument;
+  const result = await asyncLocalStorage.run(rpc, async () => {
+    const { procedure, pushableArguments: args, instance } = rpc;
+    const response = (await procedure.call(
+      instance,
+      ...args,
+      { request, client: {}, upgradeToWebSocket } satisfies MethodExtraOptions<unknown>,
+    )) ?? {};
 
-    return pack(packArgument, { serializers: [dateSerializer], encoder });
+    if (response instanceof ReadableStream) {
+      return new Response(response, {
+        status: STATUS_CODE.OK,
+        headers: {
+          "Content-Type": "application/octet-stream",
+          "Transfer-Encoding": "chunked",
+        },
+      });
+    }
+
+    // FIXME: Enable updates again...
+    const packArgument = { result: response, updates: {} } satisfies PackArgument;
+    const packedResult = pack(packArgument, { serializers: [dateSerializer], encoder });
+
+    return new Response(packedResult, { status: STATUS_CODE.OK });
   });
 
-  return new Response(packed, { status: STATUS_CODE.OK });
+  return result;
 }

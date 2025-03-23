@@ -27,4 +27,9 @@ export interface WebhookMetadata {
    * /{path}/{id}
    */
   url: string;
+
+  /**
+   * The webhooks method.
+   */
+  // method: Request["method"];
 }

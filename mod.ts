@@ -1,13 +1,13 @@
 import type { RpcRequest, ServerSettings } from "./src/mod.ts";
 import type { Middleware } from "./src/middlewares/types/mod.ts";
+import type { IHandlerOptions, IServer } from "@online/serve";
 import { STATUS_CODE } from "@std/http";
 import { getMiddlewareFunction, isHttpException, prepareRawRequest } from "./src/mod.ts";
 import { finishRawRequest } from "./src/middlewares/mod.ts";
 import { Serializable, SerializableClass } from "@online/packager";
 import { enums, instances, modules, settings, structures } from "./src/singletons/mod.ts";
 import { isUndefined } from "@online/is";
-
-const { serve } = Deno;
+import { serve } from "@online/serve";
 
 /**
  * Create instances of all classes to be used
@@ -34,8 +34,8 @@ export class TinyRPC {
   /**
    * Starts an HTTP(s) server to start processing RPC requests
    */
-  static start(param: Partial<ServerSettings> = {}): Deno.HttpServer<Deno.NetAddr> {
-    const { sdk, middlewares = [], server = {}, events } = param;
+  static start(param: Partial<ServerSettings> = {}): Promise<IServer> {
+    const { sdk, middlewares = [], server = {}, events, websockHandler } = param;
     const _middlewares = [prepareRawRequest, ...middlewares, finishRawRequest] as Middleware[];
 
     prepareClasses();
@@ -43,12 +43,7 @@ export class TinyRPC {
     settings.events.onListen ??= events?.onListen;
     settings.events.onPrint ??= events?.onPrint;
 
-    const onListen = (localAddr: Deno.NetAddr) => {
-      settings.server = { hostname: localAddr.hostname, port: localAddr.port };
-      events?.onListen?.({ host: localAddr.hostname, port: localAddr.port });
-    };
-
-    const _server = serve({ ...server, onListen }, async (request: Request) => {
+    const requestHandler = async ({ request, upgradeToWebSocket }: IHandlerOptions) => {
       let response = new Response();
       let next = true;
 
@@ -59,6 +54,7 @@ export class TinyRPC {
             request: request as RpcRequest<object>,
             response,
             stop: () => (next = false),
+            upgradeToWebSocket,
             settings: param,
           });
 
@@ -82,6 +78,12 @@ export class TinyRPC {
       }
 
       return response;
+    };
+
+    const _server = serve({
+      ...server,
+      wsHandler: websockHandler,
+      handler: requestHandler,
     });
 
     if (!sdk?.doNotGenerate) {
@@ -114,8 +116,5 @@ export { Export, Expose, HttpError, Member, Module, Param } from "./src/mod.ts";
 export { STATUS_CODE };
 
 // TODO: Implement logic to show server-warnings up to clients via sdk
-// TODO: Add logs logic
 // TODO: Add a new option to `TinyRPC.start` to disable logs, debugs or warnings, it must be an array
 // to add more than one
-// TODO!: Add `manipulators` member to members to validate members data and transform them if needed
-// EJ: manipulators: [isEmail, removeArroba, endsWith(".com")]

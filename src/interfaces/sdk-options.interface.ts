@@ -27,5 +27,5 @@ export interface SdkOptions {
   /**
    * Compilers to use on this project.
    */
-  compilers: CompilerInformation[];
+  compilers: CompilerInformation<unknown>[];
 }

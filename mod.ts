@@ -42,11 +42,6 @@ export class TinyRPC {
     settings.events.onListen ??= events?.onListen;
     settings.events.onPrint ??= events?.onPrint;
 
-    const onListen = (localAddr: Deno.NetAddr) => {
-      settings.server = { hostname: localAddr.hostname, port: localAddr.port };
-      events?.onListen?.({ host: localAddr.hostname, port: localAddr.port });
-    };
-
     const requestHandler = async ({ request, upgradeToWebSocket }: IHandlerOptions) => {
       let response = new Response();
       let next = true;

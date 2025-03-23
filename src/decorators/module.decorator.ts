@@ -4,7 +4,6 @@ import { members, methods, modules } from "../singletons/mod.ts";
 import { Expose } from "./expose.decorator.ts";
 import { assert } from "@std/assert";
 import { isUndefined } from "@online/is";
-import { isPrimitiveConstructor } from "../validators/mod.ts";
 
 /**
  * Defines a module.

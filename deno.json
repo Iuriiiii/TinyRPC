@@ -18,7 +18,8 @@
     "@std/encoding": "jsr:@std/encoding@^1.0.7",
     "@std/assert": "jsr:@std/assert@^1.0.10",
     "@std/http": "jsr:@std/http@^1.0.13",
-    "@dx/reflect": "jsr:@dx/reflect@^0.2.15"
+    "@dx/reflect": "jsr:@dx/reflect@^0.2.15",
+    "@tinyrpc/sdk-core": "jsr:@tinyrpc/sdk-core@^0.1.31"
   },
   "compilerOptions": {
     "experimentalDecorators": true,

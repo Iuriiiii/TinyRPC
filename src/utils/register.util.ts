@@ -4,6 +4,9 @@ import { decoders, encoders } from "../singletons/mod.ts";
 import { expose } from "./expose.util.ts";
 import { assert } from "@std/assert";
 
+/**
+ * Options for registering encoders, decoders, and enums.
+ */
 export interface RegisterParam {
   encoder: Encoder;
   encoders: Encoder[];
@@ -14,6 +17,11 @@ export interface RegisterParam {
   as: string;
 }
 
+/**
+ * Registers encoders, decoders, and enums.
+ *
+ * @param options - Options for registering encoders, decoders, and enums.
+ */
 export function register(
   { encoder, encoders: _encoders, decoder, decoders: _decoders, enum: _enum, enums, as: name }: Partial<RegisterParam>,
 ) {

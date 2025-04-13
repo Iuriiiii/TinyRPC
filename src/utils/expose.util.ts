@@ -2,6 +2,22 @@ import type { ExposeParam } from "../decorators/interfaces/mod.ts";
 import { isPlainObject } from "@online/is";
 import { enums } from "../singletons/mod.ts";
 
+/**
+ * Exposes an enum or schema to the client and server.
+ *
+ * @throws If no enum or schema is provided.
+ * @throws If both enum and schema are provided.
+ * @throws If the enum has already been exposed.
+ * @throws If the enum is not an object.
+ *
+ * @example
+ * export enum MyEnum {
+ *   A = "A",
+ *   B = "B",
+ * }
+ *
+ * expose({ enum: MyEnum, as: "MyEnum" });
+ */
 export function expose<T extends object>({ enum: _enum, schema, as: name }: ExposeParam<T>): T {
   const objects = [_enum, schema].filter(Boolean);
 

@@ -6,6 +6,21 @@ export interface GetFullUrlParam {
   https?: boolean;
 }
 
+/**
+ * Builds a full URL given a param object.
+ *
+ * @param param - The param object
+ * @returns The full URL
+ * @example
+ * const param = {
+ *   host: "example.com",
+ *   path: "/path",
+ *   query: { foo: "bar" },
+ *   https: true,
+ * };
+ * const url = buildUrl(param);
+ * // "https://example.com/path?foo=bar"
+ */
 export function buildUrl(param: GetFullUrlParam): string {
   const { host, port, path, query, https } = param;
   const protocol = https ? "https://" : "http://";

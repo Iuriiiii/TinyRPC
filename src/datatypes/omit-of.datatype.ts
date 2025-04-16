@@ -1,7 +1,7 @@
 import type { DataType } from "../types/mod.ts";
 
 export class OmitDatatype {
-  constructor(public readonly dataType: DataType, private readonly ommitedKeys: string[]) { }
+  constructor(public readonly dataType: DataType, private readonly ommitedKeys: string[]) {}
 }
 
 export function intersectionOf(dataType: DataType, keys: string[]) {

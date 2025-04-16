@@ -46,4 +46,4 @@ export * from "./chance-of.util.ts";
 export * from "./build-url.util.ts";
 export * from "./get-module-instance.util.ts";
 export * from "./handle-manipulators.util.ts";
-export * from './calculate-datatype.util.ts';
+export * from "./calculate-datatype.util.ts";

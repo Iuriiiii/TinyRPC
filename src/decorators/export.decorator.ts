@@ -5,7 +5,6 @@ import { methods, params } from "../singletons/mod.ts";
 import { assert } from "@std/assert";
 import { isUndefined } from "@online/is";
 import { Stream } from "../classes/mod.ts";
-import { CalculatedDatatype } from "../mod.ts";
 
 function isExportDecoratorOptions<T extends object>(
   param?: string | Partial<ExportDecoratorOptions<T>>,

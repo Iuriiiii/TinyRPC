@@ -21,7 +21,7 @@ Deno.test("calculate datatype", async (t) => {
 
   await t.step("From class", () => {
     @Expose()
-    class TestClass extends SerializableClass { }
+    class TestClass extends SerializableClass {}
     const result = calculateDatatype(TestClass);
 
     assert(result.type === DatatypeType.Structure, `Custom type expected, got ${result.type}.`);

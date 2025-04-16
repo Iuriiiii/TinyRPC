@@ -1,1 +1,1 @@
-export class Void { }
+export class Void {}

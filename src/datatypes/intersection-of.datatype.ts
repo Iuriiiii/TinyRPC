@@ -1,7 +1,7 @@
 import type { DataType } from "../types/mod.ts";
 
 export class IntersectionDatatype {
-  constructor(public readonly dataTypes: DataType[]) { }
+  constructor(public readonly dataTypes: DataType[]) {}
 }
 
 export function intersectionOf(...dataTypes: DataType[]) {

@@ -110,9 +110,8 @@ export class TinyRPC {
   }
 }
 
-export { expose } from "./src/mod.ts";
 export { Serializable, SerializableClass };
-export { Export, Expose, HttpError, Member, Module, Param } from "./src/mod.ts";
+export { DatatypeType, Export, Expose, expose, HttpError, Member, Module, Param } from "./src/mod.ts";
 export { STATUS_CODE };
 
 // TODO: Implement logic to show server-warnings up to clients via sdk

@@ -1,4 +1,4 @@
-import type { DataType, Manipulator } from "../../types/mod.ts";
+import type { Datatype, Manipulator } from "../../types/mod.ts";
 
 export interface MemberMetadata {
   /**
@@ -15,7 +15,7 @@ export interface MemberMetadata {
    * Data type of the member.
    * If string, it will be hardcoded to the param type.
    */
-  dataType: DataType;
+  dataType: Datatype;
 
   /**
    * Default value of the member.

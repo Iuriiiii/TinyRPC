@@ -1,6 +1,6 @@
 {
   "name": "@tinyrpc/server",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "tasks": {
     "generate:ai-docs": "deno doc --json ./*.ts >> ./ai-docs.json"
   },
@@ -10,14 +10,13 @@
     "./utils": "./utils.ts"
   },
   "imports": {
-    "@inspatial/test": "jsr:@inspatial/test@^0.0.9",
-    "@online/is": "jsr:@online/is@^0.0.3",
+    "@online/is": "jsr:@online/is@^0.0.5",
     "@online/packager": "jsr:@online/packager@^0.0.17",
     "@online/serve": "jsr:@online/serve@^0.0.2",
     "@online/tinyserializers": "jsr:@online/tinyserializers@^0.0.8",
-    "@std/encoding": "jsr:@std/encoding@^1.0.8",
+    "@std/encoding": "jsr:@std/encoding@^1.0.9",
     "@std/assert": "jsr:@std/assert@^1.0.12",
-    "@std/http": "jsr:@std/http@^1.0.13",
+    "@std/http": "jsr:@std/http@^1.0.14",
     "@dx/reflect": "jsr:@dx/reflect@^0.2.15",
     "@tinyrpc/sdk-core": "jsr:@tinyrpc/sdk-core@^0.1.31"
   },

@@ -1,4 +1,4 @@
-import type { DataType, MapStructure } from "../../types/mod.ts";
+import type { Datatype, MapStructure } from "../../types/mod.ts";
 
 export interface ExportDecoratorOptions<T extends object = object> {
   /**
@@ -9,7 +9,7 @@ export interface ExportDecoratorOptions<T extends object = object> {
    * The return type to use in the SDK.
    * If this member is an string, the return type is hardcoded.
    */
-  returnType: DataType;
+  returnType: Datatype;
   /**
    * The generics that this method has.
    * It will be included in the SDK.

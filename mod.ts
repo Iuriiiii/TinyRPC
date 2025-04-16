@@ -16,7 +16,8 @@ import { serve } from "@online/serve";
  */
 function prepareClasses() {
   for (const module of modules) {
-    const isSomeMemberAConstructorArgument = module.members.some((member) => !isUndefined(member.constructorParam));
+    const isSomeMemberAConstructorArgument =
+      module.members.some((member) => !isUndefined(member.constructorParam));
 
     if (!isSomeMemberAConstructorArgument) {
       module.instance = new module.constructor();
@@ -110,9 +111,8 @@ export class TinyRPC {
   }
 }
 
-export { expose } from "./src/mod.ts";
 export { Serializable, SerializableClass };
-export { Export, Expose, HttpError, Member, Module, Param } from "./src/mod.ts";
+export { Export, Expose, expose, HttpError, Member, Module, Param, DatatypeType } from "./src/mod.ts";
 export { STATUS_CODE };
 
 // TODO: Implement logic to show server-warnings up to clients via sdk

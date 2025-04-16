@@ -1,5 +1,5 @@
 import type { ParamDecoratorOptions } from "../../decorators/interfaces/mod.ts";
-import type { DataType } from "../../types/mod.ts";
+import type { Datatype } from "../../types/mod.ts";
 
 export interface ParameterMetadata extends Partial<ParamDecoratorOptions> {
   /**
@@ -9,5 +9,5 @@ export interface ParameterMetadata extends Partial<ParamDecoratorOptions> {
   /**
    * Param datatype.
    */
-  dataType: DataType;
+  dataType: Datatype;
 }

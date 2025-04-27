@@ -1,9 +1,12 @@
-import type { DataType } from "../types/mod.ts";
+import { CustomDatatype } from "../classes/mod.ts";
+import type { Datatype } from "../types/mod.ts";
 
-export class UnionDatatype {
-  constructor(public readonly dataTypes: DataType[]) {}
+export class UnionDatatype extends CustomDatatype {
+  constructor(public readonly dataTypes: Datatype[]) {
+    super();
+  }
 }
 
-export function unionOf(...dataTypes: DataType[]) {
+export function unionOf(...dataTypes: Datatype[]): UnionDatatype {
   return new UnionDatatype(dataTypes);
 }

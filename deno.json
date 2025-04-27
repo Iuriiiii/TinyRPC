@@ -1,13 +1,14 @@
 {
   "name": "@tinyrpc/server",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "tasks": {
     "generate:ai-docs": "deno doc --json ./*.ts >> ./ai-docs.json"
   },
   "exports": {
     ".": "./mod.ts",
     "./types": "./types.ts",
-    "./utils": "./utils.ts"
+    "./utils": "./utils.ts",
+    "./datatypes": "./datatypes.ts"
   },
   "imports": {
     "@online/is": "jsr:@online/is@^0.0.5",

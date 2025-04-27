@@ -1,11 +1,4 @@
-export type {
-  Compiler,
-  CompilerInformation,
-  CompilerOptions,
-  Datatype as DataType,
-  MethodExtraOptions,
-  SdkOptions,
-} from "./src/mod.ts";
+export type { Compiler, CompilerInformation, CompilerOptions, Datatype, MethodExtraOptions, SdkOptions } from "./src/mod.ts";
 
 export type { Middleware } from "./src/middlewares/types/mod.ts";
 export type { MiddlewareObject } from "./src/middlewares/interfaces/mod.ts";

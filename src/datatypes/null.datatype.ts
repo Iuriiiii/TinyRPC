@@ -1,6 +1,6 @@
 import { CustomDatatype } from "../classes/mod.ts";
 
-export class Void extends CustomDatatype {
+export class Null extends CustomDatatype {
   constructor() {
     super();
   }

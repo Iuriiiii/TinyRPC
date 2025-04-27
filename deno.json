@@ -7,7 +7,8 @@
   "exports": {
     ".": "./mod.ts",
     "./types": "./types.ts",
-    "./utils": "./utils.ts"
+    "./utils": "./utils.ts",
+    "./datatypes": "./datatypes.ts"
   },
   "imports": {
     "@online/is": "jsr:@online/is@^0.0.5",

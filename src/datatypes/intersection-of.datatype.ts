@@ -1,9 +1,12 @@
-import type { DataType } from "../types/mod.ts";
+import { CustomDatatype } from "../classes/mod.ts";
+import type { Datatype } from "../types/mod.ts";
 
-export class IntersectionDatatype {
-  constructor(public readonly dataTypes: DataType[]) {}
+export class IntersectionDatatype extends CustomDatatype {
+  constructor(public readonly dataTypes: Datatype[]) {
+    super();
+  }
 }
 
-export function intersectionOf(...dataTypes: DataType[]) {
+export function intersectionOf(...dataTypes: Datatype[]): IntersectionDatatype {
   return new IntersectionDatatype(dataTypes);
 }

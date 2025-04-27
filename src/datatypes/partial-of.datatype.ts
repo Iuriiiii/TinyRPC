@@ -1,9 +1,12 @@
-import type { DataType } from "../types/mod.ts";
+import { CustomDatatype } from "../classes/mod.ts";
+import type { Datatype } from "../types/mod.ts";
 
-export class PartialDatatype {
-  constructor(public readonly dataTypes: DataType[]) {}
+export class PartialDatatype extends CustomDatatype {
+  constructor(public readonly dataType: Datatype) {
+    super();
+  }
 }
 
-export function intersectionOf(...dataTypes: DataType[]) {
-  return new PartialDatatype(dataTypes);
+export function partialOf(dataType: Datatype): PartialDatatype {
+  return new PartialDatatype(dataType);
 }

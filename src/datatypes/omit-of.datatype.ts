@@ -1,9 +1,12 @@
-import type { DataType } from "../types/mod.ts";
+import { CustomDatatype } from "../classes/mod.ts";
+import type { Datatype } from "../types/mod.ts";
 
-export class OmitDatatype {
-  constructor(public readonly dataType: DataType, private readonly ommitedKeys: string[]) {}
+export class OmitDatatype extends CustomDatatype {
+  constructor(public readonly dataType: Datatype, public readonly ommitedKeys: string[]) {
+    super();
+  }
 }
 
-export function intersectionOf(dataType: DataType, keys: string[]) {
+export function omitOf(dataType: Datatype, keys: string[]): OmitDatatype {
   return new OmitDatatype(dataType, keys);
 }

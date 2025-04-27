@@ -16,4 +16,9 @@ export interface ParamDecoratorOptions {
    * If string, it will be hardcoded to the param type.
    */
   dataType: Datatype;
+
+  /**
+   * Whether the param is nullable or not.
+   */
+  nullable: boolean;
 }

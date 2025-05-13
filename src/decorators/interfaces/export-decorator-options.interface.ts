@@ -19,4 +19,9 @@ export interface ExportDecoratorOptions<T extends object = object> {
    * The members to read from the client.
    */
   links: MapStructure<T>;
+
+  /**
+   * The description of the method.
+   */
+  description: string;
 }

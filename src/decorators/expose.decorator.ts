@@ -16,7 +16,6 @@ Did you enable decorators on your project?
     `.trim(),
     );
 
-    const isInterface = !!options?.as;
     const className = target.name;
     const extensionName = getClassExtension(target);
 
@@ -41,22 +40,13 @@ Did you enable decorators on your project?
       };
     }
 
-    if (isInterface) {
-      // TODO: Enhance this to parse classes statically.
-      // const someMemberIsAMethod = members.some((member) => member instanceof Function);
-
-      // assert(
-      //   !someMemberIsAMethod,
-      //   `Interfaces can't have methods, error in "${className}".`,
-      // );
-    }
-
     Serializable()(target);
     structures.push({
       constructor: target,
       name: className,
       members: [...members],
-      isInterface,
+      isInterface: false,
+      metadata: {}
     });
     members.length = 0;
   };

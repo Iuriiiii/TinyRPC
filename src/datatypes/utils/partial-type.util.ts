@@ -28,6 +28,7 @@ export function partialType<T extends Constructor>(datatype: T): PartialTypeResp
     name: structureName,
     constructor: PartialClass as Constructor,
     isInterface: false,
+    metadata: {}
   };
 
   structures.push(structure);

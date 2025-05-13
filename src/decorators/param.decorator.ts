@@ -21,7 +21,8 @@ export function Param(paramNameOrOptions?: string | Partial<ParamDecoratorOption
     /**
      * The class decored.
      */
-    target: unknown,
+    // deno-lint-ignore no-explicit-any
+    target: any,
     /**
      * The current method.
      */
@@ -54,12 +55,19 @@ Did you enable decorators on your project?
 
     assert(paramName.length > 0, "Param name expected.");
 
+    if (params.length >= 1 && optional) {
+      const previousParam = params.at(-1)!;
+      assert(previousParam.optional, `The parameter "${previousParam.name}" must be optional due to parameter "${paramName}". Error on ${target.constructor.name}.${methodTarget.name}.`);
+    }
+
     params.push(
       {
         index,
         optional,
         name: paramName,
-        dataType: (isOptions ? paramNameOrOptions.dataType : void 0) ?? paramTypes[index],
+        dataType: isOptions ? (paramNameOrOptions.dataType ?? paramTypes[index]) : paramTypes[index],
+        description: isOptions ? paramNameOrOptions.description : void 0,
+        nullable: isOptions ? paramNameOrOptions.nullable : void 0,
       },
     );
   };

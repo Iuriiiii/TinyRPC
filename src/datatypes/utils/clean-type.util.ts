@@ -33,6 +33,7 @@ export function cleanType<T extends Constructor>(datatype: T): CleanTypeResponse
     name: structureName,
     constructor: CleanClass as Constructor,
     isInterface: false,
+    metadata: {},
   };
 
   structures.push(structure);

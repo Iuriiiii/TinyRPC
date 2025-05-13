@@ -79,6 +79,7 @@ Only native datatypes and serializable classes are supported.
       generics: isOptions ? param.generics : void 0,
       // @ts-ignore: Irrelevant type error
       links: isOptions ? param.links : void 0,
+      description: isOptions ? param.description : void 0,
     });
     params.length = 0;
   };

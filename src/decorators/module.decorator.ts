@@ -4,6 +4,7 @@ import { members, methods, modules } from "../singletons/mod.ts";
 import { Expose } from "./expose.decorator.ts";
 import { assert } from "@std/assert";
 import { isUndefined } from "@online/is";
+import { getModuleDocs } from "../utils/mod.ts";
 
 /**
  * Defines a module.
@@ -40,6 +41,12 @@ Did you enable decorators on your project?
     // }
 
     assert(identifierMembers.length <= 1, `Only one identifier member is allowed per module. Error on ${target.name}`);
+
+    const moduleDocs = getModuleDocs(target);
+
+    for (const method of methods) {
+      method.description = moduleDocs[method.name] ?? method.description;
+    }
 
     modules.push({
       constructor: target,

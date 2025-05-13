@@ -54,6 +54,7 @@ export function omitType<
     name: structureName,
     constructor: OmitClass as Constructor,
     isInterface: false,
+    metadata: {},
   };
 
   structures.push(structure);

@@ -6,6 +6,7 @@ import { getModule } from "./get-module.util.ts";
 import { getExposedEnumName } from "./get-exposed-enum-name.util.ts";
 import { getStructure } from "./get-structure.util.ts";
 import { isPrimitiveConstructor } from "../validators/mod.ts";
+import { CustomDatatype } from "../classes/mod.ts";
 
 export enum DatatypeType {
   Structure = "structure",
@@ -49,7 +50,10 @@ export function calculateDatatype(dataType: Datatype): CalculatedDatatype {
 
   if (isPlainObject(currentDataType)) {
     res.type = getExposedEnumName(currentDataType) ? DatatypeType.Enum : DatatypeType.Object;
-  } else if (isConstructor<Constructor>(currentDataType)) {
+  } else if (
+    isConstructor<Constructor>(currentDataType) &&
+    !((currentDataType as Constructor).prototype instanceof CustomDatatype)
+  ) {
     do {
       const constructorName = (currentDataType as Constructor).name;
       const module = getModule(constructorName);
@@ -71,9 +75,14 @@ export function calculateDatatype(dataType: Datatype): CalculatedDatatype {
       assert(isPrimitiveConstructor(currentDataType), `Unknown data type: ${constructorName}`);
 
       res.type = DatatypeType.Primitive;
+      res.reference = currentDataType;
     } while (false);
+  } else if (currentDataType === null) {
+    res.type = DatatypeType.Primitive;
+    res.reference = currentDataType;
   } else {
     res.type = DatatypeType.Custom;
+    res.reference = currentDataType;
   }
 
   res.dataType = currentDataType;

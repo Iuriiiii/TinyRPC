@@ -21,4 +21,9 @@ export interface ParamDecoratorOptions {
    * Whether the param is nullable or not.
    */
   nullable: boolean;
+
+  /**
+   * Description of the param.
+   */
+  description: string;
 }

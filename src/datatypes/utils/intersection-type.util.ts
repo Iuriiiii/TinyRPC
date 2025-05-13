@@ -36,6 +36,7 @@ export function intersectionType<T extends Constructor[]>(...types: T): Intersec
     name: structureName,
     constructor: IntersectionClass as Constructor,
     isInterface: false,
+    metadata: {},
   };
 
   structures.push(structure);

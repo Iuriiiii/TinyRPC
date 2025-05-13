@@ -47,7 +47,7 @@ export function pickType<
     name: structureName,
     constructor: PickClass as Constructor,
     isInterface: false,
-    metadata: {}
+    metadata: {},
   };
 
   structures.push(structure);

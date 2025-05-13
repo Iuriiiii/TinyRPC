@@ -44,7 +44,7 @@ export function partialOf(dataType: Datatype): Constructor {
   return searchForPreviousPartial(dataType)?.constructor || (() => {
     const clazz = calculatedDatatype.reference as Constructor;
 
-    class CustomIntersectionDatatype extends partialType(clazz) { };
+    class CustomIntersectionDatatype extends partialType(clazz) {}
 
     // Expose
     const dataTypeClassName = getClassName(clazz);

@@ -12,12 +12,14 @@ export class UnionDatatype extends CustomDatatype {
 
 export function unionOf(...dataTypes: Datatype[]): UnionDatatype {
   const _structures = dataTypes
-    .map((dataType) => structures.find(
-      (structure) => structure.constructor === dataType
-    ))
+    .map((dataType) =>
+      structures.find(
+        (structure) => structure.constructor === dataType,
+      )
+    )
     .filter(Boolean) as StructureMetadata[];
   const firstStructure = _structures.at(0);
-  
+
   assert(!firstStructure, `Structures not allowed on union types. Found: ${firstStructure?.name}`);
 
   return new UnionDatatype(dataTypes);

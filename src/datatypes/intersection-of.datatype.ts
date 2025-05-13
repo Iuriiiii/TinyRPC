@@ -38,13 +38,13 @@ export function intersectionOf(...dataTypes: Datatype[]): Constructor {
 
   assert(
     calculatedDatatypes.every((calculatedDatatype) => VALID_TYPES.includes(calculatedDatatype.type)),
-    "All datatypes must be structures, modules or custom datatypes."
+    "All datatypes must be structures, modules or custom datatypes.",
   );
 
   return searchForPreviousIntersection(...dataTypes)?.constructor || (() => {
     const classes = calculatedDatatypes.map((calculatedDatatype) => calculatedDatatype.reference as Constructor);
 
-    class CustomIntersectionDatatype extends intersectionType(...classes) { };
+    class CustomIntersectionDatatype extends intersectionType(...classes) {}
 
     // Expose
     const _structures = classes.map((type) => getStructure(getClassName(type)));

@@ -6,7 +6,10 @@ import { calculateDatatype, DatatypeType, getClassName, getStructure, randomStri
 import { omitType } from "./utils/mod.ts";
 import { structures } from "../singletons/mod.ts";
 
-interface OmitOfMetadata { dataType: Datatype; ommitedKeys: string[]; }
+interface OmitOfMetadata {
+  dataType: Datatype;
+  ommitedKeys: string[];
+}
 
 const VALID_TYPES = [DatatypeType.Structure, DatatypeType.Module, DatatypeType.Custom];
 
@@ -49,7 +52,7 @@ export function omitOf<T extends Datatype>(dataType: T, ...keys: string[]): Cons
   return searchForPreviousOmit(dataType, keys)?.constructor || (() => {
     const clazz = calculatedDatatype.reference as Constructor;
 
-    class CustomIntersectionDatatype extends omitType(clazz, ...keys) { };
+    class CustomIntersectionDatatype extends omitType(clazz, ...keys) {}
 
     // Expose
     const dataTypeClassName = getClassName(clazz);

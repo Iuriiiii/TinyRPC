@@ -3,7 +3,7 @@ import { isUndefined } from "@online/is";
 
 function removeComments(code: string) {
   const commentRegex = /\/\/.*?(?:\r?\n|$)|\/\*[\s\S]*?\*\//g;
-  return code.replace(commentRegex, '');
+  return code.replace(commentRegex, "");
 }
 
 // FIXME: Avoid to catch default values on params

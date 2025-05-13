@@ -44,7 +44,7 @@ Did you enable decorators on your project?
 
     const moduleDocs = getModuleDocs(target);
 
-    for(const method of methods) {
+    for (const method of methods) {
       method.description = moduleDocs[method.name] ?? method.description;
     }
 

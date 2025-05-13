@@ -6,7 +6,7 @@ import { assert } from "@std/assert";
 import { isUndefined } from "@online/is";
 import { getClassExtension, getStructure, getStructureDeserializer, getStructureSerializer } from "../utils/mod.ts";
 
-export function Expose(options?: ExposeDecoratorOptions): ClassDecorator {
+export function Expose(_options?: ExposeDecoratorOptions): ClassDecorator {
   return function (target: Constructor) {
     assert(
       !isUndefined(target),
@@ -46,7 +46,7 @@ Did you enable decorators on your project?
       name: className,
       members: [...members],
       isInterface: false,
-      metadata: {}
+      metadata: {},
     });
     members.length = 0;
   };

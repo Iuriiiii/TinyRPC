@@ -57,7 +57,10 @@ Did you enable decorators on your project?
 
     if (params.length >= 1 && optional) {
       const previousParam = params.at(-1)!;
-      assert(previousParam.optional, `The parameter "${previousParam.name}" must be optional due to parameter "${paramName}". Error on ${target.constructor.name}.${methodTarget.name}.`);
+      assert(
+        previousParam.optional,
+        `The parameter "${previousParam.name}" must be optional due to parameter "${paramName}". Error on ${target.constructor.name}.${methodTarget.name}.`,
+      );
     }
 
     params.push(

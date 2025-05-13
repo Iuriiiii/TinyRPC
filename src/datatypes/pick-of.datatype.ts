@@ -5,7 +5,10 @@ import { calculateDatatype, DatatypeType, getClassName, getStructure, randomStri
 import { pickType } from "./utils/mod.ts";
 import { structures } from "../singletons/mod.ts";
 
-interface PickOfMetadata { dataType: Datatype; pickedKeys: string[]; }
+interface PickOfMetadata {
+  dataType: Datatype;
+  pickedKeys: string[];
+}
 
 const VALID_TYPES = [DatatypeType.Structure, DatatypeType.Module, DatatypeType.Custom];
 
@@ -43,7 +46,7 @@ export function pickOf<T extends Datatype>(dataType: T, ...keys: string[]): Cons
   return searchForPreviousPick(dataType, keys)?.constructor || (() => {
     const clazz = calculatedDatatype.reference as Constructor;
 
-    class CustomIntersectionDatatype extends pickType(clazz, ...keys) { };
+    class CustomIntersectionDatatype extends pickType(clazz, ...keys) {}
 
     // Expose
     const dataTypeClassName = getClassName(clazz);

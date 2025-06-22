@@ -37,7 +37,7 @@ export * from "./info.util.ts";
 export * from "./register.util.ts";
 export * from "./get-line-uid.util.ts";
 export * from "./get-function-uid.util.ts";
-export * from "./create-webhook.util.ts";
+export * from "./create-endpoint.util.ts";
 export * from "./get-object-uid.util.ts";
 export * from "./get-array-uid.util.ts";
 export * from "./chance-of.util.ts";

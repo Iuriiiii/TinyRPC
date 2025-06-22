@@ -1,5 +1,5 @@
 import type { RpcRequest, ServerSettings } from "./src/mod.ts";
-import type { Middleware } from "./src/middlewares/types/mod.ts";
+import type { MiddlewareFunction } from "./src/middlewares/types/mod.ts";
 import type { IHandlerOptions, IServer } from "@online/serve";
 import { STATUS_CODE } from "@std/http";
 import { getMiddlewareFunction, isHttpException, prepareRawRequest } from "./src/mod.ts";
@@ -16,10 +16,26 @@ import { serve } from "@online/serve";
  */
 function prepareClasses() {
   for (const module of modules) {
-    const isSomeMemberAConstructorArgument = module.members.some((member) => !isUndefined(member.constructorParam));
+    const constructorArgs = module.members
+      .filter((member) => !isUndefined(member.constructorParam));
 
-    if (!isSomeMemberAConstructorArgument) {
+    if (!constructorArgs.length) {
       module.instance = new module.constructor();
+    } else {
+      // for (const constructorArg of constructorArgs) {
+      //   if (isPrimitiveConstructor(constructorArg.dataType)) {
+      //     continue;
+      //   }
+
+      //   const constructorArgDatatypeModule =
+      //     modules.find((m) => m.constructor === constructorArg.dataType) ||
+      //     structures.find((m) => m.constructor === constructorArg.dataType);
+
+      //   assert(
+      //     constructorArgDatatypeModule?.members.some((m) => m.identifier),
+      //     `Datatype in member "${module.name}.${constructorArg.name}" must be a primitive type or a exposed type with an identifier.`
+      //   );
+      // }
     }
 
     instances.set(module.name, module);
@@ -36,7 +52,8 @@ export class TinyRPC {
    */
   static start(param: Partial<ServerSettings> = {}): Promise<IServer> {
     const { sdk, middlewares = [], server = {}, events, websockHandler } = param;
-    const _middlewares = [prepareRawRequest, ...middlewares, finishRawRequest] as Middleware[];
+    const _middlewares: MiddlewareFunction[] = [prepareRawRequest, ...middlewares, finishRawRequest]
+      .map(getMiddlewareFunction);
 
     prepareClasses();
     settings.events.onException ??= events?.onException;
@@ -49,8 +66,7 @@ export class TinyRPC {
 
       for (const _middleware of _middlewares) {
         try {
-          const middlewareFn = getMiddlewareFunction(_middleware);
-          const result = await middlewareFn({
+          const result = await _middleware({
             request: request as RpcRequest<object>,
             response,
             stop: () => (next = false),

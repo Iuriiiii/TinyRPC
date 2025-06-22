@@ -71,6 +71,7 @@ The "Export" decorator requires an explicit return type on ${target.constructor.
 Only native datatypes and serializable classes are supported.
       `.trim(),
     );
+    assert(!methods.some((method) => method.name === methodName), `The method "${methodName}" is already exported.`);
 
     methods.push({
       name: methodName,

@@ -48,6 +48,8 @@ Did you enable decorators on your project?
       method.description = moduleDocs[method.name] ?? method.description;
     }
 
+    assert(!modules.some((module) => module.name === target.name), `Module "${target.name}" already exists.`);
+
     modules.push({
       constructor: target,
       name: target.name,

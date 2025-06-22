@@ -63,6 +63,8 @@ Did you enable decorators on your project?
       );
     }
 
+    assert(!params.some((param) => param.name === paramName), `The parameter "${paramName}" already exists.`);
+
     params.push(
       {
         index,

@@ -58,6 +58,7 @@ Did you enable decorators on your project?
         readonly: options?.readonly ?? false,
         autoSync: options?.autoSync ?? false,
         constructorParam: options?.constructorParam,
+        identifier: options?.identifier ?? false,
         manipulators: options?.manipulators ?? [],
       } satisfies MemberMetadata,
     );

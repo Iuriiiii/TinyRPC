@@ -1,6 +1,6 @@
 import type { Constructor } from "../types/mod.ts";
 
-const GET_MODULE_COMMENTS_REGEX = /(\/\*\*[\s\S]*?\*\/)\s*(?:public|private)?\s*([#?\w]+)\s*\(/gm;
+const GET_MODULE_COMMENTS_REGEX = /(\/\*\*[\s\S]*?\*\/)\s*(?:public|private)?\s*(?:async)?\s*([#?\w]+)\s*\(/gm;
 
 export function getModuleDocs(clazz: Constructor) {
   const stringifiedClass = clazz.toString();

@@ -26,7 +26,7 @@ export * from "./src/utils/get-method.util.ts";
 export * from "./src/utils/get-exposed-enum-name.util.ts";
 
 export * from "./src/validators/is-exposed-enum.validator.ts";
-export * from "./src/utils/create-webhook.util.ts";
+export * from "./src/utils/create-endpoint.util.ts";
 export * from "./src/utils/chance-of.util.ts";
 export * from "./src/utils/build-url.util.ts";
 

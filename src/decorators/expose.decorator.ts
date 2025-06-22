@@ -23,7 +23,6 @@ Did you enable decorators on your project?
       const extensionStructure = getStructure(extensionName);
 
       assert(extensionStructure, `The class "${className}" extends a non exposed type: "${extensionName}".`);
-
       members.push(...extensionStructure.members);
     }
 
@@ -39,6 +38,8 @@ Did you enable decorators on your project?
         return getStructureSerializer(target, this);
       };
     }
+
+    assert(!structures.some((structure) => structure.name === className), `The class "${className}" is already exposed.`);
 
     Serializable()(target);
     structures.push({

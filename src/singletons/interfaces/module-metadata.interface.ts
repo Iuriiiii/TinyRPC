@@ -3,8 +3,8 @@ import type { MemberMetadata } from "./member-metadata.interface.ts";
 import type { MethodMetadata } from "./method-metadata.interface.ts";
 
 export interface ModuleMetadata {
-  constructor: Constructor;
   name: string;
+  constructor: Constructor;
   methods: MethodMetadata[];
   members: MemberMetadata[];
   moduleName?: string;

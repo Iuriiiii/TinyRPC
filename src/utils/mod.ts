@@ -26,7 +26,6 @@ export * from "./crash-if-not.util.ts";
 export * from "./crash-if.util.ts";
 export * from "./debug-if-not.util.ts";
 export * from "./debug-if.util.ts";
-export * from "./debug.util.ts";
 export * from "./log-if-not.util.ts";
 export * from "./log-if.util.ts";
 export * from "./info-if-not.util.ts";

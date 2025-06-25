@@ -11,14 +11,14 @@ import { asyncLocalStorage, settings } from "../singletons/mod.ts";
 // deno-lint-ignore no-explicit-any
 export function infoIf(expression: unknown, ...args: any[]): void {
   if (expression) {
-  const ctx = asyncLocalStorage.getStore() as MiddlewareParam["request"]["rpc"] | undefined;
+    const ctx = asyncLocalStorage.getStore() as MiddlewareParam["request"]["rpc"] | undefined;
 
-  settings.events.onPrint?.({
-    type: PrintType.Information,
-    args,
-    methodName: ctx?.procedure.name,
-    moduleName: ctx?.instance.name,
-    logger: console.info,
-  });
+    settings.events.onPrint?.({
+      type: PrintType.Information,
+      args,
+      methodName: ctx?.procedure.name,
+      moduleName: ctx?.instance.name,
+      logger: console.info,
+    });
   }
 }

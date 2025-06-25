@@ -14,3 +14,10 @@ export type {
 export type { ListenInformation, PrintInformation } from "./src/interfaces/mod.ts";
 export type { CalculatedDatatype } from "./src/utils/calculate-datatype.util.ts";
 export type { Constructor } from "./src/types/mod.ts";
+export type {
+  ExportDecoratorOptions,
+  ExposeDecoratorOptions,
+  ExposeParam,
+  MemberDecoratorOptions,
+  ParamDecoratorOptions,
+} from "./src/decorators/interfaces/mod.ts";

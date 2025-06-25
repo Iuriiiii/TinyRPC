@@ -29,6 +29,30 @@ export interface CalculatedDatatype {
   reference: unknown;
 }
 
+/**
+ * Calculate the type of a given `dataType`.
+ *
+ * Returns an object with the following properties:
+ *  - `type`: The type of the `dataType`, one of `DatatypeType`.
+ *  - `arrayLevel`: The level of array nesting, if any.
+ *  - `dataType`: The actual value of the `dataType`.
+ *  - `reference`: The reference to the type, either the constructor function, the module, or the structure.
+ *
+ * @throws {Error} If `dataType` is not recognized.
+ *
+ * @example
+ *  const result = calculateDatatype(String);
+ *  console.log(result.type); // "primitive"
+ *  console.log(result.reference); // String
+ *
+ *  const result = calculateDatatype([String]);
+ *  console.log(result.type); // "primitive"
+ *  console.log(result.arrayLevel); // 1
+ *  console.log(result.reference); // String
+ *
+ * @param dataType The data type to calculate.
+ * @returns An object with the type information.
+ */
 export function calculateDatatype(dataType: Datatype): CalculatedDatatype {
   const res: CalculatedDatatype = { arrayLevel: 0, type: DatatypeType.Object, dataType: null, reference: null };
   let currentDataType = dataType;

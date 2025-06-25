@@ -1,13 +1,23 @@
-import { log } from "./log.util.ts";
-
+import type { MiddlewareParam } from "../middlewares/interfaces/mod.ts";
+import { PrintType } from "../enums/mod.ts";
+import { asyncLocalStorage, settings } from "../singletons/mod.ts";
 /**
  * Log a message if the given expression is truthy.
  *
  * @param expression - A value to check for truthiness.
  * @param message - The message to log if the expression is truthy.
  */
-export function logIf(expression: unknown, message: string): void {
+// deno-lint-ignore no-explicit-any
+export function logIf(expression: unknown, ...args: any[]): void {
   if (expression) {
-    log(message);
+    const ctx = asyncLocalStorage.getStore() as MiddlewareParam["request"]["rpc"] | undefined;
+
+    settings.events.onPrint?.({
+      type: PrintType.Log,
+      args,
+      methodName: ctx?.procedure.name,
+      moduleName: ctx?.instance.name,
+      logger: console.log,
+    });
   }
 }

@@ -1,4 +1,6 @@
-import { warn } from "./warn.util.ts";
+import type { MiddlewareParam } from "../middlewares/interfaces/mod.ts";
+import { asyncLocalStorage, settings } from "../singletons/mod.ts";
+import { PrintType } from "../enums/mod.ts";
 
 /**
  * Log a warning message if the given expression is truthy.
@@ -6,8 +8,17 @@ import { warn } from "./warn.util.ts";
  * @param expression - A value to check for truthiness.
  * @param message - The message to log if the expression is truthy.
  */
-export function warnIf(expression: unknown, message: string): void {
+// deno-lint-ignore no-explicit-any
+export function warnIf(expression: unknown, ...args: any[]): void {
   if (expression) {
-    warn(message);
+    const ctx = asyncLocalStorage.getStore() as MiddlewareParam["request"]["rpc"] | undefined;
+
+    settings.events.onPrint?.({
+      type: PrintType.Warning,
+      args,
+      methodName: ctx?.procedure.name,
+      moduleName: ctx?.instance.name,
+      logger: console.warn,
+    });
   }
 }

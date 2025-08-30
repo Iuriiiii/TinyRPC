@@ -1,5 +1,5 @@
 import type { ClassDecorator, Constructor } from "../types/mod.ts";
-import { SerializableClass } from "@online/packager";
+import { SerializableClass } from "@online/miniserializer";
 import { members, methods, modules } from "../singletons/mod.ts";
 import { Expose } from "./expose.decorator.ts";
 import { assert } from "@std/assert";

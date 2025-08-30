@@ -1,6 +1,6 @@
-import type { RequireAtLeastOne, SerializedClass } from "@online/packager";
+import type { AtLeastOneOf, SerializedClass } from "@online/miniserializer";
 import type { Constructor } from "../types/mod.ts";
-import { isRaloSerializedClass } from "../validators/mod.ts";
+import { isAtLeastOneOfSerializedClass } from "../validators/mod.ts";
 import { getClassName } from "./get-class-name.util.ts";
 import { getStructure } from "./get-structure.util.ts";
 import { objectPick } from "./object-pick.util.ts";
@@ -11,9 +11,9 @@ import type { MemberMetadata } from "../singletons/interfaces/mod.ts";
 
 export function getStructureDeserializer<T extends Constructor>(
   clazz: T,
-  serialized: RequireAtLeastOne<SerializedClass<T>> | object,
+  serialized: AtLeastOneOf<SerializedClass<T>> | object,
 ) {
-  if (isRaloSerializedClass(serialized)) {
+  if (isAtLeastOneOfSerializedClass(serialized)) {
     const { arguments: _arguments = [], members = {} } = serialized;
     const instance = new clazz(..._arguments);
 

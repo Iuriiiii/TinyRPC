@@ -1,4 +1,4 @@
-import type { RequireAtLeastOne, SerializedClass } from "@online/packager";
+import type { AtLeastOneOf, SerializedClass } from "@online/miniserializer";
 import type { Constructor, PickMembers } from "../types/mod.ts";
 import { getConstructorName } from "./get-constructor-name.util.ts";
 import { assert } from "@std/assert";
@@ -8,7 +8,7 @@ import { getStructure } from "./get-structure.util.ts";
 export function getStructureSerializer<T extends Constructor>(
   cosntructor: Constructor,
   _this: object,
-): RequireAtLeastOne<SerializedClass<T>> {
+): AtLeastOneOf<SerializedClass<T>> {
   const className = getConstructorName(cosntructor);
   const structure = getStructure(className);
 

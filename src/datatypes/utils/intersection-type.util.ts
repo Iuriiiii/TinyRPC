@@ -5,7 +5,7 @@ import type { ArrayToIntersection, MapType } from "../types/mod.ts";
 import { assert } from "@std/assert";
 import { isUndefined } from "@online/is";
 import { getClassName, getStructure, randomString, safePatch } from "../../utils/mod.ts";
-import { SerializableClass } from "@online/packager";
+import { SerializableClass } from "@online/miniserializer";
 import { structures } from "../../singletons/mod.ts";
 
 type IntersectionTypeResponse<T extends Constructor[]> = TypedClass<

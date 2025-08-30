@@ -1,6 +1,6 @@
 {
   "name": "@tinyrpc/server",
-  "version": "0.3.5",
+  "version": "0.4.1",
   "tasks": {
     "generate:ai-docs": "deno doc --json ./*.ts >> ./ai-docs.json",
     "generate:docs": "rm -rf docs && deno doc --html ./*.ts"
@@ -13,14 +13,13 @@
   },
   "imports": {
     "@online/is": "jsr:@online/is@^0.0.6",
-    "@online/packager": "jsr:@online/packager@^0.0.17",
+    "@online/miniserializer": "jsr:@online/miniserializer@^0.0.6",
     "@online/serve": "jsr:@online/serve@^0.0.2",
-    "@online/tinyserializers": "jsr:@online/tinyserializers@^0.0.8",
     "@std/encoding": "jsr:@std/encoding@^1.0.10",
-    "@std/assert": "jsr:@std/assert@^1.0.13",
-    "@std/http": "jsr:@std/http@^1.0.18",
+    "@std/assert": "jsr:@std/assert@^1.0.14",
+    "@std/http": "jsr:@std/http@^1.0.20",
     "@dx/reflect": "jsr:@dx/reflect@^0.2.15",
-    "@tinyrpc/sdk-core": "jsr:@tinyrpc/sdk-core@^0.1.31"
+    "@tinyrpc/sdk-core": "jsr:@tinyrpc/sdk-core@^0.2.0"
   },
   "compilerOptions": {
     "experimentalDecorators": true,

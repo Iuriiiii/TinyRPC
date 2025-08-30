@@ -1,19 +1,8 @@
 import type { MethodExtraOptions, PackArgument } from "../interfaces/mod.ts";
 import type { MiddlewareParam } from "./interfaces/mod.ts";
 import { STATUS_CODE } from "@std/http";
-import { type Encoder, pack } from "@online/packager";
-import { dateSerializer } from "@online/tinyserializers";
-import { asyncLocalStorage, encoders } from "../singletons/mod.ts";
-
-const encoder: Encoder = ({ result, updates }: PackArgument) => {
-  let _result = result;
-
-  for (const _encoder of encoders) {
-    _result = _encoder(_result);
-  }
-
-  return { result: _result, updates };
-};
+import { serialize } from "@online/miniserializer";
+import { asyncLocalStorage } from "../singletons/mod.ts";
 
 /**
  * Calls the requested method with deserialized arguments and returns result.
@@ -41,7 +30,7 @@ export async function finishRawRequest({ request, upgradeToWebSocket }: Middlewa
 
     // FIXME: Enable updates again...
     const packArgument = { result: response, updates: {} } satisfies PackArgument;
-    const packedResult = pack(packArgument, { serializers: [dateSerializer], encoder });
+    const packedResult = serialize(packArgument);
 
     return new Response(packedResult, { status: STATUS_CODE.OK });
   });

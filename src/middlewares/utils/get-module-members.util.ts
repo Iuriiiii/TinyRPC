@@ -1,5 +1,5 @@
 import { decodeBase64 } from "@std/encoding";
-import { unpack } from "@online/packager";
+import { deserialize } from "@online/miniserializer";
 
 export function getModuleMembers(request: Request) {
   const header = "x-con-body";
@@ -11,7 +11,7 @@ export function getModuleMembers(request: Request) {
   }
 
   const decodedBody = decodeBase64(base64Body);
-  const body = unpack<unknown[]>(decodedBody);
+  const body = deserialize<unknown[]>(decodedBody);
 
   return body;
 }

@@ -3,7 +3,7 @@ import type { Constructor, PickMembers } from "../../types/mod.ts";
 import type { TypedClass } from "../interfaces/mod.ts";
 import { assert } from "@std/assert";
 import { getClassName, getStructure, randomString } from "../../utils/mod.ts";
-import { SerializableClass } from "@online/packager";
+import { SerializableClass } from "@online/miniserializer";
 import { structures } from "../../singletons/mod.ts";
 
 type CleanTypeResponse<T extends Constructor> = TypedClass<

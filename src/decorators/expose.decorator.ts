@@ -1,6 +1,6 @@
 import type { ClassDecorator, Constructor } from "../types/mod.ts";
 import type { ExposeDecoratorOptions } from "./interfaces/mod.ts";
-import { type RequireAtLeastOne, Serializable, SerializableClass, type SerializedClass } from "@online/packager";
+import { registerClass, SerializableClass } from "@online/miniserializer";
 import { members, structures } from "../singletons/mod.ts";
 import { assert } from "@std/assert";
 import { isUndefined } from "@online/is";
@@ -40,8 +40,8 @@ Did you enable decorators on your project?
     }
 
     assert(!structures.some((structure) => structure.name === className), `The class "${className}" is already exposed.`);
-
-    Serializable()(target);
+    registerClass(target);
+    
     structures.push({
       constructor: target,
       name: className,

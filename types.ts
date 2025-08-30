@@ -1,7 +1,14 @@
 export type { Compiler, CompilerInformation, CompilerOptions, Datatype, MethodExtraOptions, SdkOptions } from "./src/mod.ts";
 export type { Middleware } from "./src/middlewares/types/mod.ts";
 export type { MiddlewareObject } from "./src/middlewares/interfaces/mod.ts";
-export type { Decoder, Encoder, RequireAtLeastOne, SerializedClass } from "@online/packager";
+export type {
+  DeserializeFunction,
+  DeserializeOptions,
+  IDeserializeOptions,
+  ISerializeOptions,
+  SerializeOptions,
+  SerializerFunction,
+} from "@online/miniserializer";
 export type {
   EnumMetadata,
   MemberMetadata,

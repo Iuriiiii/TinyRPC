@@ -4,7 +4,7 @@ import type { IHandlerOptions, IServer } from "@online/serve";
 import { STATUS_CODE } from "@std/http";
 import { getMiddlewareFunction, isHttpException, prepareRawRequest } from "./src/mod.ts";
 import { finishRawRequest } from "./src/middlewares/mod.ts";
-import { Serializable, SerializableClass } from "@online/packager";
+import { SerializableClass } from "@online/miniserializer";
 import { enums, instances, modules, settings, structures } from "./src/singletons/mod.ts";
 import { isUndefined } from "@online/is";
 import { serve } from "@online/serve";
@@ -126,7 +126,7 @@ export class TinyRPC {
   }
 }
 
-export { Serializable, SerializableClass };
+export { SerializableClass };
 export { DatatypeType, Export, Expose, expose, HttpError, Member, Module, Param } from "./src/mod.ts";
 export { STATUS_CODE };
 

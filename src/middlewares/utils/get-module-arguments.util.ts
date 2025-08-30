@@ -1,7 +1,7 @@
 import type { ModuleMetadata } from "../../singletons/interfaces/mod.ts";
 import { crashIf } from "../../utils/mod.ts";
 import { decodeBase64 } from "@std/encoding";
-import { unpack } from "@online/packager";
+import { deserialize } from "@online/miniserializer";
 
 export function getModuleArguments(request: Request, _moduleMetadata: ModuleMetadata) {
   const header = "x-t-arg";
@@ -13,7 +13,7 @@ export function getModuleArguments(request: Request, _moduleMetadata: ModuleMeta
   crashIf(!base64Args, "Invalid arguments header.");
 
   const decodedArgs = decodeBase64(base64Args);
-  const args = unpack<unknown[]>(decodedArgs);
+  const args = deserialize<unknown[]>(decodedArgs);
 
   return args;
 }

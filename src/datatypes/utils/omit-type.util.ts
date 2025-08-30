@@ -4,7 +4,7 @@ import type { TypedClass } from "../interfaces/mod.ts";
 import type { ArrayToUnion } from "../types/mod.ts";
 import { assert } from "@std/assert";
 import { getClassName, getStructure, randomString, safePatch } from "../../utils/mod.ts";
-import { SerializableClass } from "@online/packager";
+import { SerializableClass } from "@online/miniserializer";
 import { structures } from "../../singletons/mod.ts";
 
 type OmitTypeResponse<

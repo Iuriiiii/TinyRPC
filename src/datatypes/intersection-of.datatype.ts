@@ -44,6 +44,7 @@ export function intersectionOf(...dataTypes: Datatype[]): Constructor {
   return searchForPreviousIntersection(...dataTypes)?.constructor || (() => {
     const classes = calculatedDatatypes.map((calculatedDatatype) => calculatedDatatype.reference as Constructor);
 
+    // @ts-ignore: Ignore implementation of `serialize`
     class CustomIntersectionDatatype extends intersectionType(...classes) {}
 
     // Expose

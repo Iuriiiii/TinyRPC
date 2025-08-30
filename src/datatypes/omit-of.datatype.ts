@@ -52,6 +52,7 @@ export function omitOf<T extends Datatype>(dataType: T, ...keys: string[]): Cons
   return searchForPreviousOmit(dataType, keys)?.constructor || (() => {
     const clazz = calculatedDatatype.reference as Constructor;
 
+    // @ts-ignore: Ignore implementation of `serialize`
     class CustomIntersectionDatatype extends omitType(clazz, ...keys) {}
 
     // Expose

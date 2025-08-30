@@ -41,7 +41,7 @@ Did you enable decorators on your project?
 
     assert(!structures.some((structure) => structure.name === className), `The class "${className}" is already exposed.`);
     registerClass(target);
-    
+
     structures.push({
       constructor: target,
       name: className,
